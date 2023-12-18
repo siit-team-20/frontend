@@ -1,0 +1,12 @@
+<div class="container py-5">
+
+    <h1>Accommodation requests</h1>
+
+    <div class="accommodations">
+
+        <app-accommodation-view *ngFor="let accommodation of accommodations"
+            [accommodation]="accommodation"></app-accommodation-view>
+
+    </div>
+
+</div>
