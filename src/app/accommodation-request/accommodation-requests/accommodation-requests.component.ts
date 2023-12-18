@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AccommodationRequest } from '../accommodation-request-view/model/accommodation-request';
+import { AccommodationRequest } from '../model/accommodation-request';
 import { AccommodationRequestViewComponent } from '../accommodation-request-view/accommodation-request-view.component';
 import { CommonModule } from '@angular/common';
 
@@ -15,7 +15,7 @@ export class AccommodationRequestsComponent {
 
   accommodationRequests: AccommodationRequest[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.http.get<AccommodationRequest[]>(

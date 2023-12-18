@@ -1,4 +1,4 @@
-import { Accommodation } from "../../../accommodation/accommodation";
+import { Accommodation } from "../../accommodation/model/accommodation";
 
 export class AccommodationRequest {
     constructor(
@@ -6,5 +6,5 @@ export class AccommodationRequest {
         public oldAccommodation: Accommodation | null,
         public newAccommodation: Accommodation,
         public type: string
-    ) {}
+    ) { }
 }

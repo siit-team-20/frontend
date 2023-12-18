@@ -50,7 +50,7 @@ export class Accommodation {
         this.availabilityStart = availabilityStart;
         this.availabilityEnd = availabilityEnd;
         this.isApproved = false;
-        if (isPriceByGuest == "isPriceByGuest") {
+        if (isPriceByGuest == "perGuest") {
             this.isPriceByGuest = true;
         }
         else {

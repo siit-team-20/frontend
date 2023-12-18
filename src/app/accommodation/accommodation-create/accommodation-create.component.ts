@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Accommodation, AccommodationTypeMapping, AccommodationType } from '../model/accommodation';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-accommodation-create',
   templateUrl: './accommodation-create.component.html',
   styleUrl: './accommodation-create.component.css',
   standalone: true,
-  imports: [FormsModule, BrowserModule, ReactiveFormsModule]
+  imports: [FormsModule, CommonModule, ReactiveFormsModule]
 })
 export class AccommodationCreateComponent {
   public accommodationTypeMapping = AccommodationTypeMapping;
