@@ -4,6 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AccommodationCreateComponent } from './accommodation-create/accommodation-create.component';
 import { NavbarModule } from './navbar/navbar.module';
 import { AccommodationRequestModule } from './accommodation-request/accommodation-request.module';
 
@@ -15,6 +18,9 @@ import { AccommodationRequestModule } from './accommodation-request/accommodatio
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AccommodationCreateComponent
     NavbarModule,
     AccommodationRequestModule
   ],
