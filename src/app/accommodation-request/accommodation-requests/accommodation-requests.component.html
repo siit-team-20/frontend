@@ -1,0 +1,15 @@
+<div class="main bg-light">
+
+    <div class="container">
+  
+      <h1>Accommodation requests</h1>
+  
+      <div class="requests">
+  
+        <app-accommodation-request-view *ngFor="let accommodationRequest of accommodationRequests" [accommodationRequest]="accommodationRequest"></app-accommodation-request-view>
+  
+      </div>
+  
+    </div>
+  
+  </div>
