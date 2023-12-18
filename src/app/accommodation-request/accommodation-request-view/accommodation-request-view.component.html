@@ -1,0 +1,40 @@
+<div class="request border-dark border rounded">
+
+    <div class="row">
+
+      <div class="col-lg-3 d-flex justify-content-between border-right border-dark">
+        <p>Type:</p>
+        <p>{{accommodationRequest.type}}</p>
+      </div>
+
+      <div class="col-lg-3 d-flex justify-content-between border-right border-dark">
+        <p>Name:</p>
+        <p>{{accommodationRequest.newAccommodation.name}}</p>
+      </div>
+
+      <div class="col-lg-3 d-flex justify-content-between border-right border-dark">
+        <p>Location:</p>
+        <p>{{accommodationRequest.newAccommodation.location}}</p>
+      </div>
+
+      <div class="col-lg-3 d-flex justify-content-between">
+        <p>Description:</p>
+        <p>{{accommodationRequest.newAccommodation.description}}</p>
+      </div>
+
+    </div>
+
+    <div class="row justify-content-between">
+
+      <div></div>
+
+      <div>
+
+        <button type="button" class="btn btn-success m-3">Approve</button>
+        <button type="button" class="btn btn-danger m-3">Reject</button>
+
+      </div>
+
+    </div>
+
+  </div>
