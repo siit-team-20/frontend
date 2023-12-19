@@ -1,6 +1,6 @@
 <div class="container">
     <div class="card">
-        <div class="card-body shadow" data-toggle="modal" data-target="#exampleModal" >
+        <div class="card-body shadow" data-toggle="modal" data-target="#exampleModal">
             <h4 class="card-title">{{accommodation.name}}, {{accommodation.accommodationType}}</h4>
             <p class="card-text">{{accommodation.description}}</p>
             <div class="container">
@@ -11,97 +11,119 @@
                     <div class="col-md-5">
                         {{accommodation.location}}
                     </div>
-                    
-                    
-                    
+
+
+
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h5  id="exampleModalLabel">{{accommodation.name}}, {{accommodation.accommodationType}}</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            </div>
-                            <div class="modal-body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-4 ">
-                                        <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid shadow" > 
-                                    </div>
-                                    <div class="col-md-8 description">
-                                        <p >{{accommodation.description}}
-                                        </p>
-                                        <div class="row  border" style="padding: 10px; margin-top: 10px; margin-bottom: 10px;" >
-                                        <div class="col-md-3">
-                                            <p>List of benefits: </p>
-                                        </div>
-                                        <div class="col-md-9">
-                                        <div class="list-group overflow-auto" style="max-height: 100px;">
-                                            <ul>adsas</ul>
-                                            <ul>adsas</ul>
-                                            <ul>adsas</ul>
-                                            <ul>adsas</ul>
-                                            <ul>adsas</ul>
-                                            <ul>adsas</ul>
-                                            <ul>adsas</ul>
-                                            <ul>adsas</ul>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 id="exampleModalLabel">{{accommodation.name}},
+                                        {{accommodation.accommodationType}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-4 ">
+                                                <img src="assets/images/apartment1.jpg" alt="apartment"
+                                                    class="img-fluid shadow">
+                                            </div>
+                                            <div class="col-md-8 description">
+                                                <p>{{accommodation.description}}
+                                                </p>
+                                                <div class="row  border"
+                                                    style="padding: 10px; margin-top: 10px; margin-bottom: 10px;">
+                                                    <div class="col-md-3">
+                                                        <p>List of benefits: </p>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="list-group overflow-auto"
+                                                            style="max-height: 100px;">
+                                                            <ul>
+                                                                <li *ngFor="let benefit of accommodation.benefits">
+                                                                    {{benefit}}
+                                                                </li>
+                                                            </ul>
 
-                                        </div>
-                                        </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>Min number of guests: {{accommodation.minGuests}} </p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Max number of guests: {{accommodation.maxGuests}}</p>
-                                            </div>
-                                        </div>
-                                        
-                                        <p>Location:</p>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>Location: {{accommodation.location}}</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Cancelation deadline: {{accommodation.reservationCancellationDeadline}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <p>Availabilty start: {{accommodation.availabilityStart}}</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Availabilty end: {{accommodation.availabilityEnd}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">        
-                                                <p>Price: {{accommodation.price}} €</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-check">
-                                                    <label class="form-check-label" for="check1">
-                                                      <input type="checkbox" readonly="true" onclick="return false;" class="form-check-input" id="check1" name="option1" value="false" checked>Is price by guest
-                                                    </label>
-                                                  </div>
-                                            </div>
-                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Min number of guests: {{accommodation.minGuests}} </p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Max number of guests: {{accommodation.maxGuests}}</p>
+                                                    </div>
+                                                </div>
 
-                                        
-                                        
-
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Location: {{accommodation.location}}</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Cancelation deadline:
+                                                            {{accommodation.reservationCancellationDeadline}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Availabilty start: {{accommodation.availabilityStart}}</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p>Availabilty end: {{accommodation.availabilityEnd}}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Price: {{accommodation.price}} €</p>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <legend class="col-form-label col-sm-4 pt-0">Pricing
+                                                            </legend>
+                                                            <div class="col-sm-8">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" id="isPriceByGuest"
+                                                                        type="radio" value="perGuest"
+                                                                        formControlName="pricing"
+                                                                        [checked]="accommodation.isPriceByGuest"
+                                                                        disabled>
+                                                                    <label class="form-check-label"
+                                                                        for="isPriceByGuest">
+                                                                        Per guest
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" id="isPricePerDay"
+                                                                        type="radio" value="perDay"
+                                                                        formControlName="pricing"
+                                                                        [checked]="!accommodation.isPriceByGuest"
+                                                                        disabled>
+                                                                    <label class="form-check-label" for="isPricePerDay">
+                                                                        Per day
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="modal-footer">
+                                    <button data-dismiss="modal"
+                                        [routerLink]="['/accommodation/update',accommodation.id]" type="button"
+                                        class="btn btn-primary">Update</button>
+                                    <button type="button" class="btn btn-primary">Make a Reservation</button>
+                                </div>
                             </div>
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" >Update</button>
-                            <button type="button" class="btn btn-primary">Make a Reservation</button>
-                            </div>
-                        </div>
                         </div>
                     </div>
                 </div>

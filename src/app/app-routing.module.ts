@@ -9,7 +9,7 @@ const routes: Routes = [
   { component: AccommodationRequestsComponent, path: "accommodation/requests" },
   { component: AccommodationCreateComponent, path: "accommodation/create" },
   { component: AccommodationsComponent, path: "accommodation/accommodations" },
-  { component: AccommodationUpdateComponent, path: "accommodation/update" }
+  { component: AccommodationUpdateComponent, path: "accommodation/update/:id" }
 ];
 
 @NgModule({
