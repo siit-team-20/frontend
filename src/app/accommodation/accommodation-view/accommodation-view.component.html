@@ -1,17 +1,26 @@
 <div class="container">
     <div class="card">
+
         <div class="card-body shadow" data-toggle="modal" data-target="#exampleModal" >
-            <h4 class="card-title">{{accommodation.name}}, {{accommodation.accommodationType}}</h4>
-            <p class="card-text">{{accommodation.description}}</p>
-            <div class="container">
+            
+                <h4 class="card-title ">{{accommodation.name}}, {{accommodation.accommodationType}}</h4>
                 <div class="row">
-                    <div class="col-md-5">
-                        {{accommodation.price}} €
-                    </div>
-                    <div class="col-md-5">
-                        {{accommodation.location}}
-                    </div>
+                <div class="col-md-3">
+                    <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid border" > 
+                </div>
+                <div class="col-md-9">
+                    <p class="card-text">{{accommodation.description}}</p>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5">
+                            {{accommodation.price}} €
+                        </div>
+                        <div class="col-md-5">
+                            {{accommodation.location}}
+                        </div>
+                </div>
                     
+            </div>
                     
                     
                     <!-- Modal -->
@@ -59,8 +68,6 @@
                                                 <p>Max number of guests: {{accommodation.maxGuests}}</p>
                                             </div>
                                         </div>
-                                        
-                                        <p>Location:</p>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <p>Location: {{accommodation.location}}</p>
