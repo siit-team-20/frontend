@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Accommodation, AccommodationTypeMapping, AccommodationType } from '../model/accommodation';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule, ReactiveFormsModule]
 })
-export class AccommodationUpdateComponent {
+export class AccommodationUpdateComponent implements OnInit {
 
   public accommodationTypeMapping = AccommodationTypeMapping;
   public accommodationTypes = Object.values(AccommodationType);
@@ -29,30 +29,51 @@ export class AccommodationUpdateComponent {
       name: ["", [Validators.required]],
       location: ["", [Validators.required]],
       description: ["", [Validators.required]],
-      minGuests: [0, [Validators.required]],
-      maxGuests: [0, [Validators.required]],
+      minGuests: [, Validators.compose([Validators.required, Validators.min(1)])],
+      maxGuests: [, Validators.compose([Validators.required, Validators.min(1)])],
       accommodationType: [this.typeSelect, [Validators.required]],
       benefits: ["", [Validators.required]],
       availabilityStart: [new Date(), [Validators.required]],
       availabilityEnd: [new Date(), [Validators.required]],
-      price: [0, [Validators.required]],
+      price: [, Validators.compose([Validators.required, Validators.min(1)])],
       pricing: [this.pricing, [Validators.required]],
-      reservationCancellationDeadline: [0, [Validators.required]],
+      reservationCancellationDeadline: [, Validators.compose([Validators.required, Validators.min(1)])],
     });
 
   }
 
-  onSubmit(): void {
+  ngOnInit(): void {
+    this.http.get<Accommodation>("http://localhost:8080/api/accommodations/").subscribe({
+      next: accommodation => {
+        this.updateForm.controls["ownerEmail"].setValue(accommodation.ownerEmail);
+        this.updateForm.controls["name"].setValue(accommodation.name);
+        this.updateForm.controls["location"].setValue(accommodation.location);
+        this.updateForm.controls["description"].setValue(accommodation.description);
+        this.updateForm.controls["minGuests"].setValue(accommodation.minGuests);
+        this.updateForm.controls["maxGuests"].setValue(accommodation.maxGuests);
+        this.updateForm.controls["accommodationType"].setValue(accommodation.accommodationType);
+        this.updateForm.controls["benefits"].setValue(accommodation.benefits);
+        this.updateForm.controls["availabilityStart"].setValue(accommodation.availabilityStart);
+        this.updateForm.controls["availabilityEnd"].setValue(accommodation.availabilityEnd);
+        this.updateForm.controls["price"].setValue(accommodation.price);
+        this.updateForm.controls["pricing"].setValue(accommodation.isPriceByGuest);
+        this.updateForm.controls["reservationCancellationDeadline"].setValue(accommodation.reservationCancellationDeadline);
+      }
+    });
+  }
 
-    if (this.updateForm.valid) {
+  onSubmit(): void {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    if (!(form.checkValidity() === false)) {
+
       const submitData = { ...this.updateForm.value };
-      console.log(submitData);
       const accommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, submitData.availabilityStart!, submitData.availabilityEnd!, submitData.pricing!, submitData.price!, submitData.reservationCancellationDeadline!);
-      console.log(accommodation);
       this.http.post<Accommodation>(
         "http://localhost:8080/api/accommodations",
         accommodation
       ).subscribe(data => this.updateDataEvent.emit(data));
     }
+    form.classList.add('was-validated');
   }
 }
+
