@@ -1,0 +1,112 @@
+<div class="container py-5 px-5">
+    <h1 class="py-4">Update accommodation</h1>
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()" class="needs-validation px-5" novalidate>
+        <div class="form-group">
+            <label for="ownerEmail">Your email address</label>
+            <input type="email" name="ownerEmail" class="form-control" id="ownerEmail" formControlName="ownerEmail"
+                aria-describedby="emailHelp" placeholder="name@example.com" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div class="form-group">
+            <label for="name">Accommodation name</label>
+            <input type="text" name="name" class="form-control" id="name" placeholder="Name" formControlName="name"
+                required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" name="location" class="form-control" id="location" placeholder="Location"
+                formControlName="location" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" id="description" rows="2" placeholder="Description..."
+                formControlName="description" required></textarea>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div class="form-group">
+            <label for="minGuests">Minimum guests</label>
+            <input type="number" class="form-control" name="minGuests" id="minGuests" placeholder="Minimum guests"
+                formControlName="minGuests" min="1" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div class="form-group">
+            <label for="maxGuests">Maximum guests</label>
+            <input type="number" class="form-control" name="maxGuests" id="maxGuests" placeholder="Maximum guests"
+                formControlName="maxGuests" min="1" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <select class="form-control" name="accommodationType" id="type" formControlName="accommodationType">
+                <option *ngFor="let accommodationType of accommodationTypes" [value]="accommodationType">
+                    {{accommodationTypeMapping[accommodationType]}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="benefits">Benefits</label>
+            <input type="text" class="form-control" name="benefits" id="benefits" placeholder="Benefit1, benefit2..."
+                formControlName="benefits" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div class="form-group">
+            <label for="availabilityStart">Availability start</label>
+            <input type="date" class="form-control" name="availabilityStart" id="availabilityStart"
+                formControlName="availabilityStart" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div class="form-group">
+            <label for="availabilityEnd">Availability end</label>
+            <input type="date" class="form-control" name="availabilityEnd" id="availabilityEnd"
+                formControlName="availabilityEnd" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" name="price" id="price" placeholder="Price"
+                formControlName="price" min="1" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">Pricing</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" id="isPriceByGuest" type="radio" value="perGuest"
+                            formControlName="pricing">
+                        <label class="form-check-label" for="isPriceByGuest">
+                            Per guest
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" id="isPricePerDay" type="radio" value="perDay"
+                            formControlName="pricing">
+                        <label class="form-check-label" for="isPricePerDay">
+                            Per day
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <label for="cancellationDeadline">Resevation cancellation deadline</label>
+            <input type="number" class="form-control" name="reservationCancellationDeadline" id="cancellationDeadline"
+                formControlName="reservationCancellationDeadline" placeholder="X days before check-in" min="1" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

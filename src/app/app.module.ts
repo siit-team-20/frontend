@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccommodationCreateComponent } from './accommodation/accommodation-create/accommodation-create.component';
 import { NavbarModule } from './navbar/navbar.module';
 import { AccommodationRequestModule } from './accommodation-request/accommodation-request.module';
+import { AccommodationUpdateComponent } from './accommodation/accommodation-update/accommodation-update.component';
 import { AccommodationModule } from './accommodation/accommodation.module';
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AccommodationModule } from './accommodation/accommodation.module';
     AccommodationCreateComponent,
     NavbarModule,
     AccommodationRequestModule,
-    AccommodationModule
+    AccommodationModule,
+    AccommodationUpdateComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
