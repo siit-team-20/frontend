@@ -6,7 +6,11 @@
   
       <div class="requests">
   
-        <app-accommodation-request-view *ngFor="let accommodationRequest of accommodationRequests" [accommodationRequest]="accommodationRequest"></app-accommodation-request-view>
+        <app-accommodation-request-view *ngFor="let accommodationRequest of accommodationRequests"
+          [accommodationRequest]="accommodationRequest"
+          (removeItemEvent)="removeItem($event)"
+          (approveItemEvent)="approveItem($event)">
+        </app-accommodation-request-view>
   
       </div>
   
