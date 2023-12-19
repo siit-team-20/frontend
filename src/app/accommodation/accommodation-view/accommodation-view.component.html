@@ -1,6 +1,6 @@
 <div class="container">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body shadow" data-toggle="modal" data-target="#exampleModal" >
             <h4 class="card-title">{{accommodation.name}}, {{accommodation.accommodationType}}</h4>
             <p class="card-text">{{accommodation.description}}</p>
             <div class="container">
@@ -9,12 +9,9 @@
                         {{accommodation.price}} €
                     </div>
                     <div class="col-md-5">
-                        {{accommodation.name}} ⭐
+                        {{accommodation.location}}
                     </div>
-                    <!-- Button trigger modal -->
-                    <div class="col-md-2"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        More
-                    </button></div>
+                    
                     
                     
                     <!-- Modal -->
@@ -30,11 +27,11 @@
                             <div class="modal-body">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-md-4 shadow">
-                                        <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid" > 
+                                    <div class="col-md-4 ">
+                                        <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid shadow" > 
                                     </div>
                                     <div class="col-md-8 description">
-                                        <p  >{{accommodation.description}}
+                                        <p >{{accommodation.description}}
                                         </p>
                                         <div class="row  border" style="padding: 10px; margin-top: 10px; margin-bottom: 10px;" >
                                         <div class="col-md-3">
@@ -62,15 +59,38 @@
                                                 <p>Max number of guests: {{accommodation.maxGuests}}</p>
                                             </div>
                                         </div>
+                                        
                                         <p>Location:</p>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <p>Price: {{accommodation.price}} €</p>
+                                                <p>Location: {{accommodation.location}}</p>
                                             </div>
                                             <div class="col-md-6">
                                                 <p>Cancelation deadline: {{accommodation.reservationCancellationDeadline}}</p>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p>Availabilty start: {{accommodation.availabilityStart}}</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Availabilty end: {{accommodation.availabilityEnd}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">        
+                                                <p>Price: {{accommodation.price}} €</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check">
+                                                    <label class="form-check-label" for="check1">
+                                                      <input type="checkbox" readonly="true" onclick="return false;" class="form-check-input" id="check1" name="option1" value="false" checked>Is price by guest
+                                                    </label>
+                                                  </div>
+                                            </div>
+                                        </div>
+
+                                        
                                         
 
                                     </div>
@@ -78,7 +98,7 @@
                             </div>
                             </div>
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" >Update</button>
                             <button type="button" class="btn btn-primary">Make a Reservation</button>
                             </div>
                         </div>
