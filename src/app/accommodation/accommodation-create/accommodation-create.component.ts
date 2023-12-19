@@ -44,9 +44,7 @@ export class AccommodationCreateComponent {
   onSubmit(): void {
     if (this.createForm.valid) {
       const submitData = { ...this.createForm.value };
-      console.log(submitData);
       const accommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, submitData.availabilityStart!, submitData.availabilityEnd!, submitData.pricing!, submitData.price!, submitData.reservationCancellationDeadline!);
-      console.log(accommodation);
       this.http.post<Accommodation>(
         "http://localhost:8080/api/accommodations",
         accommodation

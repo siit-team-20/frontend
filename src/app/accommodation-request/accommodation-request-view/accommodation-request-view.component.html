@@ -63,8 +63,8 @@
   
       <div>
   
-        <button type="button" class="btn btn-success mx-3 mt-4 mb-2">Approve</button>
-        <button type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
+        <button (click)="approveItemEvent.emit({accommodationRequestId: accommodationRequest.id, accommodation: accommodationRequest.newAccommodation})" type="button" class="btn btn-success mx-3 mt-4 mb-2">Approve</button>
+        <button (click)="removeItemEvent.emit({accommodationRequestId: accommodationRequest.id, accommodationId: accommodationRequest.newAccommodation.id})" type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
   
       </div>
 
