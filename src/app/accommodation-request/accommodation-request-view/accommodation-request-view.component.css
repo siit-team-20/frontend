@@ -1,25 +1,31 @@
 h1 {
-    padding: 5% 0;
-    text-align: center;
-  }
+  padding: 5% 0;
+  text-align: center;
+}
   
-  p {
-    margin-bottom: 0;
-  }
-  
-  .row {
-    margin-right: 0;
-    margin-left: 0;
-  }
-  
-  .requests {
-    padding-top: 0;
-  }
-  
-  .request {
-    padding-top: 20px;
-  }
-  
-  .request .row div p {
-    padding: 5px 0;
-  }
+p {
+  margin-bottom: 0;
+}
+
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.requests {
+  padding-top: 0;
+}
+
+.request {
+  padding-top: 20px;
+}
+
+.request .row div p {
+  padding: 5px 0;
+}
+
+.dotted {
+  flex-grow: 1;
+  border-bottom: 2px dotted black;
+  margin: 5px 10px 5px 10px;
+}

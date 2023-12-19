@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { AccommodationRequest } from '../model/accommodation-request';
 import { Accommodation } from '../../accommodation/model/accommodation';
 
@@ -10,4 +10,6 @@ import { Accommodation } from '../../accommodation/model/accommodation';
 })
 export class AccommodationRequestViewComponent {
   @Input() accommodationRequest: AccommodationRequest = new AccommodationRequest(0, null, new Accommodation(0, "", "", "", "", 0, 0, "", "", new Date(), new Date(), "", 0, 0), "Created");
+  @Output() removeItemEvent = new EventEmitter();
+  @Output() approveItemEvent = new EventEmitter();
 }
