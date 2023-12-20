@@ -2,17 +2,22 @@
     <div class="card">
         <div class="card-body shadow" data-toggle="modal" data-target="#exampleModal">
             <h4 class="card-title">{{accommodation.name}}, {{accommodation.accommodationType}}</h4>
-            <p class="card-text">{{accommodation.description}}</p>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-5">
-                        {{accommodation.price}} €
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid border">
+                </div>
+                <div class="col-md-9">
+                    <p class="card-text py-3">{{accommodation.description}}</p>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-5">
+                                {{accommodation.price}} €
+                            </div>
+                            <div class="col-md-5">
+                                {{accommodation.location}}
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-5">
-                        {{accommodation.location}}
-                    </div>
-
-
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
