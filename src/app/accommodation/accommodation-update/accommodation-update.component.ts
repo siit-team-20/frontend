@@ -32,7 +32,7 @@ export class AccommodationUpdateComponent implements OnInit {
     this.accommodationId = Number(this.route.snapshot.params['id']);
 
     this.updateForm = this.formBuilder.group({
-      ownerEmail: ["", [Validators.required, Validators.email]],
+      ownerEmail: ["", Validators.compose([Validators.required, Validators.email])],
       name: ["", [Validators.required]],
       location: ["", [Validators.required]],
       description: ["", [Validators.required]],

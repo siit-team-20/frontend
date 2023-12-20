@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { MaxValidator, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { User } from '../model/user';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +14,15 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
   imports: [RouterLink, CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class LoginComponent {
+
   @Output() loginItemEvent = new EventEmitter();
 
   loginForm: FormGroup;
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder) {
     this.loginForm = this.formBuilder.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required]]
+      email: ["", Validators.compose([Validators.required, Validators.email])],
+      password: ["", Validators.compose([Validators.required, Validators.minLength(5)])]
     });
   }
 
