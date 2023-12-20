@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AccommodationRequest } from '../model/accommodation-request';
 import { AccommodationRequestViewComponent } from '../accommodation-request-view/accommodation-request-view.component';
 import { CommonModule } from '@angular/common';
+import { AxiosService } from '../../axios.service';
 
 @Component({
   selector: 'app-accommodation-requests',
@@ -15,63 +16,110 @@ export class AccommodationRequestsComponent {
 
   accommodationRequests: AccommodationRequest[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private axiosService: AxiosService) { }
 
   ngOnInit(): void {
-    this.http.get<AccommodationRequest[]>(
-      "http://localhost:8080/api/accommodations/requests"
-    ).subscribe(data => this.accommodationRequests = data);
+    this.axiosService.request(
+      "GET",
+      "/api/accommodations/requests",
+      {}
+      ).then(
+      response => {
+          this.accommodationRequests = response.data;
+      });
   }
 
   rejectCreateRequest(ids: any): void {
-    this.http.delete(
-      "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
-    ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
-    this.http.delete(
-      "http://localhost:8080/api/accommodations/" + ids.accommodationId,
-    ).subscribe();
+
+    this.axiosService.request(
+      "DELETE",
+      "/api/accommodations/requests/"+ids.accommodationRequestId,
+      {}
+      ).then(
+      response => {
+        this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId)
+      });
+
+    this.axiosService.request(
+      "DELETE",
+      "/api/accommodations/"+ids.accommodationId,
+      {}
+      );
+
   }
 
   approveCreateRequest(ids: any): void {
-    this.http.delete(
-      "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
-    ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
+
+    this.axiosService.request(
+      "DELETE",
+      "/api/accommodations/requests/"+ids.accommodationRequestId,
+      {}
+      ).then(
+      response => {
+        this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId)
+      });
+
     ids.accommodation.isApproved = true;
-    this.http.put(
-      "http://localhost:8080/api/accommodations/" + ids.accommodation.id,
-      ids.accommodation,
-      ids.accommodation.id
-    ).subscribe();
+
+    this.axiosService.request(
+      "PUT",
+      "/api/accommodations/"+ids.accommodation.id,
+      ids.accommodation
+      );
+
   }
 
   rejectUpdateRequest(ids: any): void {
-    this.http.delete(
-      "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
-    ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
-    this.http.delete(
-      "http://localhost:8080/api/accommodations/" + ids.newAccommodation.id,
-    ).subscribe();
+
+    this.axiosService.request(
+      "DELETE",
+      "/api/accommodations/requests/"+ids.accommodationRequestId,
+      {}
+      ).then(
+      response => {
+        this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId)
+      });
+
+    this.axiosService.request(
+      "DELETE",
+      "/api/accommodations/"+ids.newAccommodation.id,
+      {}
+      );
+
     ids.oldAccommodation.isApproved = true;
-    this.http.put(
-      "http://localhost:8080/api/accommodations/" + ids.oldAccommodation.id,
-      ids.oldAccommodation,
-      ids.oldAccommodation.id
-    ).subscribe();
+
+    this.axiosService.request(
+      "PUT",
+      "/api/accommodations/"+ids.oldAccommodation.id,
+      ids.oldAccommodation
+      );
+
   }
 
   approveUpdateRequest(ids: any): void {
-    this.http.delete(
-      "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
-    ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
-    this.http.delete(
-      "http://localhost:8080/api/accommodations/" + ids.oldAccommodation.id,
-    ).subscribe();
+
+    this.axiosService.request(
+      "DELETE",
+      "/api/accommodations/requests/"+ids.accommodationRequestId,
+      {}
+      ).then(
+      response => {
+        this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId)
+      });
+
+    this.axiosService.request(
+      "DELETE",
+      "/api/accommodations/"+ids.oldAccommodation.id,
+      {}
+      );
+
     ids.newAccommodation.isApproved = true;
-    this.http.put(
-      "http://localhost:8080/api/accommodations/" + ids.newAccommodation.id,
-      ids.newAccommodation,
-      ids.newAccommodation.id
-    ).subscribe();
+
+    this.axiosService.request(
+      "PUT",
+      "/api/accommodations/"+ids.newAccommodation.id,
+      ids.newAccommodation
+      );
   }
 
 }

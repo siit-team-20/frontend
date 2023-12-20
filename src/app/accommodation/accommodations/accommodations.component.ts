@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Accommodation } from '../model/accommodation';
 import { AccommodationViewComponent } from '../accommodation-view/accommodation-view.component';
+import { AxiosService } from '../../axios.service';
 
 @Component({
   selector: 'app-accommodations',
@@ -14,12 +15,17 @@ import { AccommodationViewComponent } from '../accommodation-view/accommodation-
 export class AccommodationsComponent {
 
   accommodations: Accommodation[] = [];
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private axiosService: AxiosService) { }
 
   ngOnInit(): void {
-    this.http.get<Accommodation[]>(
-      "http://localhost:8080/api/accommodations"
-    ).subscribe(data => this.accommodations = data);
+    this.axiosService.request(
+      "GET",
+      "/api/accommodations",
+      {}
+      ).then(
+      response => {
+          this.accommodations = response.data;
+      });
   }
   searchText = '';
 

@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Accommodation, AccommodationTypeMapping, AccommodationType } from '../model/accommodation';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
+import { AxiosService } from '../../axios.service';
 
 @Component({
   selector: 'app-accommodation-update',
@@ -27,7 +28,7 @@ export class AccommodationUpdateComponent implements OnInit {
   route: ActivatedRoute = inject(ActivatedRoute);
   accommodationId = -1;
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) {
+  constructor(private axiosService: AxiosService, private formBuilder: FormBuilder, private router: Router) {
 
     this.accommodationId = Number(this.route.snapshot.params['id']);
 
@@ -50,29 +51,33 @@ export class AccommodationUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<Accommodation>("http://localhost:8080/api/accommodations/" + this.accommodationId).subscribe({
-      next: accommodation => {
-        this.updateForm.controls["ownerEmail"].setValue(accommodation.ownerEmail);
-        this.updateForm.controls["name"].setValue(accommodation.name);
-        this.updateForm.controls["location"].setValue(accommodation.location);
-        this.updateForm.controls["description"].setValue(accommodation.description);
-        this.updateForm.controls["minGuests"].setValue(accommodation.minGuests);
-        this.updateForm.controls["maxGuests"].setValue(accommodation.maxGuests);
-        this.updateForm.controls["accommodationType"].setValue(accommodation.accommodationType);
-        this.updateForm.controls["benefits"].setValue(accommodation.benefits.join(", "));
-        this.updateForm.controls["availabilityStart"].setValue(accommodation.availabilityStart);
-        this.updateForm.controls["availabilityEnd"].setValue(accommodation.availabilityEnd);
-        this.updateForm.controls["price"].setValue(accommodation.price);
-        if (accommodation.isPriceByGuest) {
+
+    this.axiosService.request(
+      "GET",
+      "/api/accommodations/"+this.accommodationId,
+      {}
+      ).then(
+      response => {
+        this.updateForm.controls["ownerEmail"].setValue(response.data.ownerEmail);
+        this.updateForm.controls["name"].setValue(response.data.name);
+        this.updateForm.controls["location"].setValue(response.data.location);
+        this.updateForm.controls["description"].setValue(response.data.description);
+        this.updateForm.controls["minGuests"].setValue(response.data.minGuests);
+        this.updateForm.controls["maxGuests"].setValue(response.data.maxGuests);
+        this.updateForm.controls["accommodationType"].setValue(response.data.accommodationType);
+        this.updateForm.controls["benefits"].setValue(response.data.benefits.join(", "));
+        this.updateForm.controls["availabilityStart"].setValue(response.data.availabilityStart.join("-"));
+        this.updateForm.controls["availabilityEnd"].setValue(response.data.availabilityEnd.join("-"));
+        this.updateForm.controls["price"].setValue(response.data.price);
+        if (response.data.isPriceByGuest) {
           this.updateForm.controls["pricing"].setValue("perGuest");
         }
         else {
           this.updateForm.controls["pricing"].setValue("perDay");
         }
-        this.updateForm.controls["reservationCancellationDeadline"].setValue(accommodation.reservationCancellationDeadline);
-        this.oldAccommodation = accommodation;
-      }
-    });
+        this.updateForm.controls["reservationCancellationDeadline"].setValue(response.data.reservationCancellationDeadline);
+        this.oldAccommodation = response.data;
+      });
   }
 
   onSubmit(): void {
@@ -82,26 +87,31 @@ export class AccommodationUpdateComponent implements OnInit {
       const submitData = { ...this.updateForm.value };
       const newAccommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, submitData.availabilityStart!, submitData.availabilityEnd!, submitData.pricing!, submitData.price!, submitData.reservationCancellationDeadline!);
       newAccommodation.isApproved = false;
-      this.http.post<Accommodation>(
-        "http://localhost:8080/api/accommodations",
-        newAccommodation,
-      ).subscribe({
-        next: newAccommodation => {
-          const accommodationRequest = new AccommodationRequest(null, this.oldAccommodation, newAccommodation, "Updated");
-          console.log(newAccommodation);
-          console.log(accommodationRequest);
-          this.http.post<AccommodationRequest>(
-            "http://localhost:8080/api/accommodations/requests",
+
+      this.axiosService.request(
+        "POST",
+        "/api/accommodations",
+        newAccommodation
+      ).then(
+        response => {
+          const accommodationRequest = new AccommodationRequest(null, this.oldAccommodation, response.data, "Updated");
+          this.axiosService.request(
+            "POST",
+            "/api/accommodations/requests",
             accommodationRequest
-          ).subscribe();
+          );
         }
-      });
+      )
 
       this.oldAccommodation.isApproved = false;
-      this.http.put<Accommodation>(
-        "http://localhost:8080/api/accommodations/" + this.accommodationId,
-        this.oldAccommodation,
-      ).subscribe();
+
+      this.axiosService.request(
+        "PUT",
+        "/api/accommodations/"+this.accommodationId,
+        this.oldAccommodation
+      );
+
+      this.router.navigate(["/accommodation/accommodations"]);
     }
     form.classList.add('was-validated');
   }
