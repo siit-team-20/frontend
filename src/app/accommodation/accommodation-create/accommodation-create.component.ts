@@ -26,7 +26,7 @@ export class AccommodationCreateComponent {
   constructor(private http: HttpClient, private formBuilder: FormBuilder) {
 
     this.createForm = this.formBuilder.group({
-      ownerEmail: ["", [Validators.required, Validators.email]],
+      ownerEmail: ["", Validators.compose([Validators.required, Validators.email])],
       name: ["", [Validators.required]],
       location: ["", [Validators.required]],
       description: ["", [Validators.required]],
@@ -62,7 +62,7 @@ export class AccommodationCreateComponent {
         }
       });
 
-      
+
     }
     form.classList.add('was-validated');
 
