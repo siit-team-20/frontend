@@ -1,4 +1,4 @@
-<div class="card my-5" *ngIf="accommodationRequest.type == 'Created'" data-toggle="modal" [attr.data-target]="'#createdRequestModal'+accommodationRequest.id">
+<div class="card my-5" *ngIf="accommodationRequest.type == 'Created'">
 
   <h4 class="card-header">{{accommodationRequest.newAccommodation.name}}</h4>
 
@@ -59,12 +59,16 @@
 
     <div class="row justify-content-between">
 
-      <div></div>
+      <div>
+
+        <button type="button" class="btn btn-primary mt-4" data-toggle="modal" [attr.data-target]="'#createdRequestModal'+accommodationRequest.id">More information</button>
+
+      </div>
   
       <div>
   
-        <button (click)="approveItemEvent.emit({accommodationRequestId: accommodationRequest.id, accommodation: accommodationRequest.newAccommodation})" type="button" class="btn btn-success mx-3 mt-4 mb-2">Approve</button>
-        <button (click)="removeItemEvent.emit({accommodationRequestId: accommodationRequest.id, accommodationId: accommodationRequest.newAccommodation.id})" type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
+        <button data-dismiss="modal" aria-label="Close" (click)="approveCreateRequestEvent.emit({accommodationRequestId: accommodationRequest.id, accommodation: accommodationRequest.newAccommodation})" type="button" class="btn btn-success mx-3 mt-4 mb-2">Approve</button>
+        <button data-dismiss="modal" aria-label="Close" (click)="rejectCreateRequestEvent.emit({accommodationRequestId: accommodationRequest.id, accommodationId: accommodationRequest.newAccommodation.id})" type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
   
       </div>
     
@@ -241,7 +245,7 @@
     
 </div>
 
-<div class="card my-5" *ngIf="accommodationRequest.type == 'Updated'" data-toggle="modal" [attr.data-target]="'#updatedRequestModal'+accommodationRequest.id">
+<div class="card my-5" *ngIf="accommodationRequest.type == 'Updated'">
 
   <div class="row">
 
@@ -361,6 +365,12 @@
 
   <div class="row justify-content-between card-body pt-0">
 
+    <div>
+
+      <button class="btn btn-primary mt-4" type="button" data-toggle="modal" [attr.data-target]="'#updatedRequestModal'+accommodationRequest.id">More information</button>
+      
+    </div>
+
     <div class="mt-4 pt-1 px-3 row">
 
       <h5>Request type: {{accommodationRequest.type}} accommodation</h5>
@@ -369,8 +379,8 @@
 
     <div>
 
-      <button (click)="approveItemEvent.emit({accommodationRequestId: accommodationRequest.id, accommodation: accommodationRequest.newAccommodation})" type="button" class="btn btn-success mx-3 mt-4 mb-2">Approve</button>
-      <button (click)="removeItemEvent.emit({accommodationRequestId: accommodationRequest.id, accommodationId: accommodationRequest.newAccommodation.id})" type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
+      <button (click)="approveUpdateRequestEvent.emit({accommodationRequestId: accommodationRequest.id, newAccommodation: accommodationRequest.newAccommodation, oldAccommodation: accommodationRequest.oldAccommodation})" type="button" class="btn btn-success mx-3 mt-4 mb-2">Approve</button>
+      <button (click)="rejectUpdateRequestEvent.emit({accommodationRequestId: accommodationRequest.id, newAccommodation: accommodationRequest.newAccommodation, oldAccommodation: accommodationRequest.oldAccommodation})" type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
 
     </div>
   
