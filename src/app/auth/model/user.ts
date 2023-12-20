@@ -6,7 +6,7 @@ export enum UserType {
 
 export class User {
 
-    public email: string | null;
+    public email: string;
     public password: string;
     public name: string;
     public surname: string;
@@ -15,7 +15,7 @@ export class User {
     public type: UserType;
 
     constructor(
-        email: string | null,
+        email: string,
         password: string,
         name: string,
         surname: string,
