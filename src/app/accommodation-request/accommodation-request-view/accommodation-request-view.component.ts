@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class AccommodationRequestViewComponent {
   @Input() accommodationRequest: AccommodationRequest = new AccommodationRequest(0, null, new Accommodation(0, "", "", "", "", 0, 0, "", "", new Date(), new Date(), "", 0, 0), "Created");
-  @Output() removeItemEvent = new EventEmitter();
-  @Output() approveItemEvent = new EventEmitter();
+  @Output() rejectCreateRequestEvent = new EventEmitter();
+  @Output() approveCreateRequestEvent = new EventEmitter();
+  @Output() approveUpdateRequestEvent = new EventEmitter();
+  @Output() rejectUpdateRequestEvent = new EventEmitter();
 }
