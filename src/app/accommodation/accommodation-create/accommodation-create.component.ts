@@ -3,6 +3,7 @@ import { Accommodation, AccommodationTypeMapping, AccommodationType } from '../m
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
 
 @Component({
   selector: 'app-accommodation-create',
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [FormsModule, CommonModule, ReactiveFormsModule]
 })
+
 export class AccommodationCreateComponent {
   public accommodationTypeMapping = AccommodationTypeMapping;
   public accommodationTypes = Object.values(AccommodationType);
@@ -24,33 +26,45 @@ export class AccommodationCreateComponent {
   constructor(private http: HttpClient, private formBuilder: FormBuilder) {
 
     this.createForm = this.formBuilder.group({
-      ownerEmail: ["", [Validators.required]],
+      ownerEmail: ["", [Validators.required, Validators.email]],
       name: ["", [Validators.required]],
       location: ["", [Validators.required]],
       description: ["", [Validators.required]],
-      minGuests: [0, [Validators.required]],
-      maxGuests: [0, [Validators.required]],
+      minGuests: [, Validators.compose([Validators.required, Validators.min(1)])],
+      maxGuests: [, Validators.compose([Validators.required, Validators.min(1)])],
       accommodationType: [this.typeSelect, [Validators.required]],
       benefits: ["", [Validators.required]],
       availabilityStart: [new Date(), [Validators.required]],
       availabilityEnd: [new Date(), [Validators.required]],
-      price: [0, [Validators.required]],
+      price: [, Validators.compose([Validators.required, Validators.min(1)])],
       pricing: [this.pricing, [Validators.required]],
-      reservationCancellationDeadline: [0, [Validators.required]],
+      reservationCancellationDeadline: [, Validators.compose([Validators.required, Validators.min(1)])],
     });
 
   }
 
   onSubmit(): void {
-    if (this.createForm.valid) {
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    if (!(form.checkValidity() === false)) {
+
       const submitData = { ...this.createForm.value };
-      console.log(submitData);
       const accommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, submitData.availabilityStart!, submitData.availabilityEnd!, submitData.pricing!, submitData.price!, submitData.reservationCancellationDeadline!);
-      console.log(accommodation);
       this.http.post<Accommodation>(
         "http://localhost:8080/api/accommodations",
         accommodation
-      ).subscribe(data => this.newDataEvent.emit(data));
+      ).subscribe({
+        next: accommodation => {
+          const accommodationRequest = new AccommodationRequest(null, null, accommodation, "Created");
+          this.http.post<AccommodationRequest>(
+            "http://localhost:8080/api/accommodations/requests",
+            accommodationRequest
+          ).subscribe();
+        }
+      });
+
+      
     }
+    form.classList.add('was-validated');
+
   }
 }

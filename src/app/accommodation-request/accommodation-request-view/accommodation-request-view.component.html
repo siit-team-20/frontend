@@ -1,40 +1,699 @@
-<div class="request border-dark border rounded">
+<div class="card my-5" *ngIf="accommodationRequest.type == 'Created'">
 
-    <div class="row">
+  <h4 class="card-header">{{accommodationRequest.newAccommodation.name}}</h4>
 
-      <div class="col-lg-3 d-flex justify-content-between border-right border-dark">
-        <p>Type:</p>
-        <p>{{accommodationRequest.type}}</p>
+  <div class="card-body">
+
+    <h5 class="card-title">{{accommodationRequest.newAccommodation.location}}</h5>
+    <p class="card-text">
+      {{accommodationRequest.newAccommodation.description}}
+      <br><br>
+    </p>
+    
+    <div class="row justify-content-between">
+
+      <div class="col-lg-3 px-0">
+
+        <h5>Available</h5>
+        <div class="row d-flex">
+          <span>From:</span>
+          <span class="dotted"></span>
+          <span>{{accommodationRequest.newAccommodation.availabilityStart}}</span>
+        </div>
+
+        <div class="row justify-content-between">
+          <span>To:</span>
+          <span class="dotted"></span>
+          <span>{{accommodationRequest.newAccommodation.availabilityEnd}}</span>
+        </div>
+
       </div>
 
-      <div class="col-lg-3 d-flex justify-content-between border-right border-dark">
-        <p>Name:</p>
-        <p>{{accommodationRequest.newAccommodation.name}}</p>
+      <div class="col-lg-3 px-0">
+
+        <h5>Guests</h5>
+        <div class="row d-flex">
+          <span>Min. guests:</span>
+          <span class="dotted"></span>
+          <span>{{accommodationRequest.newAccommodation.minGuests}}</span>
+        </div>
+
+        <div class="row justify-content-between">
+          <span>Max. guests:</span>
+          <span class="dotted"></span>
+          <span>{{accommodationRequest.newAccommodation.maxGuests}}</span>
+        </div>
+
       </div>
 
-      <div class="col-lg-3 d-flex justify-content-between border-right border-dark">
-        <p>Location:</p>
-        <p>{{accommodationRequest.newAccommodation.location}}</p>
-      </div>
+      <div class="col-lg-3 px-0">
 
-      <div class="col-lg-3 d-flex justify-content-between">
-        <p>Description:</p>
-        <p>{{accommodationRequest.newAccommodation.description}}</p>
+        <h5>Request type</h5>
+        <div class="row d-flex">
+          <span class="mt-3">{{accommodationRequest.type}} accommodation</span>
+        </div>
+
       </div>
 
     </div>
 
     <div class="row justify-content-between">
 
-      <div></div>
-
       <div>
 
-        <button type="button" class="btn btn-success m-3">Approve</button>
-        <button type="button" class="btn btn-danger m-3">Reject</button>
+        <button type="button" class="btn btn-primary mt-4" data-toggle="modal" [attr.data-target]="'#createdRequestModal'+accommodationRequest.id">More information</button>
+
+      </div>
+  
+      <div>
+  
+        <button data-dismiss="modal" aria-label="Close" (click)="approveCreateRequestEvent.emit({accommodationRequestId: accommodationRequest.id, accommodation: accommodationRequest.newAccommodation})" type="button" class="btn btn-success mx-3 mt-4 mb-2">Approve</button>
+        <button data-dismiss="modal" aria-label="Close" (click)="rejectCreateRequestEvent.emit({accommodationRequestId: accommodationRequest.id, accommodationId: accommodationRequest.newAccommodation.id})" type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
+  
+      </div>
+    
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal fade" [attr.id]="'createdRequestModal'+accommodationRequest.id" tabindex="-1" role="dialog" [attr.aria-labelledby]="'createdRequestModalLabel'+accommodationRequest.id" aria-hidden="true">
+
+    <div class="modal-dialog modal-xl" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="mb-0" [attr.id]="'createdRequestModalLabel'+accommodationRequest.id">{{accommodationRequest.newAccommodation.name}},
+                    {{accommodationRequest.newAccommodation.accommodationType}}</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+
+            <div class="modal-body pb-4">
+
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col-md-4 ">
+                            <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid shadow">
+                        </div>
+
+                        <div class="col-md-8 description">
+
+                            <p>{{accommodationRequest.newAccommodation.description}}</p>
+
+                            <div class="row border benefits">
+
+                                <div class="col-md-6">
+
+                                    <p>List of benefits: </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="list-group overflow-auto">
+
+                                        <ul>
+
+                                            <li *ngFor="let benefit of accommodationRequest.newAccommodation.benefits">
+                                                {{benefit}}
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row pt-2">
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Min number of guests: {{accommodationRequest.newAccommodation.minGuests}} </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Max number of guests: {{accommodationRequest.newAccommodation.maxGuests}}</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Location: {{accommodationRequest.newAccommodation.location}}</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Cancelation deadline: {{accommodationRequest.newAccommodation.reservationCancellationDeadline}}</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Availabilty start: {{accommodationRequest.newAccommodation.availabilityStart}}</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Availabilty end: {{accommodationRequest.newAccommodation.availabilityEnd}}</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Price: {{accommodationRequest.newAccommodation.price}} €</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="row">
+
+                                        <legend class="col-form-label col-sm-4 px-0 pt-0">Pricing</legend>
+
+                                        <div class="col-sm-8 px-0">
+
+                                            <div class="form-check">
+
+                                                <input class="form-check-input" id="isPriceByGuest"
+                                                    type="radio" value="perGuest"
+                                                    formControlName="pricing"
+                                                    [checked]="accommodationRequest.newAccommodation.isPriceByGuest"
+                                                    disabled>
+
+                                                <label class="form-check-label" for="isPriceByGuest">Per guest</label>
+
+                                            </div>
+
+                                            <div class="form-check">
+
+                                                <input class="form-check-input" id="isPricePerDay"
+                                                    type="radio" value="perDay"
+                                                    formControlName="pricing"
+                                                    [checked]="!accommodationRequest.newAccommodation.isPriceByGuest"
+                                                    disabled>
+
+                                                <label class="form-check-label" for="isPricePerDay">Per day</label>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+</div>
+
+<div class="card my-5" *ngIf="accommodationRequest.type == 'Updated'">
+
+  <div class="row">
+
+    <div class="col-lg-6 px-0 border-right border-dark">
+
+      <h3 class="card-header text-center">Old information</h3>
+      <h4 class="card-header">{{accommodationRequest.oldAccommodation?.name}}</h4>
+
+      <div class="card-body">
+
+        <h5 class="card-title">{{accommodationRequest.oldAccommodation?.location}}</h5>
+    
+        <p class="card-text">
+          {{accommodationRequest.oldAccommodation?.description}}
+          <br><br>
+        </p>
+    
+        <div class="row justify-content-between">
+
+          <div class="col-lg-5 px-0">
+
+            <h5>Available</h5>
+            <div class="row d-flex">
+              <span>From:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.oldAccommodation?.availabilityStart}}</span>
+            </div>
+
+            <div class="row justify-content-between">
+              <span>To:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.oldAccommodation?.availabilityEnd}}</span>
+            </div>
+
+          </div>
+
+          <div class="col-lg-5 px-0">
+
+            <h5>Guests</h5>
+            <div class="row d-flex">
+              <span>Min. guests:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.oldAccommodation?.minGuests}}</span>
+            </div>
+
+            <div class="row justify-content-between">
+              <span>Max. guests:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.oldAccommodation?.maxGuests}}</span>
+            </div>
+
+          </div>
+
+        </div>
+      
+      </div>
+
+    </div>
+
+    <div class="col-lg-6 px-0">
+
+      <h3 class="card-header text-center">New information</h3>
+      <h4 class="card-header">{{accommodationRequest.newAccommodation.name}}</h4>
+
+      <div class="card-body">
+
+        <h5 class="card-title">{{accommodationRequest.newAccommodation.location}}</h5>
+          
+        <p class="card-text">
+          {{accommodationRequest.newAccommodation.description}}
+          <br><br>
+        </p>
+    
+        <div class="row justify-content-between">
+
+          <div class="col-lg-5 px-0">
+
+            <h5>Available</h5>
+            <div class="row d-flex">
+              <span>From:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.newAccommodation.availabilityStart}}</span>
+            </div>
+
+            <div class="row d-flex">
+              <span>To:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.newAccommodation.availabilityEnd}}</span>
+            </div>
+
+          </div>
+
+          <div class="col-lg-5 px-0">
+
+            <h5>Guests</h5>
+            <div class="row d-flex">
+              <span>Min. guests:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.newAccommodation.minGuests}}</span>
+            </div>
+
+            <div class="row d-flex">
+              <span>Max. guests:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.newAccommodation.maxGuests}}</span>
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
     </div>
 
   </div>
+
+  <div class="row justify-content-between card-body pt-0">
+
+    <div>
+
+      <button class="btn btn-primary mt-4" type="button" data-toggle="modal" [attr.data-target]="'#updatedRequestModal'+accommodationRequest.id">More information</button>
+      
+    </div>
+
+    <div class="mt-4 pt-1 px-3 row">
+
+      <h5>Request type: {{accommodationRequest.type}} accommodation</h5>
+
+    </div>
+
+    <div>
+
+      <button (click)="approveUpdateRequestEvent.emit({accommodationRequestId: accommodationRequest.id, newAccommodation: accommodationRequest.newAccommodation, oldAccommodation: accommodationRequest.oldAccommodation})" type="button" class="btn btn-success mx-3 mt-4 mb-2">Approve</button>
+      <button (click)="rejectUpdateRequestEvent.emit({accommodationRequestId: accommodationRequest.id, newAccommodation: accommodationRequest.newAccommodation, oldAccommodation: accommodationRequest.oldAccommodation})" type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
+
+    </div>
+  
+  </div>
+
+</div>
+
+<div class="modal fade" [attr.id]="'updatedRequestModal'+accommodationRequest.id" tabindex="-1" role="dialog" [attr.aria-labelledby]="'updatedRequestModalLabel'+accommodationRequest.id" aria-hidden="true">
+
+    <div class="modal-dialog modal-xl" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-body pb-4">
+
+                <div class="container px-0">
+
+                    <div class="row">
+
+                        <div class="col-lg-6 border-right border-dark">
+
+                            <h4 class="pl-2 pt-2">Old information</h4>
+
+                            <div class="py-4">
+
+                              <h5 class="mb-0 text-center" [attr.id]="'updatedRequestModalLabel'+accommodationRequest.id">{{accommodationRequest.oldAccommodation?.name}},
+                                  {{accommodationRequest.oldAccommodation?.accommodationType}}</h5>
+                
+                            </div>
+
+                            <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid shadow">
+
+                            <p class="py-4">{{accommodationRequest.oldAccommodation?.description}}</p>
+
+                            <div class="row border benefits">
+
+                                <div class="col-md-6">
+
+                                    <p>List of benefits: </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="list-group overflow-auto">
+
+                                        <ul>
+
+                                            <li *ngFor="let benefit of accommodationRequest.oldAccommodation?.benefits">
+                                                {{benefit}}
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Min number of guests: {{accommodationRequest.oldAccommodation?.minGuests}} </p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Max number of guests: {{accommodationRequest.oldAccommodation?.maxGuests}}</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Location: {{accommodationRequest.oldAccommodation?.location}}</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Cancelation deadline: {{accommodationRequest.oldAccommodation?.reservationCancellationDeadline}}</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Availabilty start: {{accommodationRequest.oldAccommodation?.availabilityStart}}</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Availabilty end: {{accommodationRequest.oldAccommodation?.availabilityEnd}}</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <p class="pb-3">Price: {{accommodationRequest.oldAccommodation?.price}} €</p>
+
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="row">
+
+                                        <legend class="col-form-label col-sm-4 px-0 pt-0">Pricing</legend>
+
+                                        <div class="col-sm-8 px-0">
+
+                                            <div class="form-check">
+
+                                                <input class="form-check-input" id="isPriceByGuest"
+                                                    type="radio" value="perGuest"
+                                                    formControlName="pricing"
+                                                    [checked]="accommodationRequest.oldAccommodation?.isPriceByGuest"
+                                                    disabled>
+
+                                                <label class="form-check-label" for="isPriceByGuest">Per guest</label>
+
+                                            </div>
+
+                                            <div class="form-check">
+
+                                                <input class="form-check-input" id="isPricePerDay"
+                                                    type="radio" value="perDay"
+                                                    formControlName="pricing"
+                                                    [checked]="!accommodationRequest.oldAccommodation?.isPriceByGuest"
+                                                    disabled>
+
+                                                <label class="form-check-label" for="isPricePerDay">Per day</label>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                          <div class="row justify-content-between">
+
+                            <h4 class="text-center pl-2 pt-2">New information</h4>
+
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+
+                          </div>
+
+                          <div class="py-4">
+
+                            <h5 class="mb-0 text-center" [attr.id]="'updatedRequestModalLabel'+accommodationRequest.id">{{accommodationRequest.newAccommodation.name}},
+                                {{accommodationRequest.newAccommodation.accommodationType}}</h5>
+              
+                          </div>
+
+                          <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid shadow">
+
+                          <p class="py-4">{{accommodationRequest.newAccommodation.description}}</p>
+
+                          <div class="row border benefits">
+
+                              <div class="col-md-6">
+
+                                  <p>List of benefits: </p>
+
+                              </div>
+
+                              <div class="col-md-6">
+
+                                  <div class="list-group overflow-auto">
+
+                                      <ul>
+
+                                          <li *ngFor="let benefit of accommodationRequest.newAccommodation.benefits">
+                                              {{benefit}}
+                                          </li>
+
+                                      </ul>
+
+                                  </div>
+
+                              </div>
+
+                          </div>
+
+                          <div class="row">
+
+                              <div class="col-md-6">
+
+                                  <p class="pb-3">Min number of guests: {{accommodationRequest.newAccommodation.minGuests}} </p>
+
+                              </div>
+
+                              <div class="col-md-6">
+
+                                  <p class="pb-3">Max number of guests: {{accommodationRequest.newAccommodation.maxGuests}}</p>
+
+                              </div>
+
+                          </div>
+
+                          <div class="row">
+
+                              <div class="col-md-6">
+
+                                  <p class="pb-3">Location: {{accommodationRequest.newAccommodation.location}}</p>
+
+                              </div>
+
+                              <div class="col-md-6">
+
+                                  <p class="pb-3">Cancelation deadline: {{accommodationRequest.newAccommodation.reservationCancellationDeadline}}</p>
+
+                              </div>
+
+                          </div>
+
+                          <div class="row">
+
+                              <div class="col-md-6">
+
+                                  <p class="pb-3">Availabilty start: {{accommodationRequest.newAccommodation.availabilityStart}}</p>
+
+                              </div>
+
+                              <div class="col-md-6">
+
+                                  <p class="pb-3">Availabilty end: {{accommodationRequest.newAccommodation.availabilityEnd}}</p>
+
+                              </div>
+
+                          </div>
+
+                          <div class="row">
+
+                              <div class="col-md-6">
+
+                                  <p class="pb-3">Price: {{accommodationRequest.newAccommodation.price}} €</p>
+
+                              </div>
+
+                              <div class="col-md-6">
+
+                                  <div class="row">
+
+                                      <legend class="col-form-label col-sm-4 px-0 pt-0">Pricing</legend>
+
+                                      <div class="col-sm-8 px-0">
+
+                                          <div class="form-check">
+
+                                              <input class="form-check-input" id="isPriceByGuest"
+                                                  type="radio" value="perGuest"
+                                                  formControlName="pricing"
+                                                  [checked]="accommodationRequest.newAccommodation.isPriceByGuest"
+                                                  disabled>
+
+                                              <label class="form-check-label" for="isPriceByGuest">Per guest</label>
+
+                                          </div>
+
+                                          <div class="form-check">
+
+                                              <input class="form-check-input" id="isPricePerDay"
+                                                  type="radio" value="perDay"
+                                                  formControlName="pricing"
+                                                  [checked]="!accommodationRequest.newAccommodation.isPriceByGuest"
+                                                  disabled>
+
+                                              <label class="form-check-label" for="isPricePerDay">Per day</label>
+
+                                          </div>
+
+                                      </div>
+
+                                  </div>
+
+                              </div>
+
+                          </div>
+
+                      </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+</div>
