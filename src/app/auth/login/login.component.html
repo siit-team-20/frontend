@@ -1,19 +1,22 @@
 <div class="container">
     <h2 class="text-center pt-5 mt-3">Log In</h2>
     <div class="row justify-content-center align-items-center">
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="needs-validation form" novalidate>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="needs-validation w-50" novalidate>
             <div class="form-group">
                 <label for="email" class="">Email:</label><br>
-                <input type="email" formControlName="email" name="email" id="email" class="form-control" required>
-                <div class="invalid-feedback">This input is not valid!</div>
+                <input type="email" name="email" id="email" class="form-control" formControlName="email"
+                    placeholder="name@example.com" required>
+                <div class=" invalid-feedback">This input is not valid!
+                </div>
             </div>
             <div class="form-group">
                 <label for="password" class="">Password:</label><br>
-                <input type="password" formControlName="password" name="password" id="password" class="form-control" required>
+                <input type="password" name="password" id="password" class="form-control" formControlName="password"
+                    minlength="5" placeholder="Password" required>
                 <div class="invalid-feedback">This input is not valid!</div>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary w-100">Log In</button>
+                <button type="submit" class="btn btn-primary mt-2 w-100">Log In</button>
                 <div id="register-link" class="text-right mt-3">
                     <a [routerLink]="['/auth/register']" class="text-info">Register here</a>
                 </div><br>
