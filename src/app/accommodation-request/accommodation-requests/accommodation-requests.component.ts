@@ -23,7 +23,7 @@ export class AccommodationRequestsComponent {
     ).subscribe(data => this.accommodationRequests = data);
   }
 
-  removeItem(ids: any): void {
+  rejectCreateRequest(ids: any): void {
     this.http.delete(
       "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
     ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
@@ -32,7 +32,28 @@ export class AccommodationRequestsComponent {
     ).subscribe();
   }
 
-  approveItem(ids: any): void {
+  approveCreateRequest(ids: any): void {
+    this.http.delete(
+      "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
+    ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
+    ids.accommodation.isApproved = true;
+    this.http.put(
+      "http://localhost:8080/api/accommodations/" + ids.accommodation.id,
+      ids.accommodation,
+      ids.accommodation.id
+    ).subscribe();
+  }
+
+  rejectUpdateRequest(ids: any): void {
+    this.http.delete(
+      "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
+    ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
+    this.http.delete(
+      "http://localhost:8080/api/accommodations/" + ids.accommodationId,
+    ).subscribe();
+  }
+
+  approveUpdateRequest(ids: any): void {
     this.http.delete(
       "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
     ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
