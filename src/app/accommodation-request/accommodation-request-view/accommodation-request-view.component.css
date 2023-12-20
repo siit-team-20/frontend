@@ -29,3 +29,13 @@ p {
   border-bottom: 2px dotted black;
   margin: 5px 10px 5px 10px;
 }
+
+.benefits {
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.list-group {
+  max-height: 100px;
+}
