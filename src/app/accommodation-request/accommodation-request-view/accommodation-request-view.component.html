@@ -1,4 +1,4 @@
-<div class="card my-4">
+<div class="card my-4" *ngIf="accommodationRequest.type == 'Created'">
 
   <h4 class="card-header">{{accommodationRequest.newAccommodation.name}}</h4>
 
@@ -67,7 +67,146 @@
         <button (click)="removeItemEvent.emit({accommodationRequestId: accommodationRequest.id, accommodationId: accommodationRequest.newAccommodation.id})" type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
   
       </div>
+    
+    </div>
 
+  </div>
+
+</div>
+
+<div class="card my-4" *ngIf="accommodationRequest.type == 'Updated'">
+
+  <div class="row">
+
+    <div class="col-lg-6 px-0 border-right border-dark">
+
+      <h3 class="card-header text-center">Old information</h3>
+      <h4 class="card-header">{{accommodationRequest.oldAccommodation?.name}}</h4>
+
+      <div class="card-body">
+
+        <h5 class="card-title">{{accommodationRequest.oldAccommodation?.location}}</h5>
+    
+        <p class="card-text">
+          {{accommodationRequest.oldAccommodation?.description}}
+          <br><br>
+        </p>
+    
+        <div class="row justify-content-between">
+
+          <div class="col-lg-5 px-0">
+
+            <h5>Available</h5>
+            <div class="row d-flex">
+              <span>From:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.oldAccommodation?.availabilityStart}}</span>
+            </div>
+
+            <div class="row justify-content-between">
+              <span>To:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.oldAccommodation?.availabilityEnd}}</span>
+            </div>
+
+          </div>
+
+          <div class="col-lg-5 px-0">
+
+            <h5>Guests</h5>
+            <div class="row d-flex">
+              <span>Min. guests:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.oldAccommodation?.minGuests}}</span>
+            </div>
+
+            <div class="row justify-content-between">
+              <span>Max. guests:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.oldAccommodation?.maxGuests}}</span>
+            </div>
+
+          </div>
+
+        </div>
+      
+      </div>
+
+    </div>
+
+    <div class="col-lg-6 px-0">
+
+      <h3 class="card-header text-center">New information</h3>
+      <h4 class="card-header">{{accommodationRequest.newAccommodation.name}}</h4>
+
+      <div class="card-body">
+
+        <h5 class="card-title">{{accommodationRequest.newAccommodation.location}}</h5>
+          
+        <p class="card-text">
+          {{accommodationRequest.newAccommodation.description}}
+          <br><br>
+        </p>
+    
+        <div class="row justify-content-between">
+
+          <div class="col-lg-5 px-0">
+
+            <h5>Available</h5>
+            <div class="row d-flex">
+              <span>From:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.newAccommodation.availabilityStart}}</span>
+            </div>
+
+            <div class="row d-flex">
+              <span>To:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.newAccommodation.availabilityEnd}}</span>
+            </div>
+
+          </div>
+
+          <div class="col-lg-5 px-0">
+
+            <h5>Guests</h5>
+            <div class="row d-flex">
+              <span>Min. guests:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.newAccommodation.minGuests}}</span>
+            </div>
+
+            <div class="row d-flex">
+              <span>Max. guests:</span>
+              <span class="dotted"></span>
+              <span>{{accommodationRequest.newAccommodation.maxGuests}}</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="row justify-content-between card-body pt-0">
+
+    <div class="mt-4 pt-1 px-3 row">
+
+      <h5>Request type: {{accommodationRequest.type}} accommodation</h5>
+
+    </div>
+
+    <div>
+
+      <button (click)="approveItemEvent.emit({accommodationRequestId: accommodationRequest.id, accommodation: accommodationRequest.newAccommodation})" type="button" class="btn btn-success mx-3 mt-4 mb-2">Approve</button>
+      <button (click)="removeItemEvent.emit({accommodationRequestId: accommodationRequest.id, accommodationId: accommodationRequest.newAccommodation.id})" type="button" class="btn btn-danger mx-3 mt-4 mb-2">Reject</button>
+
+    </div>
+  
   </div>
 
 </div>
