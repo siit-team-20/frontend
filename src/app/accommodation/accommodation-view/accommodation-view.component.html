@@ -20,8 +20,9 @@
                     </div>
 
                     <!-- Modal -->
-                    <div class="modal fade" [attr.id]="'accommodationModal'+accommodation.id" tabindex="-1" role="dialog"
-                        [attr.aria-labelledby]="'accommodationModalLabel'+accommodation.id" aria-hidden="true">
+                    <div class="modal fade" [attr.id]="'accommodationModal'+accommodation.id" tabindex="-1"
+                        role="dialog" [attr.aria-labelledby]="'accommodationModalLabel'+accommodation.id"
+                        aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -67,7 +68,6 @@
                                                     </div>
                                                 </div>
 
-                                                <p>Location:</p>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <p>Location: {{accommodation.location}}</p>
@@ -90,13 +90,32 @@
                                                         <p>Price: {{accommodation.price}} €</p>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <div class="form-check">
-                                                            <label class="form-check-label" for="check1">
-                                                                <input type="checkbox" readonly="true"
-                                                                    onclick="return false;" class="form-check-input"
-                                                                    id="check1" name="option1" value="false" checked>Is
-                                                                price by guest
-                                                            </label>
+                                                        <div class="row">
+                                                            <legend class="col-form-label col-sm-4 pt-0">Pricing
+                                                            </legend>
+                                                            <div class="col-sm-8">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" id="isPriceByGuest"
+                                                                        type="radio" value="perGuest"
+                                                                        formControlName="pricing"
+                                                                        [checked]="accommodation.isPriceByGuest"
+                                                                        disabled>
+                                                                    <label class="form-check-label"
+                                                                        for="isPriceByGuest">
+                                                                        Per guest
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" id="isPricePerDay"
+                                                                        type="radio" value="perDay"
+                                                                        formControlName="pricing"
+                                                                        [checked]="!accommodation.isPriceByGuest"
+                                                                        disabled>
+                                                                    <label class="form-check-label" for="isPricePerDay">
+                                                                        Per day
+                                                                    </label>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -115,4 +134,3 @@
             </div>
         </div>
     </div>
-</div>

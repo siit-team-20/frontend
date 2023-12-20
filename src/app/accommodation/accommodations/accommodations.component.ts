@@ -21,5 +21,6 @@ export class AccommodationsComponent {
       "http://localhost:8080/api/accommodations"
     ).subscribe(data => this.accommodations = data);
   }
+  searchText = '';
 
 }
