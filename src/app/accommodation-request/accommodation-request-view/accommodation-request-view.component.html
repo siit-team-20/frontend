@@ -1,4 +1,4 @@
-<div class="card my-4" *ngIf="accommodationRequest.type == 'Created'" data-toggle="modal" [attr.data-target]="'#createdRequestModal'+accommodationRequest.id">
+<div class="card my-5" *ngIf="accommodationRequest.type == 'Created'" data-toggle="modal" [attr.data-target]="'#createdRequestModal'+accommodationRequest.id">
 
   <h4 class="card-header">{{accommodationRequest.newAccommodation.name}}</h4>
 
@@ -241,7 +241,7 @@
     
 </div>
 
-<div class="card my-4" *ngIf="accommodationRequest.type == 'Updated'" data-toggle="modal" [attr.data-target]="'#updatedRequestModal'+accommodationRequest.id">
+<div class="card my-5" *ngIf="accommodationRequest.type == 'Updated'" data-toggle="modal" [attr.data-target]="'#updatedRequestModal'+accommodationRequest.id">
 
   <div class="row">
 
