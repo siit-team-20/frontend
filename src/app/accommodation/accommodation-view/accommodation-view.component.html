@@ -2,17 +2,22 @@
     <div class="card">
         <div class="card-body shadow" data-toggle="modal" data-target="#exampleModal">
             <h4 class="card-title">{{accommodation.name}}, {{accommodation.accommodationType}}</h4>
-            <p class="card-text">{{accommodation.description}}</p>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-5">
-                        {{accommodation.price}} €
+            <div class="row">
+                <div class="col-md-3">
+                    <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid border">
+                </div>
+                <div class="col-md-9">
+                    <p class="card-text py-3">{{accommodation.description}}</p>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-5">
+                                {{accommodation.price}} €
+                            </div>
+                            <div class="col-md-5">
+                                {{accommodation.location}}
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-5">
-                        {{accommodation.location}}
-                    </div>
-
-
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
@@ -62,6 +67,7 @@
                                                     </div>
                                                 </div>
 
+                                                <p>Location:</p>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <p>Location: {{accommodation.location}}</p>
@@ -84,43 +90,26 @@
                                                         <p>Price: {{accommodation.price}} €</p>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <div class="row">
-                                                            <legend class="col-form-label col-sm-4 pt-0">Pricing
-                                                            </legend>
-                                                            <div class="col-sm-8">
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" id="isPriceByGuest"
-                                                                        type="radio" value="perGuest"
-                                                                        formControlName="pricing"
-                                                                        [checked]="accommodation.isPriceByGuest"
-                                                                        disabled>
-                                                                    <label class="form-check-label"
-                                                                        for="isPriceByGuest">
-                                                                        Per guest
-                                                                    </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" id="isPricePerDay"
-                                                                        type="radio" value="perDay"
-                                                                        formControlName="pricing"
-                                                                        [checked]="!accommodation.isPriceByGuest"
-                                                                        disabled>
-                                                                    <label class="form-check-label" for="isPricePerDay">
-                                                                        Per day
-                                                                    </label>
-                                                                </div>
-                                                            </div>
+                                                        <div class="form-check">
+                                                            <label class="form-check-label" for="check1">
+                                                                <input type="checkbox" readonly="true"
+                                                                    onclick="return false;" class="form-check-input"
+                                                                    id="check1" name="option1" value="false" checked>Is
+                                                                price by guest
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 </div>
+
+
+
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button data-dismiss="modal"
-                                        [routerLink]="['/accommodation/update',accommodation.id]" type="button"
-                                        class="btn btn-primary">Update</button>
+                                    <button type="button" class="btn btn-primary">Update</button>
                                     <button type="button" class="btn btn-primary">Make a Reservation</button>
                                 </div>
                             </div>
