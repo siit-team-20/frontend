@@ -4,12 +4,14 @@ import { AccommodationRequestsComponent } from './accommodation-request/accommod
 import { AccommodationCreateComponent } from './accommodation/accommodation-create/accommodation-create.component';
 import { AccommodationsComponent } from './accommodation/accommodations/accommodations.component';
 import { AccommodationUpdateComponent } from './accommodation/accommodation-update/accommodation-update.component';
+import { LoginComponent } from './auth/login/login.component';
 
 const routes: Routes = [
   { component: AccommodationRequestsComponent, path: "accommodation/requests" },
   { component: AccommodationCreateComponent, path: "accommodation/create" },
   { component: AccommodationsComponent, path: "accommodation/accommodations" },
-  { component: AccommodationUpdateComponent, path: "accommodation/update/:id" }
+  { component: AccommodationUpdateComponent, path: "accommodation/update/:id" },
+  { component: LoginComponent, path: "auth/login" }
 ];
 
 @NgModule({

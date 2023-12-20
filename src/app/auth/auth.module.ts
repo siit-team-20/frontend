@@ -7,10 +7,10 @@ import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
-    LoginComponent,
     RegistrationComponent
   ],
   imports: [
+    LoginComponent,
     CommonModule
   ]
 })
