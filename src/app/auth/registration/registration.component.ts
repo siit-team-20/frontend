@@ -18,12 +18,13 @@ export class RegistrationComponent {
   constructor(private http: HttpClient, private formBuilder: FormBuilder) {
     this.registerForm = this.formBuilder.group({
       email: ["", Validators.compose([Validators.required, Validators.email])],
-      password: ["", [Validators.required]],
-      confirmPassword: ["", [Validators.required]],
+      password: ["", Validators.compose([Validators.required, Validators.minLength(5)])],
+      confirmPassword: ["", Validators.compose([Validators.required, Validators.minLength(5)])],
       name: ["", [Validators.required]],
       surname: ["", [Validators.required]],
       address: ["", [Validators.required]],
-      phone: ["", Validators.compose([Validators.required, Validators.minLength(9), Validators.maxLength(10)])]
+      phone: ["", Validators.compose([Validators.required, Validators.minLength(9), Validators.maxLength(10)])],
+      type: ["Guest", [Validators.required]]
     });
   }
 
