@@ -3,6 +3,7 @@ import { Accommodation, AccommodationTypeMapping, AccommodationType } from '../m
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
 
 @Component({
   selector: 'app-accommodation-create',
@@ -51,7 +52,17 @@ export class AccommodationCreateComponent {
       this.http.post<Accommodation>(
         "http://localhost:8080/api/accommodations",
         accommodation
-      ).subscribe(data => this.newDataEvent.emit(data));
+      ).subscribe({
+        next: accommodation => {
+          const accommodationRequest = new AccommodationRequest(null, null, accommodation, "Created");
+          this.http.post<AccommodationRequest>(
+            "http://localhost:8080/api/accommodations/requests",
+            accommodationRequest
+          ).subscribe();
+        }
+      });
+
+      
     }
     form.classList.add('was-validated');
 

@@ -4,6 +4,7 @@ import { Accommodation, AccommodationTypeMapping, AccommodationType } from '../m
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
 
 @Component({
   selector: 'app-accommodation-update',
@@ -22,6 +23,7 @@ export class AccommodationUpdateComponent implements OnInit {
   @Output() updateDataEvent = new EventEmitter();
 
   updateForm: FormGroup;
+  oldAccommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Date(), new Date(), "", 0, 0);
   route: ActivatedRoute = inject(ActivatedRoute);
   accommodationId = -1;
 
@@ -68,6 +70,7 @@ export class AccommodationUpdateComponent implements OnInit {
           this.updateForm.controls["pricing"].setValue("perDay");
         }
         this.updateForm.controls["reservationCancellationDeadline"].setValue(accommodation.reservationCancellationDeadline);
+        this.oldAccommodation = accommodation;
       }
     });
   }
@@ -77,11 +80,27 @@ export class AccommodationUpdateComponent implements OnInit {
     if (!(form.checkValidity() === false)) {
 
       const submitData = { ...this.updateForm.value };
-      const accommodation = new Accommodation(this.accommodationId, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, submitData.availabilityStart!, submitData.availabilityEnd!, submitData.pricing!, submitData.price!, submitData.reservationCancellationDeadline!);
-      accommodation.isApproved = false;
+      const newAccommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, submitData.availabilityStart!, submitData.availabilityEnd!, submitData.pricing!, submitData.price!, submitData.reservationCancellationDeadline!);
+      newAccommodation.isApproved = false;
+      this.http.post<Accommodation>(
+        "http://localhost:8080/api/accommodations",
+        newAccommodation,
+      ).subscribe({
+        next: newAccommodation => {
+          const accommodationRequest = new AccommodationRequest(null, this.oldAccommodation, newAccommodation, "Updated");
+          console.log(newAccommodation);
+          console.log(accommodationRequest);
+          this.http.post<AccommodationRequest>(
+            "http://localhost:8080/api/accommodations/requests",
+            accommodationRequest
+          ).subscribe();
+        }
+      });
+
+      this.oldAccommodation.isApproved = false;
       this.http.put<Accommodation>(
         "http://localhost:8080/api/accommodations/" + this.accommodationId,
-        accommodation,
+        this.oldAccommodation,
       ).subscribe();
     }
     form.classList.add('was-validated');

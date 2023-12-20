@@ -49,7 +49,13 @@ export class AccommodationRequestsComponent {
       "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
     ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
     this.http.delete(
-      "http://localhost:8080/api/accommodations/" + ids.accommodationId,
+      "http://localhost:8080/api/accommodations/" + ids.newAccommodation.id,
+    ).subscribe();
+    ids.oldAccommodation.isApproved = true;
+    this.http.put(
+      "http://localhost:8080/api/accommodations/" + ids.oldAccommodation.id,
+      ids.oldAccommodation,
+      ids.oldAccommodation.id
     ).subscribe();
   }
 
@@ -57,11 +63,14 @@ export class AccommodationRequestsComponent {
     this.http.delete(
       "http://localhost:8080/api/accommodations/requests/" + ids.accommodationRequestId,
     ).subscribe(data => this.accommodationRequests = this.accommodationRequests.filter((accommodationRequest: AccommodationRequest) => accommodationRequest.id != ids.accommodationRequestId));
-    ids.accommodation.isApproved = true;
+    this.http.delete(
+      "http://localhost:8080/api/accommodations/" + ids.oldAccommodation.id,
+    ).subscribe();
+    ids.newAccommodation.isApproved = true;
     this.http.put(
-      "http://localhost:8080/api/accommodations/" + ids.accommodation.id,
-      ids.accommodation,
-      ids.accommodation.id
+      "http://localhost:8080/api/accommodations/" + ids.newAccommodation.id,
+      ids.newAccommodation,
+      ids.newAccommodation.id
     ).subscribe();
   }
 

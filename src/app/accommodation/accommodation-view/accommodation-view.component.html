@@ -100,16 +100,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-
-
-
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button [routerLink]="['/accommodation/update', accommodation.id]" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-primary">Update</button>
+                                    <button [disabled]="!accommodation.isApproved" [routerLink]="['/accommodation/update', accommodation.id]" data-dismiss="modal" aria-label="Close" type="button" class="btn btn-primary">Update</button>
                                     <button type="button" class="btn btn-primary">Make a Reservation</button>
                                 </div>
                             </div>
