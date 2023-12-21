@@ -5,6 +5,7 @@ import { Accommodation } from '../model/accommodation';
 import { AccommodationViewComponent } from '../accommodation-view/accommodation-view.component';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../search.pipe';
+import { AxiosService } from '../../axios.service';
 
 @Component({
   selector: 'app-accommodations',
@@ -16,14 +17,17 @@ import { SearchPipe } from '../search.pipe';
 export class AccommodationsComponent {
 
   accommodations: Accommodation[] = [];
-  constructor(private http: HttpClient) { }
-
-  
+  constructor(private axiosService: AxiosService) { }
 
   ngOnInit(): void {
-    this.http.get<Accommodation[]>(
-      "http://localhost:8080/api/accommodations"
-    ).subscribe(data => this.accommodations = data);
+    this.axiosService.request(
+      "GET",
+      "/api/accommodations",
+      {}
+      ).then(
+      response => {
+          this.accommodations = response.data;
+      });
   }
  
   // searchtext:any={location: '',

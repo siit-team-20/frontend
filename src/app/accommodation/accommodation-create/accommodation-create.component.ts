@@ -3,6 +3,8 @@ import { Accommodation, AccommodationTypeMapping, AccommodationType } from '../m
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
+import { AxiosService } from '../../axios.service';
 
 @Component({
   selector: 'app-accommodation-create',
@@ -22,10 +24,10 @@ export class AccommodationCreateComponent {
 
   createForm: FormGroup;
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private axiosService: AxiosService) {
 
     this.createForm = this.formBuilder.group({
-      ownerEmail: ["", [Validators.required, Validators.email]],
+      ownerEmail: ["", Validators.compose([Validators.required, Validators.email])],
       name: ["", [Validators.required]],
       location: ["", [Validators.required]],
       description: ["", [Validators.required]],
@@ -48,11 +50,21 @@ export class AccommodationCreateComponent {
 
       const submitData = { ...this.createForm.value };
       const accommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, submitData.availabilityStart!, submitData.availabilityEnd!, submitData.pricing!, submitData.price!, submitData.reservationCancellationDeadline!);
-      this.http.post<Accommodation>(
-        "http://localhost:8080/api/accommodations",
-        accommodation
-      ).subscribe(data => this.newDataEvent.emit(data));
-    }
+      
+      this.axiosService.request(
+		    "POST",
+		    "/api/accommodations",
+		    accommodation
+        ).then(
+		    response => {
+            const accommodationRequest = new AccommodationRequest(null, null, response.data as Accommodation, "Created");
+            this.axiosService.request(
+              "POST",
+              "/api/accommodations/requests",
+              accommodationRequest
+            )
+		    });
+      }
     form.classList.add('was-validated');
 
   }

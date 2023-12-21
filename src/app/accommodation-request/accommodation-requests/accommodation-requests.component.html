@@ -8,8 +8,10 @@
   
         <app-accommodation-request-view *ngFor="let accommodationRequest of accommodationRequests"
           [accommodationRequest]="accommodationRequest"
-          (removeItemEvent)="removeItem($event)"
-          (approveItemEvent)="approveItem($event)">
+          (rejectCreateRequestEvent)="rejectCreateRequest($event)"
+          (approveCreateRequestEvent)="approveCreateRequest($event)"
+          (rejectUpdateRequestEvent)="rejectUpdateRequest($event)"
+          (approveUpdateRequestEvent)="approveUpdateRequest($event)">
         </app-accommodation-request-view>
   
       </div>
