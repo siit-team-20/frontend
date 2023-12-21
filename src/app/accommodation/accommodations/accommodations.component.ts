@@ -32,7 +32,7 @@ export class AccommodationsComponent {
 
 
   searchtext: string  = '';
-  searchnumber: string = '';
+  searchnumber: number = 0;
   searchprice: string ='';
   searchtype: string =''; 
   searchbenefits: any[] = [""];
