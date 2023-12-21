@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators } 
 import { User, UserType, UserTypeMapping } from '../model/user';
 import { CommonModule } from '@angular/common';
 import { AxiosService } from '../../axios.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -16,7 +17,7 @@ export class RegistrationComponent {
 
   registerForm: FormGroup;
 
-  constructor(private axiosService: AxiosService, private formBuilder: FormBuilder) {
+  constructor(private axiosService: AxiosService, private formBuilder: FormBuilder, private router: Router) {
     this.registerForm = this.formBuilder.group({
       email: ["", Validators.compose([Validators.required, Validators.email])],
       password: ["", Validators.compose([Validators.required, Validators.minLength(5)])],
@@ -46,6 +47,7 @@ export class RegistrationComponent {
         ).then(
 		    response => {
 		        this.axiosService.setAuthToken(response.data.token);
+            this.router.navigate(['/accommodation/accommodations']);
 		    }).catch(
 		    error => {
 		        this.axiosService.setAuthToken(null);
