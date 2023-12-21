@@ -5,15 +5,15 @@
             <input class="form-control" type="text" placeholder="Search" [(ngModel)]="searchtext">
         </div>
         <div class="col-md-3">
-            <input class="form-control" type="text" placeholder="Number of guests" [(ngModel)]="searchnumber">
+            <input class="form-control" type="number" placeholder="Number of guests" [(ngModel)]="searchnumber">
         </div>
     
         <div class="col-md-2">
             
-             <input class="form-control datepicker" [(ngModel)]="searchstartdate" placeholder="Starting date" type="date" id="birthday">
+             <input class="form-control datepicker" [(ngModel)]="searchstartdate"  type="date" id="startDate">
         </div>
         <div class="col-md-2">
-            <input class="form-control datepicker" [(ngModel)]="searchenddate" placeholder="Starting date" type="date" id="birthday">
+            <input class="form-control datepicker" [(ngModel)]="searchenddate" type="date" id="endDate">
         </div>
         
     </div>
