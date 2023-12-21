@@ -1,26 +1,20 @@
-import { CanActivateFn, Route } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivateFn, Route, RouterStateSnapshot } from '@angular/router';
 import { AxiosService } from '../axios.service';
-import { Injectable, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserType } from './model/user';
 
+export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
 
-@Injectable()
-class AuthGuard {
-  constructor(private router: Router, private axiosService: AxiosService) {}
-}
+  const router: Router = inject(Router);
+  const user: any = inject(AxiosService).getUser();
 
-export const authGuard: CanActivateFn = (route, state) => {
-
-  const userRole: UserType = inject(AxiosService).getUser()?.type!;
-
-  if (userRole == null) {
-    inject(Router).navigate(['/auth/login']);
-  }
-  if (!route.data['role'].includes(userRole)) {
-    inject(Router).navigate(['/accommodation/accommodations']);
+  if (user == null) {
+    router.navigate(['auth/login']);
     return false;
   }
-
+  if (!route.data['role'].includes(user["type"])) {
+    router.navigate(['']);
+    return false;
+  }
   return true;
 };

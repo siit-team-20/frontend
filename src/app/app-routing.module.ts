@@ -8,16 +8,17 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { User, UserType } from './auth/model/user';
 import { ProfileViewComponent } from './profile/profile-view/profile-view.component';
+import { authGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { component: AccommodationsComponent, path: "" },
-  { component: AccommodationRequestsComponent, path: "accommodation/requests", data: {role: [UserType.Admin]} },
-  { component: AccommodationCreateComponent, path: "accommodation/create", data: {role: [UserType.Owner]} },
-  { component: AccommodationsComponent, path: "accommodation/accommodations", data: {role: [UserType.Admin, UserType.Guest, UserType.Owner]} },
-  { component: AccommodationUpdateComponent, path: "accommodation/update/:id", data: {role: [UserType.Owner]} },
+  { component: AccommodationRequestsComponent, path: "accommodation/requests", data: {role: [UserType.Admin]}, canActivate: [authGuard] },
+  { component: AccommodationCreateComponent, path: "accommodation/create", data: {role: [UserType.Owner]}, canActivate: [authGuard] },
+  { component: AccommodationsComponent, path: "accommodation/accommodations" },
+  { component: AccommodationUpdateComponent, path: "accommodation/update/:id", data: {role: [UserType.Owner]}, canActivate: [authGuard] },
   { component: LoginComponent, path: "auth/login" },
   { component: RegistrationComponent, path: "auth/register" },
-  { component: ProfileViewComponent, path: "profile"}
+  { component: ProfileViewComponent, path: "profile", data: {role: [UserType.Admin, UserType.Guest, UserType.Owner]}, canActivate: [authGuard]}
 ];
 
 @NgModule({
