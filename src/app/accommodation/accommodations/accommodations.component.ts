@@ -29,21 +29,15 @@ export class AccommodationsComponent {
           this.accommodations = response.data;
       });
   }
- 
-  // searchtext:any={location: '',
-  //   name: ''};
 
-    // searchtext:any;
-    //  searchnumber:any;
 
   searchtext: string  = '';
   searchnumber: string = '';
-  searchprice:string='';
+  searchprice: string ='';
+  searchtype: string =''; 
+  searchbenefits: any[] = [""];
+  searchstartdate: string='';
+  searchenddate: string='';
 
-
-  // filterCriteria: any = {
-  //   location: '',
-  //   name: ''
-  // };
 
 }
