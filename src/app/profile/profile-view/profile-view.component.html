@@ -15,7 +15,7 @@
             <div class="card mb-4">
                 <div class="card-header">Account Details</div>
                 <div class="card-body">
-                    <form>
+                    <form [formGroup]="profileForm">
                         <!-- Form Group (username)-->
                         
                         <!-- Form Row-->
@@ -23,25 +23,25 @@
                             <!-- Form Group (first name)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="inputFirstName">First name</label>
-                                <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="Valerie">
+                                <input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" readonly name="firstName" formControlName="firstName">
                             </div>
                             <!-- Form Group (last name)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="inputLastName">Last name</label>
-                                <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" value="Luna">
+                                <input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" name="lastName" readonly formControlName="lastName">
                             </div>
                         </div>
                         <!-- Form Row        -->
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (organization name)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputOrgName">Email address</label>
-                                <input class="form-control" id="inputOrgName" type="text" placeholder="Enter your email address" value="Start Bootstrap">
+                                <label class="small mb-1" for="inputEmail">Email address</label>
+                                <input class="form-control" id="inputEmail" type="text" placeholder="Enter your email address" name="email" readonly formControlName="email">
                             </div>
                             <!-- Form Group (location)-->
                             <div class="col-md-6">
                                 <label class="small mb-1" for="inputLocation">Location</label>
-                                <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="San Francisco, CA">
+                                <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" readonly name="location" formControlName="location">
                             </div>
                         </div>
 
@@ -49,7 +49,7 @@
                             <!-- Form Group (phone number)-->
                             <div class="col-md-12">
                                 <label class="small mb-1" for="inputPhone">Phone number</label>
-                                <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="555-123-4567">
+                                <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" readonly name="phone" formControlName="phone">
                             </div>
                             <!-- Form Group (birthday)-->
                             
@@ -58,13 +58,13 @@
                         <div class="row gx-3 mb-3">
                             <!-- Form Group (organization name)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputOrgName">New password</label>
-                                <input class="form-control" id="inputOrgName" type="text" placeholder="Enter your email address" value="Start Bootstrap">
+                                <label class="small mb-1" for="inputPassword">New password</label>
+                                <input class="form-control" id="inputPassword" type="password" placeholder="Enter your password" readonly name="password" formControlName="password">
                             </div>
                             <!-- Form Group (location)-->
                             <div class="col-md-6">
-                                <label class="small mb-1" for="inputLocation">Confirm password</label>
-                                <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="San Francisco, CA">
+                                <label class="small mb-1" for="inputConfirmPassword">Confirm password</label>
+                                <input class="form-control" id="inputConfirmPassword" type="password" placeholder="Confirm password" readonly name="confirmPassword" formControlName="confirmPassword">
                             </div>
                         </div>
                         <!-- Form Group (email address)-->
@@ -72,7 +72,7 @@
                         <!-- Form Row-->
                         
                         <!-- Save changes button-->
-                        <button class="btn btn-primary" type="button">Save changes</button>
+                        <button class="btn btn-primary" type="button" disabled>Save changes</button>
                     </form>
                 </div>
             </div>

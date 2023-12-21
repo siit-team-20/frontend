@@ -7,6 +7,7 @@ import { AccommodationUpdateComponent } from './accommodation/accommodation-upda
 import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { User, UserType } from './auth/model/user';
+import { ProfileViewComponent } from './profile/profile-view/profile-view.component';
 
 const routes: Routes = [
   { component: AccommodationsComponent, path: "" },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { component: AccommodationsComponent, path: "accommodation/accommodations", data: {role: [UserType.Admin, UserType.Guest, UserType.Owner]} },
   { component: AccommodationUpdateComponent, path: "accommodation/update/:id", data: {role: [UserType.Owner]} },
   { component: LoginComponent, path: "auth/login" },
-  { component: RegistrationComponent, path: "auth/register" }
+  { component: RegistrationComponent, path: "auth/register" },
+  { component: ProfileViewComponent, path: "profile"}
 ];
 
 @NgModule({
