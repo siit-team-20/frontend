@@ -63,8 +63,8 @@ transform(items: any[], filters: any): any[]{
     const priceMatch = filters.price === '' || (item.price >= minPrice && item.price <= maxPrice);
     const typeMatch = filters.type === '' || item.accommodationType.toLowerCase().includes(filters.type.toLowerCase());
     const benefitsMatch = filters.benefits[0] === '' || containsAllElements(item.benefits, filters.benefits);
-    const startDateMatch = item.availabilityStart === '' || (item.availabilityStart <= filters.start && item.availabilityEnd >= filters.start);
-    const endDateMatch = item.availabilityEnd === '' || (item.availabilityEnd >= filters.end && item.availabilityStart <= filters.end);
+    const startDateMatch = filters.start === '' || (item.availabilityStart <= filters.start && item.availabilityEnd >= filters.start);
+    const endDateMatch = filters.end === '' || (item.availabilityEnd >= filters.end && item.availabilityStart <= filters.end);
 
     return locationMatch && guestsMatch && priceMatch && typeMatch && benefitsMatch && startDateMatch && endDateMatch;
 
