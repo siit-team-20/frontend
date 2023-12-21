@@ -10,10 +10,10 @@
     
         <div class="col-md-2">
             
-             <input class="form-control datepicker" placeholder="Starting date" type="date" id="birthday">
+             <input class="form-control datepicker" [(ngModel)]="searchstartdate" placeholder="Starting date" type="date" id="birthday">
         </div>
         <div class="col-md-2">
-            <input class="form-control datepicker" placeholder="Starting date" type="date" id="birthday">
+            <input class="form-control datepicker" [(ngModel)]="searchenddate" placeholder="Starting date" type="date" id="birthday">
         </div>
         
     </div>
@@ -27,18 +27,12 @@
             <div class="row p-5">
                 <div class="col-md-4">
                     <h5 class="text-center">Benefits</h5>
-                    <select class="form-control" size="5" aria-label="size 3 select example" multiple>
-                        <option selected>None</option>
-                        <option value="tv">TV</option>
-                        <option value="wifi">WIFI</option>
-                        <option value="parking">Parking</option>
-                        <option value="tv">TV</option>
-                        <option value="wifi">WIFI</option>
-                        <option value="parking">Parking</option>
-                        <option value="tv">TV</option>
-                        <option value="wifi">WIFI</option>
-                        <option value="parking">Parking</option>
-                        
+                    <select class="form-control" size="5" [(ngModel)]="searchbenefits" aria-label="size 3 select example" multiple>
+                        <option selected value="">None</option>
+                        <option value="TV">TV</option>
+                        <option value="WI-FI">WI-FI</option>
+                        <option value="PARKING">Parking</option>
+                        <option value="BAZEN">Bazen</option>
                       </select> 
                 </div>
                 
@@ -54,7 +48,7 @@
                 </div>
                 <div class="col-md-4">
                     <h5 class="text-center">Type</h5>
-                    <select class="form-control" size="5" aria-label="size 3 select example" multiple>
+                    <select class="form-control" size="5" aria-label="size 3 select example" [(ngModel)]="searchtype" >
                         <option selected value="">None </option>
                         <option value="Hotel">Hotel </option>
                         <option value="Apartment">Apartment</option>
@@ -70,7 +64,7 @@
     <div class="accommodations">
         
         
-        <app-accommodation-view *ngFor="let accommodation of accommodations | search: { location: searchtext, guests: searchnumber, price: searchprice }"
+        <app-accommodation-view *ngFor="let accommodation of accommodations | search: { location: searchtext, guests: searchnumber, price: searchprice, type: searchtype, benefits: searchbenefits, start: searchstartdate, end: searchenddate }"
             [accommodation]="accommodation"></app-accommodation-view>
 
     </div>
