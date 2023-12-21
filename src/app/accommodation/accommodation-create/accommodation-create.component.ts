@@ -24,10 +24,10 @@ export class AccommodationCreateComponent {
 
   createForm: FormGroup;
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder, private axiosService: AxiosService) {
+  constructor(private formBuilder: FormBuilder, private axiosService: AxiosService) {
 
     this.createForm = this.formBuilder.group({
-      ownerEmail: ["", Validators.compose([Validators.required, Validators.email])],
+      ownerEmail: [axiosService.getEmail(), Validators.compose([Validators.required, Validators.email])],
       name: ["", [Validators.required]],
       location: ["", [Validators.required]],
       description: ["", [Validators.required]],

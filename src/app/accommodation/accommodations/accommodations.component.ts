@@ -6,6 +6,7 @@ import { AccommodationViewComponent } from '../accommodation-view/accommodation-
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../search.pipe';
 import { AxiosService } from '../../axios.service';
+import { UserType } from '../../auth/model/user';
 
 @Component({
   selector: 'app-accommodations',
@@ -20,9 +21,16 @@ export class AccommodationsComponent {
   constructor(private axiosService: AxiosService) { }
 
   ngOnInit(): void {
+
+    let query: string = "";
+    if (this.axiosService.getRole() == UserType.Owner)
+      query = "?ownerEmail=" + this.axiosService.getUser()["sub"];
+    else if (this.axiosService.getRole() != UserType.Admin)
+      query = "?onlyApproved=true";
+    
     this.axiosService.request(
       "GET",
-      "/api/accommodations",
+      "/api/accommodations"+query,
       {}
       ).then(
       response => {

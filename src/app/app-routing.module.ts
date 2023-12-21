@@ -9,6 +9,7 @@ import { RegistrationComponent } from './auth/registration/registration.componen
 import { User, UserType } from './auth/model/user';
 
 const routes: Routes = [
+  { component: AccommodationsComponent, path: "" },
   { component: AccommodationRequestsComponent, path: "accommodation/requests", data: {role: [UserType.Admin]} },
   { component: AccommodationCreateComponent, path: "accommodation/create", data: {role: [UserType.Owner]} },
   { component: AccommodationsComponent, path: "accommodation/accommodations", data: {role: [UserType.Admin, UserType.Guest, UserType.Owner]} },

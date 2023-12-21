@@ -42,12 +42,10 @@ export class LoginComponent {
         ).then(
 		    response => {
 		        this.axiosService.setAuthToken(response.data.token);
-            this.axiosService.setUser(response.data);
             this.router.navigate(['/accommodation/accommodations']);
 		    }).catch(
 		    error => {
 		        this.axiosService.setAuthToken(null);
-            this.axiosService.setUser(null);
 		    }
 		  );
 

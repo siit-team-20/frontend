@@ -16,7 +16,6 @@ export class NavbarComponent {
 
   logOut(): void {
     this.axiosService.setAuthToken(null);
-    this.axiosService.setUser(null);
     this.router.navigate(['auth/login']);
   }
 }

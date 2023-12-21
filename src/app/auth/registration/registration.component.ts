@@ -46,11 +46,9 @@ export class RegistrationComponent {
         ).then(
 		    response => {
 		        this.axiosService.setAuthToken(response.data.token);
-            this.axiosService.setUser(response.data);
 		    }).catch(
 		    error => {
 		        this.axiosService.setAuthToken(null);
-            this.axiosService.setUser(null);
 		    }
 		  );
 
