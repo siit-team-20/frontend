@@ -9,12 +9,10 @@ import { NavbarModule } from './navbar/navbar.module';
 import { AccommodationRequestModule } from './accommodation-request/accommodation-request.module';
 import { AccommodationUpdateComponent } from './accommodation/accommodation-update/accommodation-update.component';
 import { AccommodationModule } from './accommodation/accommodation.module';
-import { SearchPipe } from './search.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SearchPipe
+    AppComponent
   ],
   imports: [
     BrowserModule,

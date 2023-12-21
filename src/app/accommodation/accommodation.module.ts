@@ -4,6 +4,7 @@ import { AccommodationCreateComponent } from './accommodation-create/accommodati
 import { AccommodationViewComponent } from './accommodation-view/accommodation-view.component';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationUpdateComponent } from './accommodation-update/accommodation-update.component';
+import { SearchPipe } from './search.pipe';
 
 
 
@@ -15,10 +16,11 @@ import { AccommodationUpdateComponent } from './accommodation-update/accommodati
     AccommodationCreateComponent,
     AccommodationViewComponent,
     AccommodationsComponent,
-    AccommodationUpdateComponent
+    AccommodationUpdateComponent,
+    SearchPipe
   ],
   exports: [
-
+    
   ]
 })
 export class AccommodationModule { }
