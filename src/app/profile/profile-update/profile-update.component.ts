@@ -6,13 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User, UserType } from '../../auth/model/user';
 
 @Component({
-  selector: 'app-profile-view',
-  templateUrl: './profile-view.component.html',
-  styleUrl: './profile-view.component.css',
+  selector: 'app-profile-update',
+  templateUrl: './profile-update.component.html',
+  styleUrl: './profile-update.component.css',
   standalone: true,
   imports: [FormsModule, CommonModule, ReactiveFormsModule]
 })
-export class ProfileViewComponent {
+export class ProfileUpdateComponent {
 
   updateForm: FormGroup;
   route: ActivatedRoute = inject(ActivatedRoute);
