@@ -66,8 +66,12 @@ export class AccommodationUpdateComponent implements OnInit {
         this.updateForm.controls["maxGuests"].setValue(response.data.maxGuests);
         this.updateForm.controls["accommodationType"].setValue(response.data.accommodationType);
         this.updateForm.controls["benefits"].setValue(response.data.benefits.join(", "));
-        this.updateForm.controls["availabilityStart"].setValue(response.data.availabilityStart.join("-"));
-        this.updateForm.controls["availabilityEnd"].setValue(response.data.availabilityEnd.join("-"));
+        const startDateArray = response.data.availabilityStart;
+        const startDate = String(startDateArray[0]) + "-" + String(startDateArray[1]).padStart(2, "0") + "-" + String(startDateArray[2]).padStart(2, "0");
+        const endDateArray = response.data.availabilityEnd;
+        const endDate = String(endDateArray[0]) + "-" + String(endDateArray[1]).padStart(2, "0") + "-" + String(endDateArray[2]).padStart(2, "0");
+        this.updateForm.controls["availabilityStart"].setValue(startDate);
+        this.updateForm.controls["availabilityEnd"].setValue(endDate);
         this.updateForm.controls["price"].setValue(response.data.price);
         if (response.data.isPriceByGuest) {
           this.updateForm.controls["pricing"].setValue("perGuest");
