@@ -69,6 +69,35 @@
                 formControlName="price" min="1" required>
             <div class="invalid-feedback">This input is not valid!</div>
         </div>
+        <div *ngFor="let rangeId of rangeIds; index as i">
+            <hr class="my-4 bg-gray" *ngIf="i == 0">
+            <h5 class="mb-3">Availability range {{i + 2}}</h5>
+            <div class="form-group">
+                <label for="{{'availabilityStart' + rangeId}}">Availability start</label>
+                <input type="date" class="form-control" name="{{'availabilityStart' + rangeId}}" id="{{'availabilityStart' + rangeId}}"
+                    formControlName="{{'availabilityStart' + rangeId}}" required>
+                <div class="invalid-feedback">This input is not valid!</div>
+            </div>
+            <div class="form-group">
+                <label for="{{'availabilityEnd' + rangeId}}">Availability end</label>
+                <input type="date" class="form-control" name="{{'availabilityEnd' + rangeId}}" id="{{'availabilityEnd' + rangeId}}"
+                    formControlName="{{'availabilityEnd' + rangeId}}" required>
+                <div class="invalid-feedback">This input is not valid!</div>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" class="form-control" name="{{'price' + rangeId}}" id="{{'price' + rangeId}}" placeholder="Price"
+                    formControlName="{{'price' + rangeId}}" min="1" required>
+                <div class="invalid-feedback">This input is not valid!</div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button (click)="removeDateRange(rangeId)" class="btn btn-danger">Remove</button>
+            </div>
+            <hr class="my-4 bg-gray">
+        </div>
+        <div class="mb-3">
+            <a (click)="addNewDateRange()" class="link-primary">+ Add new availability range</a>
+        </div>
         <fieldset class="form-group">
             <div class="row">
                 <legend class="col-form-label col-sm-2 pt-0">Pricing</legend>
