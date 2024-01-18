@@ -1,5 +1,4 @@
 import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Accommodation, AccommodationTypeMapping, AccommodationType, DateRange } from '../model/accommodation';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -55,9 +54,9 @@ export class AccommodationUpdateComponent implements OnInit {
 
     this.axiosService.request(
       "GET",
-      "/api/accommodations/"+this.accommodationId,
+      "/api/accommodations/" + this.accommodationId,
       {}
-      ).then(
+    ).then(
       response => {
         this.updateForm.controls["ownerEmail"].setValue(response.data.ownerEmail);
         this.updateForm.controls["name"].setValue(response.data.name);
@@ -155,7 +154,7 @@ export class AccommodationUpdateComponent implements OnInit {
 
       this.axiosService.request(
         "PUT",
-        "/api/accommodations/"+this.accommodationId,
+        "/api/accommodations/" + this.accommodationId,
         this.oldAccommodation
       );
 
