@@ -12,7 +12,7 @@ import { User, UserType } from '../../auth/model/user';
   standalone: true,
   imports: [FormsModule, CommonModule, ReactiveFormsModule]
 })
-export class ProfileUpdateComponent {
+export class ProfileUpdateComponent implements OnInit {
 
   updateForm: FormGroup;
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -63,11 +63,10 @@ export class ProfileUpdateComponent {
             this.axiosService.setAuthToken(null);
           }
         );
+
+      this.router.navigate(["/profile"]);
     }
-
-
     form.classList.add('was-validated');
-
   }
 
 }

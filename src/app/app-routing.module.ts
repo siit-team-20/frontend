@@ -20,7 +20,7 @@ const routes: Routes = [
   { component: LoginComponent, path: "auth/login" },
   { component: RegistrationComponent, path: "auth/register" },
   { component: ProfileViewComponent, path: "profile", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard] },
-  { component: ProfileUpdateComponent, path: "profile/update", data: { role: [UserType.Guest, UserType.Owner] }, canActivate: [authGuard] }
+  { component: ProfileUpdateComponent, path: "profile/update/:email", data: { role: [UserType.Guest, UserType.Owner] }, canActivate: [authGuard] }
 ];
 
 @NgModule({
