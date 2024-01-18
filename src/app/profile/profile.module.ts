@@ -6,10 +6,11 @@ import { ProfileViewComponent } from './profile-view/profile-view.component';
 
 @NgModule({
   declarations: [
-    ProfileViewComponent
+    
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ProfileViewComponent
   ]
 })
 export class ProfileModule { }

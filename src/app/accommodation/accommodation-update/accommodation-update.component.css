@@ -21,3 +21,11 @@ h1 {
 .valid-feedback {
     color: #2acc80;
 }
+
+hr {
+    border: 1px solid rgba(0,0,0,.3);
+}
+
+.link-primary {
+    cursor: pointer;
+}

@@ -11,7 +11,6 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-5">
-                                {{accommodation.price}} €
                             </div>
                             <div class="col-md-5">
                                 {{accommodation.location}}
@@ -78,17 +77,17 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <p>Availabilty start: {{accommodation.availabilityStart}}</p>
+                                                    <div class="col-md-4" *ngFor="let availabilityRange of accommodation.availabilityDates;">
+                                                        <p>Availabilty start: {{availabilityRange.startDate}}</p>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <p>Availabilty end: {{accommodation.availabilityEnd}}</p>
+                                                    <div class="col-md-4" *ngFor="let availabilityRange of accommodation.availabilityDates;">
+                                                        <p>Availabilty end: {{availabilityRange.endDate}}</p>
+                                                    </div>
+                                                    <div class="col-md-4" *ngFor="let availabilityRange of accommodation.availabilityDates;">
+                                                        <p>Price: {{availabilityRange.price}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-md-6">
-                                                        <p>Price: {{accommodation.price}} €</p>
-                                                    </div>
                                                     <div class="col-md-6">
                                                         <div class="row">
                                                             <legend class="col-form-label col-sm-4 pt-0">Pricing

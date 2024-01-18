@@ -1,5 +1,5 @@
 import { Component, Input, Output } from '@angular/core';
-import { Accommodation } from '../model/accommodation';
+import { Accommodation, DateRange } from '../model/accommodation';
 import { EventEmitter } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ import { AxiosService } from '../../axios.service';
 export class AccommodationViewComponent {
   auth: AxiosService;
 
-  @Input() accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Date(), new Date(), "", 0, 0);
+  @Input() accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0);
   @Output() updateItemEvent = new EventEmitter();
 
   constructor(private axiosService: AxiosService) {

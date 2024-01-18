@@ -4,6 +4,7 @@ export enum AccommodationType {
     Motel = "Motel",
     Studio = "Studio",
 }
+
 export class Accommodation {
 
     public id: number | null;
@@ -15,11 +16,9 @@ export class Accommodation {
     public maxGuests: number;
     public accommodationType: AccommodationType;
     public benefits: Array<string>;
-    public availabilityStart: Date;
-    public availabilityEnd: Date;
+    public availabilityDates: Array<DateRange>
     public isApproved: boolean;
     public isPriceByGuest: boolean;
-    public price: number;
     public reservationCancellationDeadline: number;
 
     constructor(
@@ -32,10 +31,8 @@ export class Accommodation {
         maxGuests: number,
         accommodationType: string,
         benefits: string,
-        availabilityStart: Date,
-        availabilityEnd: Date,
+        availabilityDates: Array<DateRange>,
         isPriceByGuest: string,
-        price: number,
         reservationCancellationDeadline: number
     ) {
         this.id = id;
@@ -47,8 +44,7 @@ export class Accommodation {
         this.maxGuests = maxGuests;
         this.accommodationType = accommodationType as AccommodationType;
         this.benefits = benefits.split(",").map(item => item.trim());
-        this.availabilityStart = availabilityStart;
-        this.availabilityEnd = availabilityEnd;
+        this.availabilityDates = availabilityDates;
         this.isApproved = false;
         if (isPriceByGuest == "perGuest") {
             this.isPriceByGuest = true;
@@ -57,6 +53,22 @@ export class Accommodation {
             this.isPriceByGuest = false;
         }
         this.reservationCancellationDeadline = reservationCancellationDeadline;
+    }
+}
+
+export class DateRange {
+
+    public startDate: Date;
+    public endDate: Date;
+    public price: number;
+
+    constructor(
+        startDate: Date,
+        endDate: Date,
+        price: number
+    ) {
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.price = price;
     }
 }
