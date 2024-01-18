@@ -1,37 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { AxiosService } from '../../axios.service';
-import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { User, UserType } from '../../auth/model/user';
 
 @Component({
   selector: 'app-profile-view',
   templateUrl: './profile-view.component.html',
   styleUrl: './profile-view.component.css',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule]
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterLink]
 })
 export class ProfileViewComponent {
 
-  profileForm: FormGroup;
+  auth: AxiosService;
 
-  constructor(private axiosService: AxiosService, private formBuilder: FormBuilder) {
-    this.profileForm = this.formBuilder.group({
-      firstName: [""],
-      lastName: [""],
-      email: [""],
-      location: [""],
-      phone: [],
-      password: [""],
-      confirmPassword: [""]
-    });
-
+  constructor(private axiosService: AxiosService) {
+    this.auth = axiosService;
   }
 
   ngOnInit(): void {
-    this.profileForm.controls["firstName"].setValue(this.axiosService.getUser()["name"]);
-    this.profileForm.controls["lastName"].setValue(this.axiosService.getUser()["surname"]);
-    this.profileForm.controls["location"].setValue(this.axiosService.getUser()["address"]);
-    this.profileForm.controls["email"].setValue(this.axiosService.getUser()["sub"]);
-    this.profileForm.controls["phone"].setValue(this.axiosService.getUser()["phone"]);
   }
 
 }
