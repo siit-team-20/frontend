@@ -4,6 +4,7 @@ import { AxiosService } from '../../axios.service';
 import { Accommodation, DateRange } from '../model/accommodation';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Reservation, ReservationStatus } from '../../reservation/model/reservation';
 
 
 @Component({
@@ -47,10 +48,6 @@ export class AccommodationDetailComponent {
   inputChanged(): void {
 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    
-    var startDateInput = document.getElementsByName('availabilityStart')[0] as HTMLFormElement;
-    var endDateInput = document.getElementsByName('availabilityEnd')[0] as HTMLFormElement;
-    var guestNumberInput = document.getElementsByName('guestNumber')[0] as HTMLFormElement;
 
     this.currentPrice = 0;
 
@@ -144,21 +141,13 @@ export class AccommodationDetailComponent {
     if (!(form.checkValidity() === false)) {
 
       let inputRange = new DateRange(new Date(this.reservationForm.get("availabilityStart")?.value), new Date(this.reservationForm.get("availabilityEnd")?.value), 0);
-      //const reservation = new Reservation
-      // this.axiosService.request(
-      //   "POST",
-      //   "/api/accommodations/reservations",
-      //   accommodation
-      // ).then(
-      //   response => {
-      //     const accommodationRequest = new AccommodationRequest(null, null, response.data as Accommodation, "Created");
-      //     this.axiosService.request(
-      //       "POST",
-      //       "/api/accommodations/requests",
-      //       accommodationRequest
-      //     )
-      //   });
-      // this.router.navigate(["/accommodation/accommodations"]);
+      const reservation = new Reservation(null, this.axiosService.getEmail(), this.accommodationId, inputRange.startDate, Math.floor((inputRange.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24), this.reservationForm.get("guestNumber")?.value, this.currentPrice, ReservationStatus.Waiting);
+      this.axiosService.request(
+        "POST",
+        "/api/accommodations/reservations",
+        reservation
+      )
+      this.router.navigate(["/"]);
 
     }
     
