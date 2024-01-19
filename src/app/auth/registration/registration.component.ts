@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { User, UserType, UserTypeMapping } from '../model/user';
 import { CommonModule } from '@angular/common';
 import { AxiosService } from '../../axios.service';
@@ -29,10 +29,31 @@ export class RegistrationComponent {
     });
   }
 
+  validatePassword(control: AbstractControl) {
+    if (control.get('password')?.value !== control.get('confirmPassword')?.value) {
+      control.get('confirmPassword')?.setErrors({ mismatch: true });
+      var confirmPassword = document.getElementsByName('confirmPassword')[0] as HTMLFormElement;
+      if (confirmPassword !== undefined) {
+        confirmPassword.classList.add('is-invalid');
+        confirmPassword.classList.remove('is-valid');
+      }
+    } else {
+      control.get('confirmPassword')?.setErrors(null);
+      var confirmPassword = document.getElementsByName('confirmPassword')[0] as HTMLFormElement;
+      if (confirmPassword !== undefined) {
+        confirmPassword.classList.remove('is-invalid');
+        confirmPassword.classList.add('is-valid');
+      }
+    }
+    return control.get('password')?.value === control.get('confirmPassword')?.value ? null : { mismatch: true };
+  }
+
   onSubmit(): void {
-    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    const form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    this.registerForm.addValidators(this.validatePassword);
+    this.registerForm.setErrors(this.validatePassword(this.registerForm));
+
     if (!(form.checkValidity() === false)) {
-      
 
       const registerData = { ...this.registerForm.value };
       let userTypeString: string = registerData.type as string;
@@ -40,18 +61,18 @@ export class RegistrationComponent {
       const user = new User(registerData.email, registerData.password, registerData.name, registerData.surname, registerData.address, registerData.phone, userType);
 
       this.axiosService.request(
-		    "POST",
-		    "/register",
-		    user
-        ).then(
-		    response => {
-		        this.axiosService.setAuthToken(response.data.token);
-            this.router.navigate(['/accommodation/accommodations']);
-		    }).catch(
-		    error => {
-		        this.axiosService.setAuthToken(null);
-		    }
-		  );
+        "POST",
+        "/register",
+        user
+      ).then(
+        response => {
+          this.axiosService.setAuthToken(response.data.token);
+          this.router.navigate(['/accommodation/accommodations']);
+        }).catch(
+          error => {
+            this.axiosService.setAuthToken(null);
+          }
+        );
 
     }
     form.classList.add('was-validated');

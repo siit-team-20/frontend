@@ -20,6 +20,7 @@ export class Accommodation {
     public isApproved: boolean;
     public isPriceByGuest: boolean;
     public reservationCancellationDeadline: number;
+    public isAutomaticAcceptance: boolean;
 
     constructor(
         id: number | null,
@@ -33,7 +34,8 @@ export class Accommodation {
         benefits: string,
         availabilityDates: Array<DateRange>,
         isPriceByGuest: string,
-        reservationCancellationDeadline: number
+        reservationCancellationDeadline: number,
+        isAutomaticAcceptance: string
     ) {
         this.id = id;
         this.ownerEmail = ownerEmail;
@@ -53,6 +55,12 @@ export class Accommodation {
             this.isPriceByGuest = false;
         }
         this.reservationCancellationDeadline = reservationCancellationDeadline;
+        if (isAutomaticAcceptance == "automatic") {
+            this.isAutomaticAcceptance = true;
+        }
+        else {
+            this.isAutomaticAcceptance = false;
+        }
     }
 }
 
