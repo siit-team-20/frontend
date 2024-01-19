@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { Accommodation, AccommodationTypeMapping, AccommodationType, DateRange } from '../model/accommodation';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
 import { AxiosService } from '../../axios.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-accommodation-create',
@@ -18,14 +19,16 @@ export class AccommodationCreateComponent {
   public accommodationTypes = Object.values(AccommodationType);
   typeSelect = this.accommodationTypeMapping[this.accommodationTypes[0]];
   pricing = "perGuest";
+  acceptance = "manual";
 
   rangeIds: number[] = [];
 
   @Output() newDataEvent = new EventEmitter();
+  route: ActivatedRoute = inject(ActivatedRoute);
 
   createForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private axiosService: AxiosService) {
+  constructor(private formBuilder: FormBuilder, private axiosService: AxiosService, private router: Router) {
 
     this.createForm = this.formBuilder.group({
       ownerEmail: [axiosService.getEmail(), Validators.compose([Validators.required, Validators.email])],
@@ -56,9 +59,9 @@ export class AccommodationCreateComponent {
   }
 
   removeDateRange(id: number) {
-    this.rangeIds.forEach((element, index)=>{
-      if(element==id) this.rangeIds.splice(index, 1);
-   });
+    this.rangeIds.forEach((element, index) => {
+      if (element == id) this.rangeIds.splice(index, 1);
+    });
     this.createForm.removeControl("availabilityStart" + id);
     this.createForm.removeControl("availabilityEnd" + id);
     this.createForm.removeControl("price" + id);
@@ -77,21 +80,22 @@ export class AccommodationCreateComponent {
         const priceName = "price" + rangeId;
         availabilityRanges.push(new DateRange(submitData[startDateName], submitData[endDateName], submitData[priceName]));
       });
-      const accommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, availabilityRanges, submitData.pricing!, submitData.reservationCancellationDeadline!);
+      const accommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, availabilityRanges, submitData.pricing!, submitData.reservationCancellationDeadline!, this.acceptance);
       this.axiosService.request(
-		    "POST",
-		    "/api/accommodations",
-		    accommodation
-        ).then(
-		    response => {
-            const accommodationRequest = new AccommodationRequest(null, null, response.data as Accommodation, "Created");
-            this.axiosService.request(
-              "POST",
-              "/api/accommodations/requests",
-              accommodationRequest
-            )
-		    });
-      }
+        "POST",
+        "/api/accommodations",
+        accommodation
+      ).then(
+        response => {
+          const accommodationRequest = new AccommodationRequest(null, null, response.data as Accommodation, "Created");
+          this.axiosService.request(
+            "POST",
+            "/api/accommodations/requests",
+            accommodationRequest
+          )
+        });
+      this.router.navigate(["/accommodation/accommodations"]);
+    }
     form.classList.add('was-validated');
 
   }
