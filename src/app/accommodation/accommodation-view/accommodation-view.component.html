@@ -10,12 +10,11 @@
                     <p class="card-text py-3">{{accommodation.description}}</p>
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-5">
-                            </div>
-                            <div class="col-md-5">
+                            <div class="col-md-6">
                                 {{accommodation.location}}
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-6 d-flex justify-content-end">
+                                <button *ngIf="auth.getRole() == 'Owner'" [disabled]="!accommodation.isApproved" [routerLink]="['/accommodation/update', accommodation.id]" type="button" class="btn btn-primary mx-4">Update</button>
                                 <button class="btn btn-primary" [routerLink]="['/accommodation/detail', accommodation.id]">More</button>
                             </div>
                         </div>

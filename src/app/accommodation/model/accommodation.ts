@@ -79,6 +79,29 @@ export class DateRange {
         this.endDate = endDate;
         this.price = price;
     }
+
+    public IsOverlapping(other: DateRange) : boolean {
+
+        if (other.startDate < this.startDate && other.endDate < this.endDate)
+            return false;
+        if (other.startDate > this.startDate && other.endDate > this.endDate)
+            return false;
+        return true;
+
+    }
+
+    public IsBetween(other: DateRange) : boolean {
+
+        if (this.startDate >= other.startDate && this.endDate <= other.endDate)
+            return true;
+        return false;
+
+    }
+
+    public SetTimeToZero() {
+        this.startDate.setHours(0, 0, 0, 0);
+        this.endDate.setHours(0, 0, 0, 0);
+    }
 }
 
 export const AccommodationTypeMapping: Record<AccommodationType, string> = {
