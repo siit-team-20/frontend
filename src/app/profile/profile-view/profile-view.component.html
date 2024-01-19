@@ -59,9 +59,9 @@
                         </div>
 
                         <!-- Save changes button-->
-                        <button [routerLink]="['/profile/update', auth.getEmail()]" class="btn btn-primary"
+                        <button [routerLink]="['/profile/update', encodedEmail]" class="btn btn-primary"
                             type="button">Update</button>
-                        <button class="btn btn-danger ml-3" type="button">Delete</button>
+                        <button class="btn btn-danger ml-3" type="button" (click)="deleteUser()" *ngIf="auth.getRole() != 'Admin'">Delete</button>
                     </form>
                 </div>
             </div>
