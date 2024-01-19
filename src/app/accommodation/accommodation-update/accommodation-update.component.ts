@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { Accommodation, AccommodationTypeMapping, AccommodationType, DateRange } from '../model/accommodation';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+  import { ActivatedRoute, Router } from '@angular/router';
 import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
 import { AxiosService } from '../../axios.service';
 

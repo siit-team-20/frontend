@@ -10,6 +10,7 @@ import { User, UserType } from './auth/model/user';
 import { ProfileViewComponent } from './profile/profile-view/profile-view.component';
 import { authGuard } from './auth/auth.guard';
 import { ProfileUpdateComponent } from './profile/profile-update/profile-update.component';
+import { AccommodationDetailComponent } from './accommodation/accommodation-detail/accommodation-detail.component';
 
 const routes: Routes = [
   { component: AccommodationsComponent, path: "" },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { component: AccommodationUpdateComponent, path: "accommodation/update/:id", data: { role: [UserType.Owner] }, canActivate: [authGuard] },
   { component: LoginComponent, path: "auth/login" },
   { component: RegistrationComponent, path: "auth/register" },
+  { component: AccommodationDetailComponent, path: "accommodation/detail/:id" },
   { component: ProfileViewComponent, path: "profile", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard] },
   { component: ProfileUpdateComponent, path: "profile/update/:email", data: { role: [UserType.Guest, UserType.Owner] }, canActivate: [authGuard] }
 ];
