@@ -40,7 +40,7 @@
                                 <label class="small mb-1" for="email">Email address</label>
                                 <input class="form-control" id="email" type="email"
                                     placeholder="Enter your email address" name="email" formControlName="email"
-                                    required>
+                                    required readonly>
                             </div>
                             <!-- Form Group (address)-->
                             <div class="form-group col-md-6">
@@ -59,24 +59,31 @@
                             </div>
                         </div>
 
-                        <div class="row gx-3 mb-3">
-
-                            <div class="form-group col-md-6">
-                                <label class="small mb-1" for="password">New password</label>
-                                <input class="form-control" id="password" type="password"
-                                    placeholder="Enter your password" minlength="5" name="password"
-                                    formControlName="password" required>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label class="small mb-1" for="confirmPassword">Confirm password</label>
-                                <input class="form-control" id="confirmPassword" type="password"
-                                    placeholder="Confirm password" minlength="5" name="confirmPassword"
-                                    formControlName="confirmPassword" required>
-                            </div>
+                        <div>
+                            <a class="btn btn-success mb-4" (click)="updatePasswordControls()" data-toggle="collapse" href="#passwordCollapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                Change password
+                            </a>
                         </div>
 
-                        <!-- Save changes button-->
+                        <div class="collapse" id="passwordCollapse">
+                            <div class="row gx-3 mb-3" *ngIf="isPasswordShown">
+
+                                <div class="form-group col-md-6">
+                                    <label class="small mb-1" for="password">New password</label>
+                                    <input class="form-control" id="password" type="password"
+                                        placeholder="Enter your password" minlength="5" name="password"
+                                        formControlName="password" required>
+                                </div>
+    
+                                <div class="form-group col-md-6">
+                                    <label class="small mb-1" for="confirmPassword">Confirm password</label>
+                                    <input class="form-control" id="confirmPassword" type="password"
+                                        placeholder="Confirm password" minlength="5" name="confirmPassword"
+                                        formControlName="confirmPassword" required>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <button class="btn btn-primary" type="submit">Save changes</button>
                     </form>
                 </div>

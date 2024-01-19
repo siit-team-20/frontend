@@ -17,6 +17,7 @@ export class ProfileUpdateComponent implements OnInit {
   updateForm: FormGroup;
   route: ActivatedRoute = inject(ActivatedRoute);
   email = '';
+  isPasswordShown = false;
   @Output() updateDataEvent = new EventEmitter();
 
   constructor(private axiosService: AxiosService, private formBuilder: FormBuilder, private router: Router) {
@@ -29,8 +30,6 @@ export class ProfileUpdateComponent implements OnInit {
       email: ["", Validators.compose([Validators.required, Validators.email])],
       address: ["", [Validators.required]],
       phone: ["", Validators.compose([Validators.required, Validators.minLength(9), Validators.maxLength(10)])],
-      password: ["", Validators.compose([Validators.required, Validators.minLength(5)])],
-      confirmPassword: ["", Validators.compose([Validators.required, Validators.minLength(5)])]
     });
 
   }
@@ -47,12 +46,18 @@ export class ProfileUpdateComponent implements OnInit {
 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if (!(form.checkValidity() === false)) {
+
       const submitData = { ...this.updateForm.value };
-      const updatedUser = new User(submitData.email, submitData.password, submitData.name, submitData.surname, submitData.address, submitData.phone, this.axiosService.getRole() as UserType);
+
+      let updatedUser: User;
+      if (this.isPasswordShown) 
+        updatedUser = new User(submitData.email, submitData.password, submitData.name, submitData.surname, submitData.address, submitData.phone, this.axiosService.getRole() as UserType);
+      else
+        updatedUser = new User(submitData.email, "", submitData.name, submitData.surname, submitData.address, submitData.phone, this.axiosService.getRole() as UserType);
 
       this.axiosService.request(
         "PUT",
-        "/update",
+        "/account/" + updatedUser.email,
         updatedUser
       ).then(
         response => {
@@ -67,6 +72,19 @@ export class ProfileUpdateComponent implements OnInit {
       this.router.navigate(["/profile"]);
     }
     form.classList.add('was-validated');
+  }
+
+  updatePasswordControls() {
+    if (!this.isPasswordShown) {
+      this.updateForm.addControl("password", new FormControl("", [Validators.required, Validators.minLength(5)]));
+      this.updateForm.addControl("confirmPassword", new FormControl("", [Validators.required, Validators.minLength(5)]));
+      this.isPasswordShown = true;
+    }
+    else {
+      this.updateForm.removeControl("password");
+      this.updateForm.removeControl("confirmPassword");
+      this.isPasswordShown = false;
+    }
   }
 
 }

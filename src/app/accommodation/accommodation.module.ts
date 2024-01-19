@@ -5,6 +5,7 @@ import { AccommodationViewComponent } from './accommodation-view/accommodation-v
 import { AccommodationsComponent } from './accommodations/accommodations.component';
 import { AccommodationUpdateComponent } from './accommodation-update/accommodation-update.component';
 import { SearchPipe } from './search.pipe';
+import { AccommodationDetailComponent } from './accommodation-detail/accommodation-detail.component';
 
 
 
@@ -17,7 +18,8 @@ import { SearchPipe } from './search.pipe';
     AccommodationViewComponent,
     AccommodationsComponent,
     AccommodationUpdateComponent,
-    SearchPipe
+    SearchPipe,
+    AccommodationDetailComponent
   ],
   exports: [
     

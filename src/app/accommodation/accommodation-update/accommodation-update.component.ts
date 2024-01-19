@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { Accommodation, AccommodationTypeMapping, AccommodationType, DateRange } from '../model/accommodation';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+  import { ActivatedRoute, Router } from '@angular/router';
 import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
 import { AxiosService } from '../../axios.service';
 
@@ -20,11 +20,12 @@ export class AccommodationUpdateComponent implements OnInit {
   public accommodationTypes = Object.values(AccommodationType);
   typeSelect = this.accommodationTypeMapping[this.accommodationTypes[0]];
   pricing = "perGuest";
+  acceptance = "automatic"
 
   @Output() updateDataEvent = new EventEmitter();
 
   updateForm: FormGroup;
-  oldAccommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0);
+  oldAccommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0, "");
   route: ActivatedRoute = inject(ActivatedRoute);
   accommodationId = -1;
 
@@ -46,6 +47,7 @@ export class AccommodationUpdateComponent implements OnInit {
       price: [, Validators.compose([Validators.required, Validators.min(1)])],
       pricing: [this.pricing, [Validators.required]],
       reservationCancellationDeadline: [, Validators.compose([Validators.required, Validators.min(1)])],
+      acceptance: [this.acceptance, [Validators.required]],
     });
 
   }
@@ -80,22 +82,31 @@ export class AccommodationUpdateComponent implements OnInit {
           this.updateForm.addControl("availabilityStart" + (i + 1), new FormControl(new Date(), [Validators.required]));
           this.updateForm.addControl("availabilityEnd" + (i + 1), new FormControl(new Date(), [Validators.required]));
           this.updateForm.addControl("price" + (i + 1), new FormControl(new Date(), [Validators.required]));
-          const startDateArray = response.data.availabilityDates[i+1].startDate;
+          const startDateArray = response.data.availabilityDates[i + 1].startDate;
           const startDate = String(startDateArray[0]) + "-" + String(startDateArray[1]).padStart(2, "0") + "-" + String(startDateArray[2]).padStart(2, "0");
-          const endDateArray = response.data.availabilityDates[i+1].endDate;
+          const endDateArray = response.data.availabilityDates[i + 1].endDate;
           const endDate = String(endDateArray[0]) + "-" + String(endDateArray[1]).padStart(2, "0") + "-" + String(endDateArray[2]).padStart(2, "0");
           this.updateForm.controls["availabilityStart" + (i + 1)].setValue(startDate);
           this.updateForm.controls["availabilityEnd" + (i + 1)].setValue(endDate);
-          this.updateForm.controls["price" + (i + 1)].setValue(response.data.availabilityDates[i+1].price);
+          this.updateForm.controls["price" + (i + 1)].setValue(response.data.availabilityDates[i + 1].price);
         }
-        
+
         if (response.data.isPriceByGuest) {
           this.updateForm.controls["pricing"].setValue("perGuest");
         }
         else {
           this.updateForm.controls["pricing"].setValue("perDay");
         }
+
         this.updateForm.controls["reservationCancellationDeadline"].setValue(response.data.reservationCancellationDeadline);
+
+        if (response.data.isAutomaticAcceptance) {
+          this.updateForm.controls["acceptance"].setValue("automatic");
+        }
+        else {
+          this.updateForm.controls["acceptance"].setValue("manual");
+        }
+
         this.oldAccommodation = response.data;
       });
   }
@@ -111,9 +122,9 @@ export class AccommodationUpdateComponent implements OnInit {
   }
 
   removeDateRange(id: number) {
-    this.rangeIds.forEach((element, index)=>{
-      if(element==id) this.rangeIds.splice(index, 1);
-   });
+    this.rangeIds.forEach((element, index) => {
+      if (element == id) this.rangeIds.splice(index, 1);
+    });
     this.updateForm.removeControl("availabilityStart" + id);
     this.updateForm.removeControl("availabilityEnd" + id);
     this.updateForm.removeControl("price" + id);
@@ -132,7 +143,7 @@ export class AccommodationUpdateComponent implements OnInit {
         const priceName = "price" + rangeId;
         availabilityRanges.push(new DateRange(submitData[startDateName], submitData[endDateName], submitData[priceName]));
       });
-      const newAccommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, availabilityRanges, submitData.pricing!, submitData.reservationCancellationDeadline!);
+      const newAccommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, availabilityRanges, submitData.pricing!, submitData.reservationCancellationDeadline!, submitData.acceptance!);
       newAccommodation.isApproved = false;
 
       this.axiosService.request(

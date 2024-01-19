@@ -16,7 +16,7 @@ import { AxiosService } from '../../axios.service';
 export class AccommodationViewComponent {
   auth: AxiosService;
 
-  @Input() accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0);
+  @Input() accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0, "");
   @Output() updateItemEvent = new EventEmitter();
 
   constructor(private axiosService: AxiosService) {

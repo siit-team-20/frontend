@@ -69,6 +69,7 @@
                 formControlName="price" min="1" required>
             <div class="invalid-feedback">This input is not valid!</div>
         </div>
+        <div></div>
         <div *ngFor="let rangeId of rangeIds; index as i">
             <hr class="my-4 bg-gray" *ngIf="i == 0">
             <h5 class="mb-3">Availability range {{i + 2}}</h5>
