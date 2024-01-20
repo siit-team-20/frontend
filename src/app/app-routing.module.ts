@@ -23,7 +23,7 @@ const routes: Routes = [
   { component: RegistrationComponent, path: "auth/register" },
   { component: AccommodationDetailComponent, path: "accommodation/detail/:id" },
   { component: ProfileViewComponent, path: "profile/:email", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard] },
-  { component: ProfileUpdateComponent, path: "profile/update/:email", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard, loggedInGuard] }
+  { component: ProfileUpdateComponent, path: "profile/update/:email", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard, loggedInGuard] },
   { component: ReservationsComponent, path: "reservations", data: { role: [UserType.Guest, UserType.Owner] }, canActivate: [authGuard] }
 ];
 
