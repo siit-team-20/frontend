@@ -16,7 +16,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class AccommodationDetailComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   accommodationId = -1;
-  accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0);
+  accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0,"");
 
   createForm: FormGroup;
 
