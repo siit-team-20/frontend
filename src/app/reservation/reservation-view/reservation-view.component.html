@@ -1,1 +1,50 @@
-<p>reservation-view works!</p>
+<div class="container py-3">
+    <div class="card">
+        <div class="card-body shadow">
+            <h4>{{reservationWithAccommodation.accommodation.name}},
+                {{reservationWithAccommodation.accommodation.accommodationType}}</h4>
+            <div class="row py-3">
+                <div class="col-sm-3 ">
+                    <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid border">
+                </div>
+                <div class="col-sm-9">
+                    <p>{{reservationWithAccommodation.accommodation.description}}</p>
+                    <div class="row">
+                        <div class="col-sm-3 px-4">
+                            <p>Guest: {{reservationWithAccommodation.guestEmail}} </p>
+                        </div>
+                        <div class="cols-sm-3 px-4">
+                            <p>Start date: {{datePipe.transform(reservationWithAccommodation.date, "yyyy-MM-dd")}}</p>
+                        </div>
+
+                        <!-- !!!!!!! jer je days umesto end date !!!!!!!! -->
+                        <!-- <div class="cols-sm-3 px-4">
+                            <p>End date: 12/1/2024</p>
+                        </div> -->
+                        <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+                        <div class="cols-sm-3 px-4">
+                            <p>Duration: {{reservationWithAccommodation.days}} days</p>
+                        </div>
+                        <div class="cols-sm-3 px-4">
+                            <p>Price: {{reservationWithAccommodation.price}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 px-4 py-1 ">
+                            <p>Number of guests: {{reservationWithAccommodation.guestNumber}}</p>
+                        </div>
+                        <div class="col-sm-3 px-4 py-1">
+                            <p>Status: {{reservationWithAccommodation.status}}</p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <button *ngIf="auth.getRole() == 'Guest'" class="btn btn-danger">Cancel reservation</button>
+                            <button *ngIf="auth.getRole() == 'Owner'" class="btn btn-success mx-3">Accept</button>
+                            <button *ngIf="auth.getRole() == 'Owner'" class="btn btn-danger">Decline</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

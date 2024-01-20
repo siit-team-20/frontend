@@ -1,1 +1,39 @@
-<p>reservations works!</p>
+<div class="main">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-4 mb-2">
+                <input class="form-control" type="text"  [(ngModel)]="searchtext" placeholder="Search name" >
+            </div>
+            <div class="col-md-3">
+                <input class="form-control datepicker"  [(ngModel)]="searchstartdate" type="date" id="startDate">
+            </div>
+            <div class="col-md-3">
+                <input class="form-control datepicker"  [(ngModel)]="searchenddate" type="date" id="endDate">
+            </div>
+
+            <div class="col-md-2">
+                <select class="form-control" size="1" [(ngModel)]="searchstatus" aria-label="size 3 select example">
+                    <option selected value="">None </option>
+                    <option value="Waiting">Waiting</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+    
+        </div>
+
+        <h1 class="text-center pt-5 pb-4">Reservations</h1>
+
+        <div class="requests">
+
+            <app-reservation-view *ngFor="let reservationWithAccommodation of reservationWithAccommodations | searchReservation: { start: searchstartdate, end: searchenddate, status: searchstatus, name: searchtext}"
+                [reservationWithAccommodation]="reservationWithAccommodation">
+            </app-reservation-view>
+
+        </div>
+
+    </div>
+
+</div>
