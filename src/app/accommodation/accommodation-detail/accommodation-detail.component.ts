@@ -185,9 +185,9 @@ export class AccommodationDetailComponent {
     var form = document.getElementsByName('accommodationReviewForm')[0] as HTMLFormElement;
     if (!(form.checkValidity() === false) && this.accommodationReviewForm.errors == null) {
 
-      const accommodationReviewData = { ...this.ownerReviewForm.value };
+      const accommodationReviewData = { ...this.accommodationReviewForm.value };
       const accommodationReview = new AccommodationReview(null, this.axiosService.getEmail(), this.accommodation.id!, accommodationReviewData.accommodationComment, accommodationReviewData.accommodationRating, false);
-
+      console.log(accommodationReview)
       this.axiosService.request(
         "POST",
         "/api/accommodations/reviews",
@@ -206,7 +206,7 @@ export class AccommodationDetailComponent {
     if (!(form.checkValidity() === false) && this.ownerReviewForm.errors == null) {
 
       const ownerReviewData = { ...this.ownerReviewForm.value };
-      const ownerReview = new OwnerReview(null, this.axiosService.getEmail(), this.accommodation.id!, ownerReviewData.accommodationComment, ownerReviewData.accommodationRating, false);
+      const ownerReview = new OwnerReview(null, this.axiosService.getEmail(), this.accommodation.ownerEmail, ownerReviewData.ownerComment, ownerReviewData.ownerRating, false);
 
       this.axiosService.request(
         "POST",

@@ -2,7 +2,7 @@ export class OwnerReview {
 
     public id: number | null;
     public guestEmail: string;
-    public accommodationId: number;
+    public ownerEmail: string;
     public comment: string;
     public rating: string;
     public isReported: boolean;
@@ -10,14 +10,14 @@ export class OwnerReview {
     constructor(
         id: number | null,
         guestEmail: string,
-        accommodationId: number,
+        ownerEmail: string,
         comment: string,
         rating: string,
         isReported: boolean
     ) {
         this.id = id;
         this.guestEmail = guestEmail;
-        this.accommodationId = accommodationId;
+        this.ownerEmail = ownerEmail;
         this.comment = comment;
         this.rating = rating;
         this.isReported = isReported;
