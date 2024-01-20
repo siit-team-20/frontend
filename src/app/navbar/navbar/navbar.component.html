@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -6,30 +6,30 @@
     <a class="navbar-brand" [routerLink]="['']">Home</a>
 
     <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav mx-3 w-100 mt-2 mt-lg-0 d-flex justify-content-between">
-            <div class="row">
-                <app-admin-navbar *ngIf="auth.getRole() == 'Admin'"></app-admin-navbar>
-                <app-owner-navbar *ngIf="auth.getRole() == 'Owner'"></app-owner-navbar>
-                <app-guest-navbar *ngIf="auth.getRole() == 'Guest'"></app-guest-navbar>
-                <li class="nav-item active">
-                    <a class="nav-link" [routerLink]="['accommodation/accommodations']">{{auth.getRole() == 'Owner' ?
-                        'My' : 'All'}} Accommodations</a>
-                </li>
-            </div>
-            <div class="row">
+        <ul class="navbar-nav mr-auto">
+            <app-admin-navbar *ngIf="auth.getRole() == 'Admin'" class="navbar-nav"></app-admin-navbar>
+            <app-owner-navbar *ngIf="auth.getRole() == 'Owner'" class="navbar-nav"></app-owner-navbar>
+            <app-guest-navbar *ngIf="auth.getRole() == 'Guest'" class="navbar-nav"></app-guest-navbar>
+            <li class="nav-item">
+                <a class="nav-link active" [routerLink]="['accommodation/accommodations']">{{auth.getRole() == 'Owner' ?
+                    'My' : 'All'}} Accommodations</a>
+            </li>
+        </ul>
+        <span>
+            <ul class="navbar-nav ml-auto">
                 <li *ngIf="auth.getRole() != null" class="nav-item active">
                     <a class="nav-link" [routerLink]="['profile', auth.getEmail()]">{{auth.getEmail()}}</a>
                 </li>
-                <li *ngIf="auth.getRole() == null" class="nav-item">
+                <li *ngIf="auth.getRole() == null" class="nav-item active">
                     <a class="nav-link" [routerLink]="['auth/login']">Log In</a>
                 </li>
-                <li *ngIf="auth.getRole() == null" class="nav-item">
+                <li *ngIf="auth.getRole() == null" class="nav-item active">
                     <a class="nav-link" [routerLink]="['auth/register']">Sign Up</a>
                 </li>
-                <li *ngIf="auth.getRole() != null" class="nav-item">
+                <li *ngIf="auth.getRole() != null" class="nav-item active">
                     <a (click)="logOut()" class="nav-link" [routerLink]="['auth/login']">Log Out</a>
                 </li>
-            </div>
-        </ul>
+            </ul>
+        </span>
     </div>
 </nav>
