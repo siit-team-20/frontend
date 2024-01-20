@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AxiosService } from '../../axios.service';
 import { Accommodation, DateRange } from '../model/accommodation';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -12,7 +12,7 @@ import { Reservation, ReservationStatus } from '../../reservation/model/reservat
   templateUrl: './accommodation-detail.component.html',
   styleUrl: './accommodation-detail.component.css',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule,]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink]
 })
 export class AccommodationDetailComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -148,18 +148,18 @@ export class AccommodationDetailComponent {
     this.reservationForm.addValidators(ReservationValidator.validateGuestNumber(this.accommodation.minGuests, this.accommodation.maxGuests));
     this.reservationForm.updateValueAndValidity();
 
-    // if (!(form.checkValidity() === false) && this.reservationForm.errors == null) {
+    if (!(form.checkValidity() === false) && this.reservationForm.errors == null) {
 
-    //   let inputRange = new DateRange(new Date(this.reservationForm.get("availabilityStart")?.value), new Date(this.reservationForm.get("availabilityEnd")?.value), 0);
-    //   const reservation = new Reservation(null, this.axiosService.getEmail(), this.accommodationId, inputRange.startDate, Math.floor((inputRange.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24), this.reservationForm.get("guestNumber")?.value, this.currentPrice, ReservationStatus.Waiting);
-    //   this.axiosService.request(
-    //     "POST",
-    //     "/api/accommodations/reservations",
-    //     reservation
-    //   )
-    //   this.router.navigate(["/"]);
+      let inputRange = new DateRange(new Date(this.reservationForm.get("availabilityStart")?.value), new Date(this.reservationForm.get("availabilityEnd")?.value), 0);
+      const reservation = new Reservation(null, this.axiosService.getEmail(), this.accommodationId, inputRange.startDate, Math.floor((inputRange.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24), this.reservationForm.get("guestNumber")?.value, this.currentPrice, ReservationStatus.Waiting);
+      this.axiosService.request(
+        "POST",
+        "/api/accommodations/reservations",
+        reservation
+      )
+      this.router.navigate(["/"]);
 
-    // }
+    }
     
     form.classList.add('was-validated');
 

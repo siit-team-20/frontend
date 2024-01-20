@@ -24,13 +24,13 @@
                             <div class="form-group col-md-6">
                                 <label class="small mb-1" for="name">Name</label>
                                 <br>
-                                <label id="name" type="text" name="name">{{auth.getUser()["name"]}}</label>
+                                <label id="name" type="text" name="name">{{user.name}}</label>
                             </div>
                             <!-- Form Group (last name)-->
                             <div class="form-group col-md-6">
                                 <label class="small mb-1" for="surname">Surname</label>
                                 <br>
-                                <label id="surname" type="text" name="surname">{{auth.getUser()["surname"]}}</label>
+                                <label id="surname" type="text" name="surname">{{user.surname}}</label>
                             </div>
                         </div>
                         <!-- Form Row        -->
@@ -39,13 +39,13 @@
                             <div class="form-group col-md-6">
                                 <label class="small mb-1" for="email">Email</label>
                                 <br>
-                                <label id="email" type="email" name="email">{{auth.getUser()["sub"]}}</label>
+                                <label id="email" type="email" name="email">{{user.email}}</label>
                             </div>
                             <!-- Form Group (address)-->
                             <div class="form-group col-md-6">
                                 <label class="small mb-1" for="address">Address</label>
                                 <br>
-                                <label id="address" type="text" name="address">{{auth.getUser()["address"]}}</label>
+                                <label id="address" type="text" name="address">{{user.address}}</label>
                             </div>
                         </div>
 
@@ -54,14 +54,14 @@
                             <div class="form-group col-md-12">
                                 <label class="small mb-1" for="phone">Phone number</label>
                                 <br>
-                                <label id="phone" type="text" name="phone">{{auth.getUser()["phone"]}}</label>
+                                <label id="phone" type="text" name="phone">{{user.phone}}</label>
                             </div>
                         </div>
 
                         <!-- Save changes button-->
-                        <button [routerLink]="['/profile/update', auth.getEmail()]" class="btn btn-primary"
+                        <button *ngIf="route.snapshot.params['email'] == auth.getEmail()" [routerLink]="['/profile/update', auth.getEmail()]" class="btn btn-primary"
                             type="button">Update</button>
-                        <button class="btn btn-danger ml-3" type="button" (click)="deleteUser()" *ngIf="auth.getRole() != 'Admin'">Delete</button>
+                        <button *ngIf="route.snapshot.params['email'] == auth.getEmail() && auth.getRole() != 'Admin'" class="btn btn-danger ml-3" type="button" (click)="deleteUser()">Delete</button>
                     </form>
                 </div>
             </div>
