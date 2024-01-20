@@ -106,7 +106,7 @@
                     style="max-height: 100px;">
                         <ul *ngFor="let date of accommodation.availabilityDates;">
                             <li >
-                                {{date.startDate }} - {{date.endDate}} _______ {{date.price}} €
+                                {{ datePipe.transform(date.startDate, "yyyy-MM-dd") }} - {{ datePipe.transform(date.endDate, "yyyy-MM-dd") }} _______ {{date.price}} €
                             </li>
                         </ul>
 
@@ -122,9 +122,8 @@
                 <div class="form-check">
                     <input class="form-check-input" id="isPriceByGuest"
                         type="radio" value="perGuest"
-                        formControlName="pricing"
                         [checked]="accommodation.isPriceByGuest"
-                        disabled>
+                        [attr.disabled]="true">
                     <label class="form-check-label"
                         for="isPriceByGuest">
                         Per guest
@@ -133,9 +132,8 @@
                 <div class="form-check">
                     <input class="form-check-input" id="isPricePerDay"
                         type="radio" value="perDay"
-                        formControlName="pricing"
                         [checked]="!accommodation.isPriceByGuest"
-                        disabled>
+                        [attr.disabled]="true">
                     <label class="form-check-label" for="isPricePerDay">
                         Per day
                     </label>
@@ -144,54 +142,61 @@
         </div>
       <div class="col-sm-2"> 
         <div class="mt-3">
-            <button class="btn btn-secondary mt-5" type="button" data-toggle="collapse" data-target="#collapseExample">Make a reservation</button>
+            <button class="btn btn-secondary mt-5 w-100" type="button" data-toggle="collapse" data-target="#collapseExample">Make a reservation</button>
         </div>
       </div>
     
    
     </div>
 
-    <div class="row collapse mt-5" id="collapseExample">
-        <div class="col-sm-3">
-            <form  class="needs-validation" novalidate>
-                <div class="form-group">
-                    <label>Availability start</label>
-                    <input type="date" class="form-control" required>
-                    <div class="invalid-feedback">This input is not valid!</div>
+    <div class="collapse mt-5" id="collapseExample">
+        <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()" class="needs-validation w-100" novalidate>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="availabilityStart">Availability start</label>
+                        <input (change)="inputChanged()" type="date" class="form-control" name="availabilityStart" id="availabilityStart"
+                            formControlName="availabilityStart" required>
+                        <div class="invalid-feedback">This input is not valid!</div>
+                        <div *ngIf="reservationForm.errors?.['notOverlapping']" class="custom-invalid-feedback">
+                            Chosen date range is not available!
+                        </div>
+                        <div *ngIf="reservationForm.errors?.['startAfterEnd']" class="custom-invalid-feedback">
+                            Start date is after end date!
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <div class="col-sm-3">
-            <form  class="needs-validation" novalidate>
-                <div class="form-group">
-                    <label>Availability end</label>
-                    <input type="date" class="form-control" required>
-                    <div class="invalid-feedback">This input is not valid!</div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="availabilityEnd">Availability end</label>
+                        <input (change)="inputChanged()" type="date" class="form-control" name="availabilityEnd" id="availabilityEnd"
+                            formControlName="availabilityEnd" required>
+                        <div class="invalid-feedback">This input is not valid!</div>
+                        <div *ngIf="reservationForm.errors?.['notOverlapping']" class="custom-invalid-feedback">
+                            Chosen date range is not available!
+                        </div>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <div class="col-sm-2">
-            <form  class="needs-validation" novalidate>
-                <div class="form-group">
-                    <label>Guests</label>
-                    <input type="text" placeholder="0" class="form-control" required>
-                    <div class="invalid-feedback">This input is not valid!</div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="guestNumber">Guests</label>
+                        <input (input)="inputChanged()" type="number" min="1" max="30" class="form-control" name="guestNumber" id="guestNumber" formControlName="guestNumber" required>
+                        <div class="invalid-feedback">This input is not valid!</div>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <div class="col-sm-2">
-            <form>
-                <div class="form-group">
-                    <label>Price</label>
-                    <input type="text" placeholder="0" class="form-control" readonly>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>Price</label>
+                        <p class="mt-2">{{currentPrice}} €</p>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <div class="col-sm-2"> 
-            <div class="mt-3">
-                <button class="btn  btn-secondary mt-3" type="button" >Confirm</button>
+                <div class="col-sm-2"> 
+                    <div class="mt-3">
+                        <button class="btn btn-secondary mt-3 w-100" type="submit" >Confirm</button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
     
     

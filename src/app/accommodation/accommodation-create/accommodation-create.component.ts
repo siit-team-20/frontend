@@ -55,7 +55,7 @@ export class AccommodationCreateComponent {
     this.rangeIds.push(id);
     this.createForm.addControl("availabilityStart" + id, new FormControl(new Date(), [Validators.required]));
     this.createForm.addControl("availabilityEnd" + id, new FormControl(new Date(), [Validators.required]));
-    this.createForm.addControl("price" + id, new FormControl(new Date(), [Validators.required]));
+    this.createForm.addControl("price" + id, new FormControl(new Date(), [Validators.required, Validators.min(1)]));
   }
 
   removeDateRange(id: number) {

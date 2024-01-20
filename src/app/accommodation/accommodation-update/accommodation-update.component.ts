@@ -167,9 +167,12 @@ export class AccommodationUpdateComponent implements OnInit {
         "PUT",
         "/api/accommodations/" + this.accommodationId,
         this.oldAccommodation
+      ).then(
+        response => {
+          this.router.navigate(["/accommodation/accommodations"]);
+        }
       );
 
-      this.router.navigate(["/accommodation/accommodations"]);
     }
     form.classList.add('was-validated');
   }
