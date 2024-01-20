@@ -161,6 +161,9 @@
                         <div *ngIf="reservationForm.errors?.['notOverlapping']" class="custom-invalid-feedback">
                             Chosen date range is not available!
                         </div>
+                        <div *ngIf="reservationForm.errors?.['startBeforeTomorrow']" class="custom-invalid-feedback">
+                            Start date is before tomorrow!
+                        </div>
                         <div *ngIf="reservationForm.errors?.['startAfterEnd']" class="custom-invalid-feedback">
                             Start date is after end date!
                         </div>
@@ -182,6 +185,9 @@
                         <label for="guestNumber">Guests</label>
                         <input (input)="inputChanged()" type="number" min="1" max="30" class="form-control" name="guestNumber" id="guestNumber" formControlName="guestNumber" required>
                         <div class="invalid-feedback">This input is not valid!</div>
+                        <div *ngIf="reservationForm.errors?.['guestNumber']" class="custom-invalid-feedback">
+                            Chosen number of guests is not between minimum and maximum guest number allowed!
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm-2">

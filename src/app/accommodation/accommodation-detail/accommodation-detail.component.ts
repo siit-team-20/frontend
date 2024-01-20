@@ -51,17 +51,26 @@ export class AccommodationDetailComponent {
 
     this.currentPrice = 0;
 
-    if (!(form.checkValidity() === false)) {
+    if (!(form.checkValidity() === false) && this.reservationForm.errors == null) {
 
       let inputRange = new DateRange(new Date(this.reservationForm.get("availabilityStart")?.value), new Date(this.reservationForm.get("availabilityEnd")?.value), 0);
       inputRange.SetTimeToZero();
 
       let validRange = false;
       let validStart = false;
+      let validStartBeforeTomorrow = false;
 
       if (inputRange.startDate < inputRange.endDate) {
         validStart = true;
       } 
+
+      let tomorrow = new Date();
+      tomorrow.setHours(0, 0, 0, 0);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      if (inputRange.startDate >= tomorrow) {
+        validStartBeforeTomorrow = true;
+      }
 
       for(let i = 0; i < this.accommodation.availabilityDates.length; i++) {
 
@@ -135,21 +144,22 @@ export class AccommodationDetailComponent {
   onSubmit(): void {
 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    this.reservationForm.addValidators(DatesValidator.validateDates(this.accommodation.availabilityDates, this.reservationForm, this.accommodation));
+    this.reservationForm.addValidators(ReservationValidator.validateDates(this.accommodation.availabilityDates, this.reservationForm, this.accommodation));
+    this.reservationForm.addValidators(ReservationValidator.validateGuestNumber(this.accommodation.minGuests, this.accommodation.maxGuests));
     this.reservationForm.updateValueAndValidity();
 
-    if (!(form.checkValidity() === false)) {
+    // if (!(form.checkValidity() === false) && this.reservationForm.errors == null) {
 
-      let inputRange = new DateRange(new Date(this.reservationForm.get("availabilityStart")?.value), new Date(this.reservationForm.get("availabilityEnd")?.value), 0);
-      const reservation = new Reservation(null, this.axiosService.getEmail(), this.accommodationId, inputRange.startDate, Math.floor((inputRange.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24), this.reservationForm.get("guestNumber")?.value, this.currentPrice, ReservationStatus.Waiting);
-      this.axiosService.request(
-        "POST",
-        "/api/accommodations/reservations",
-        reservation
-      )
-      this.router.navigate(["/"]);
+    //   let inputRange = new DateRange(new Date(this.reservationForm.get("availabilityStart")?.value), new Date(this.reservationForm.get("availabilityEnd")?.value), 0);
+    //   const reservation = new Reservation(null, this.axiosService.getEmail(), this.accommodationId, inputRange.startDate, Math.floor((inputRange.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24), this.reservationForm.get("guestNumber")?.value, this.currentPrice, ReservationStatus.Waiting);
+    //   this.axiosService.request(
+    //     "POST",
+    //     "/api/accommodations/reservations",
+    //     reservation
+    //   )
+    //   this.router.navigate(["/"]);
 
-    }
+    // }
     
     form.classList.add('was-validated');
 
@@ -157,7 +167,30 @@ export class AccommodationDetailComponent {
 
 }
 
-export class DatesValidator {
+export class ReservationValidator {
+
+  public static validateGuestNumber(min: number, max: number) {
+
+    return (control: AbstractControl) => {
+
+      let guestNumber = control.get("guestNumber")?.value;
+
+      let guestNumberInput = document.getElementsByName('guestNumber')[0] as HTMLFormElement;
+
+      if (guestNumber < min || guestNumber > max || guestNumber == null) {
+        guestNumberInput.classList.add("is-invalid");
+        guestNumberInput.classList.remove("is-valid");
+        return {guestNumber: true};
+      }
+
+      guestNumberInput.classList.remove("is-invalid");
+      guestNumberInput.classList.add("is-valid");
+
+      return null;
+
+    }
+
+  }
 
   public static validateDates(availabilityDates: Array<DateRange>, reservationForm: FormGroup, accommodation: any) {
 
@@ -171,10 +204,19 @@ export class DatesValidator {
 
       let validRange = false;
       let validStart = false;
+      let validStartBeforeTomorrow = false;
 
       if (inputRange.startDate < inputRange.endDate) {
         validStart = true;
       } 
+
+      let tomorrow = new Date();
+      tomorrow.setHours(0, 0, 0, 0);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+
+      if (inputRange.startDate >= tomorrow) {
+        validStartBeforeTomorrow = true;
+      }
 
       for(let i = 0; i < availabilityDates.length; i++) {
 
@@ -222,30 +264,46 @@ export class DatesValidator {
         }
 
       }
+
+      type Ret = {[key: string] : boolean}
+      const returnObject: Ret = {}
+      let hasErrors = false;
+
+      if (!validRange) {
+        returnObject['notOverlapping'] = true;
+        hasErrors = true;
+      }
+
+      if (!validStart) {
+        returnObject['startAfterEnd'] = true;
+        hasErrors = true;
+      }
+
+      if (!validStartBeforeTomorrow) {
+        returnObject['startBeforeTomorrow'] = true;
+        hasErrors = true;
+      }
+
+      if (validRange && validStart && validStartBeforeTomorrow) {
+        availabilityStart.classList.remove('is-invalid');
+        availabilityStart.classList.add('is-valid');
+      }
+      else {
+        availabilityStart.classList.add('is-invalid');
+        availabilityStart.classList.remove('is-valid');
+      }
       
-      availabilityStart.classList.add('is-invalid');
-      availabilityStart.classList.remove('is-valid');
-      availabilityEnd.classList.add('is-invalid');
-      availabilityEnd.classList.remove('is-valid');
+      if (validRange) {
+        availabilityEnd.classList.remove('is-invalid');
+        availabilityEnd.classList.add('is-valid');
+      }
+      else {
+        availabilityEnd.classList.add('is-invalid');
+        availabilityEnd.classList.remove('is-valid');
+      }
 
-      if (!validRange && !validStart)
-        return { notOverlapping: true, startAfterEnd: true };
-
-      if (!validRange)
-        return { notOverlapping: true };
-
-      availabilityStart.classList.add('is-invalid');
-      availabilityStart.classList.remove('is-valid');
-      availabilityEnd.classList.remove('is-invalid');
-      availabilityEnd.classList.add('is-valid');
-
-      if (!validStart)
-        return { startAfterEnd: true }; 
-        
-      availabilityStart.classList.remove('is-invalid');
-      availabilityStart.classList.add('is-valid');
-      availabilityEnd.classList.remove('is-invalid');
-      availabilityEnd.classList.add('is-valid');
+      if (hasErrors)
+        return returnObject;
 
       return null;
 

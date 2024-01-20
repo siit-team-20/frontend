@@ -53,7 +53,7 @@ export class RegistrationComponent {
     this.registerForm.addValidators(this.validatePassword);
     this.registerForm.setErrors(this.validatePassword(this.registerForm));
 
-    if (!(form.checkValidity() === false)) {
+    if (!(form.checkValidity() === false) && this.registerForm.errors == null) {
 
       const registerData = { ...this.registerForm.value };
       let userTypeString: string = registerData.type as string;

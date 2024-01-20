@@ -30,6 +30,9 @@
             <input type="number" class="form-control" name="minGuests" id="minGuests" placeholder="Minimum guests"
                 formControlName="minGuests" min="1" required>
             <div class="invalid-feedback">This input is not valid!</div>
+            <div *ngIf="createForm.errors?.['minGuests']" class="custom-invalid-feedback">
+                Minimum number of guests is greater than maximum number of guests!
+            </div>
         </div>
         <div class="form-group">
             <label for="maxGuests">Maximum guests</label>
@@ -53,13 +56,13 @@
         </div>
         <div class="form-group">
             <label for="availabilityStart">Availability start</label>
-            <input type="date" class="form-control" name="availabilityStart" id="availabilityStart"
+            <input type="date" class="form-control availabilityDates" name="availabilityStart" id="availabilityStart"
                 formControlName="availabilityStart" required>
             <div class="invalid-feedback">This input is not valid!</div>
         </div>
         <div class="form-group">
             <label for="availabilityEnd">Availability end</label>
-            <input type="date" class="form-control" name="availabilityEnd" id="availabilityEnd"
+            <input type="date" class="form-control availabilityDates" name="availabilityEnd" id="availabilityEnd"
                 formControlName="availabilityEnd" required>
             <div class="invalid-feedback">This input is not valid!</div>
         </div>
@@ -75,13 +78,13 @@
             <h5 class="mb-3">Availability range {{i + 2}}</h5>
             <div class="form-group">
                 <label for="{{'availabilityStart' + rangeId}}">Availability start</label>
-                <input type="date" class="form-control" name="{{'availabilityStart' + rangeId}}" id="{{'availabilityStart' + rangeId}}"
+                <input type="date" class="form-control availabilityDates" name="{{'availabilityStart' + rangeId}}" id="{{'availabilityStart' + rangeId}}"
                     formControlName="{{'availabilityStart' + rangeId}}" required>
                 <div class="invalid-feedback">This input is not valid!</div>
             </div>
             <div class="form-group">
                 <label for="{{'availabilityEnd' + rangeId}}">Availability end</label>
-                <input type="date" class="form-control" name="{{'availabilityEnd' + rangeId}}" id="{{'availabilityEnd' + rangeId}}"
+                <input type="date" class="form-control availabilityDates" name="{{'availabilityEnd' + rangeId}}" id="{{'availabilityEnd' + rangeId}}"
                     formControlName="{{'availabilityEnd' + rangeId}}" required>
                 <div class="invalid-feedback">This input is not valid!</div>
             </div>
@@ -125,6 +128,9 @@
             <input type="number" class="form-control" name="reservationCancellationDeadline" id="cancellationDeadline"
                 formControlName="reservationCancellationDeadline" placeholder="X days before check-in" min="1" required>
             <div class="invalid-feedback">This input is not valid!</div>
+        </div>
+        <div *ngIf="createForm.errors?.['datesOverlapping']" class="custom-invalid-feedback">
+            Availability range dates are overlapping!
         </div>
         <button type="submit" class="btn btn-primary mt-3 w-100">Submit</button>
     </form>

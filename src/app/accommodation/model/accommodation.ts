@@ -82,9 +82,9 @@ export class DateRange {
 
     public IsOverlapping(other: DateRange) : boolean {
 
-        if (other.startDate < this.startDate && other.endDate < this.endDate)
+        if (other.startDate <= this.startDate && other.endDate <= this.startDate)
             return false;
-        if (other.startDate > this.startDate && other.endDate > this.endDate)
+        if (other.startDate >= this.endDate && other.endDate >= this.endDate)
             return false;
         return true;
 
