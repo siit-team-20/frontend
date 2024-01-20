@@ -17,16 +17,16 @@
                 </li>
             </div>
             <div class="row">
-                <li *ngIf="auth.getRole() != null" class="nav-item active">
+                <li *ngIf="auth.getRole() != null" class="nav-item">
                     <a class="nav-link" [routerLink]="['profile']">{{auth.getEmail()}}</a>
                 </li>
-                <li *ngIf="auth.getRole() == null" class="nav-item active">
+                <li *ngIf="auth.getRole() == null" class="nav-item">
                     <a class="nav-link" [routerLink]="['auth/login']">Log In</a>
                 </li>
-                <li *ngIf="auth.getRole() == null" class="nav-item active">
+                <li *ngIf="auth.getRole() == null" class="nav-item">
                     <a class="nav-link" [routerLink]="['auth/register']">Sign Up</a>
                 </li>
-                <li *ngIf="auth.getRole() != null" class="nav-item active">
+                <li *ngIf="auth.getRole() != null" class="nav-item">
                     <a (click)="logOut()" class="nav-link" [routerLink]="['auth/login']">Log Out</a>
                 </li>
             </div>

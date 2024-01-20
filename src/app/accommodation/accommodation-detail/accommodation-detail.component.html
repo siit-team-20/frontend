@@ -102,9 +102,9 @@
 
     <div class="row mt-5">
 
-        <div class="col-sm-7 p-3">
+        <div class="col-sm-6 p-3">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <p>Benefits: </p>
                     <div class="list-group overflow-auto" style="max-height: 100px;">
                         <ul *ngFor="let benefit of accommodation.benefits;">
@@ -115,13 +115,13 @@
 
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                     <p>Availability Start - End date: </p>
                     <div class="list-group overflow-auto" style="max-height: 100px;">
                         <ul *ngFor="let date of accommodation.availabilityDates;">
                             <li>
                                 {{ datePipe.transform(date.startDate, "yyyy-MM-dd") }} - {{
-                                datePipe.transform(date.endDate, "yyyy-MM-dd") }} _______ {{date.price}} €
+                                datePipe.transform(date.endDate, "yyyy-MM-dd") }} _____ {{date.price}} €
                             </li>
                         </ul>
 
@@ -131,7 +131,7 @@
 
         </div>
 
-        <div class="col-sm-3 p-3">
+        <div class="col-sm-2 p-3">
             <p>Pricing: </p>
             <div class="col-sm-12 mx-4">
                 <div class="form-check">
@@ -146,6 +146,26 @@
                         [checked]="!accommodation.isPriceByGuest" [attr.disabled]="true">
                     <label class="form-check-label" for="isPricePerDay">
                         Per day
+                    </label>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-sm-2 p-3">
+            <p>Acceptance: </p>
+            <div class="col-sm-12 mx-4">
+                <div class="form-check">
+                    <input class="form-check-input" id="isAutomaticAcceptance" type="radio" value="Automatic"
+                        [checked]="accommodation.isAutomaticAcceptance" [attr.disabled]="true">
+                    <label class="form-check-label" >
+                        Automatic
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="isManualAcceptance" type="radio" value="Manual"
+                        [checked]="!accommodation.isAutomaticAcceptance" [attr.disabled]="true">
+                    <label class="form-check-label" >
+                        Manual
                     </label>
                 </div>
             </div>
