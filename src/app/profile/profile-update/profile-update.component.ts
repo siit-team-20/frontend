@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { AxiosService } from '../../axios.service';
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User, UserType } from '../../auth/model/user';
@@ -45,7 +45,10 @@ export class ProfileUpdateComponent implements OnInit {
   onSubmit(): void {
 
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    if (!(form.checkValidity() === false)) {
+    this.updateForm.addValidators(this.validatePassword);
+    this.updateForm.setErrors(this.validatePassword(this.updateForm));
+
+    if (!(form.checkValidity() === false) && this.updateForm.errors == null) {
 
       const submitData = { ...this.updateForm.value };
 
@@ -85,6 +88,25 @@ export class ProfileUpdateComponent implements OnInit {
       this.updateForm.removeControl("confirmPassword");
       this.isPasswordShown = false;
     }
+  }
+
+  validatePassword(control: AbstractControl) {
+    if (control.get('password')?.value !== control.get('confirmPassword')?.value) {
+      control.get('confirmPassword')?.setErrors({ mismatch: true });
+      var confirmPassword = document.getElementsByName('confirmPassword')[0] as HTMLFormElement;
+      if (confirmPassword !== undefined) {
+        confirmPassword.classList.add('is-invalid');
+        confirmPassword.classList.remove('is-valid');
+      }
+    } else {
+      control.get('confirmPassword')?.setErrors(null);
+      var confirmPassword = document.getElementsByName('confirmPassword')[0] as HTMLFormElement;
+      if (confirmPassword !== undefined) {
+        confirmPassword.classList.remove('is-invalid');
+        confirmPassword.classList.add('is-valid');
+      }
+    }
+    return control.get('password')?.value === control.get('confirmPassword')?.value ? null : { mismatch: true };
   }
 
 }

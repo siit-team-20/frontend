@@ -15,12 +15,9 @@ import { User, UserType } from '../../auth/model/user';
 export class ProfileViewComponent {
 
   auth: AxiosService;
-  encodedEmail: string;
 
   constructor(private axiosService: AxiosService, private router: Router) {
     this.auth = axiosService;
-    this.encodedEmail = encodeURIComponent(this.auth.getEmail());
-    console.log(this.encodedEmail);
   }
 
   deleteUser() {
