@@ -5,6 +5,8 @@ import { Accommodation, DateRange } from '../model/accommodation';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Reservation, ReservationStatus } from '../../reservation/model/reservation';
+import { OwnerReview } from '../model/ownerReview';
+import { AccommodationReview } from '../model/accommodationReview';
 
 
 @Component({
@@ -18,17 +20,30 @@ export class AccommodationDetailComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   accommodationId = -1;
   currentPrice = 0;
+  ownerRating = "three";
+  accommodationRating = "three";
   accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0, "");
 
   reservationForm: FormGroup;
+  ownerReviewForm: FormGroup;
+  accommodationReviewForm: FormGroup;
 
-  constructor(private axiosService: AxiosService, private router: Router, private formBuilder: FormBuilder, public datePipe: DatePipe){
+  constructor(private axiosService: AxiosService, private router: Router, private formBuilder: FormBuilder, public datePipe: DatePipe) {
     this.accommodationId = Number(this.route.snapshot.params['id']);
     this.reservationForm = this.formBuilder.group({
-
       availabilityStart: [this.datePipe.transform(new Date(), "yyyy-MM-dd"), [Validators.required]],
       availabilityEnd: [this.datePipe.transform(new Date(), "yyyy-MM-dd"), [Validators.required]],
       guestNumber: [1, [Validators.required, Validators.min(1), Validators.max(30)]]
+    });
+
+    this.ownerReviewForm = this.formBuilder.group({
+      ownerComment: ["", [Validators.required]],
+      ownerRating: [this.ownerRating, [Validators.required]],
+    });
+
+    this.accommodationReviewForm = this.formBuilder.group({
+      accommodationComment: ["", [Validators.required]],
+      accommodationRating: [this.accommodationRating, [Validators.required]],
     });
   }
 
@@ -40,8 +55,8 @@ export class AccommodationDetailComponent {
       {}
     ).then(
       response => {
-       this.accommodation = response.data;
-       this.accommodation.availabilityDates = this.accommodation.availabilityDates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+        this.accommodation = response.data;
+        this.accommodation.availabilityDates = this.accommodation.availabilityDates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
       });
   }
 
@@ -62,7 +77,7 @@ export class AccommodationDetailComponent {
 
       if (inputRange.startDate < inputRange.endDate) {
         validStart = true;
-      } 
+      }
 
       let tomorrow = new Date();
       tomorrow.setHours(0, 0, 0, 0);
@@ -72,21 +87,21 @@ export class AccommodationDetailComponent {
         validStartBeforeTomorrow = true;
       }
 
-      for(let i = 0; i < this.accommodation.availabilityDates.length; i++) {
+      for (let i = 0; i < this.accommodation.availabilityDates.length; i++) {
 
         let availableRangeCurrent = new DateRange(new Date(this.accommodation.availabilityDates[i].startDate), new Date(this.accommodation.availabilityDates[i].endDate), this.accommodation.availabilityDates[i].price);
         availableRangeCurrent.SetTimeToZero();
 
         if (inputRange.IsBetween(availableRangeCurrent)) {
-          
+
           let days = Math.floor((inputRange.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24);
           if (validStart)
             this.currentPrice += days * availableRangeCurrent.price;
-          validRange = true; 
+          validRange = true;
           break;
 
         }
-        else  {
+        else {
 
           if (i != this.accommodation.availabilityDates.length - 1) {
 
@@ -100,7 +115,7 @@ export class AccommodationDetailComponent {
                 this.currentPrice += days * availableRangeCurrent.price;
 
               for (let j = i + 1; j < this.accommodation.availabilityDates.length; j++) {
-                
+
                 let availableRangeNext = new DateRange(new Date(this.accommodation.availabilityDates[j].startDate), new Date(this.accommodation.availabilityDates[j].endDate), this.accommodation.availabilityDates[j].price);
                 availableRangeNext.SetTimeToZero();
 
@@ -126,7 +141,7 @@ export class AccommodationDetailComponent {
 
               }
 
-            } 
+            }
 
           }
 
@@ -143,7 +158,7 @@ export class AccommodationDetailComponent {
 
   onSubmit(): void {
 
-    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    var form = document.getElementsByName('reservationForm')[0] as HTMLFormElement;
     this.reservationForm.addValidators(ReservationValidator.validateDates(this.accommodation.availabilityDates, this.reservationForm, this.accommodation));
     this.reservationForm.addValidators(ReservationValidator.validateGuestNumber(this.accommodation.minGuests, this.accommodation.maxGuests));
     this.reservationForm.updateValueAndValidity();
@@ -160,9 +175,47 @@ export class AccommodationDetailComponent {
       this.router.navigate(["/"]);
 
     }
-    
+
     form.classList.add('was-validated');
 
+  }
+
+  onSubmitAccommodationReview(): void {
+
+    var form = document.getElementsByName('accommodationReviewForm')[0] as HTMLFormElement;
+    if (!(form.checkValidity() === false) && this.accommodationReviewForm.errors == null) {
+
+      const accommodationReviewData = { ...this.accommodationReviewForm.value };
+      const accommodationReview = new AccommodationReview(null, this.axiosService.getEmail(), this.accommodation.id!, accommodationReviewData.accommodationComment, accommodationReviewData.accommodationRating, false);
+      console.log(accommodationReview)
+      this.axiosService.request(
+        "POST",
+        "/api/accommodations/reviews",
+        accommodationReview
+      )
+
+    }
+    form.classList.add('was-validated');
+
+  }
+
+  onSubmitOwnerReview(): void {
+
+    var form = document.getElementsByName('ownerReviewForm')[0] as HTMLFormElement;
+    console.log(form)
+    if (!(form.checkValidity() === false) && this.ownerReviewForm.errors == null) {
+
+      const ownerReviewData = { ...this.ownerReviewForm.value };
+      const ownerReview = new OwnerReview(null, this.axiosService.getEmail(), this.accommodation.ownerEmail, ownerReviewData.ownerComment, ownerReviewData.ownerRating, false);
+
+      this.axiosService.request(
+        "POST",
+        "/api/ownerReviews",
+        ownerReview
+      )
+
+    }
+    form.classList.add('was-validated');
   }
 
 }
@@ -180,7 +233,7 @@ export class ReservationValidator {
       if (guestNumber < min || guestNumber > max || guestNumber == null) {
         guestNumberInput.classList.add("is-invalid");
         guestNumberInput.classList.remove("is-valid");
-        return {guestNumber: true};
+        return { guestNumber: true };
       }
 
       guestNumberInput.classList.remove("is-invalid");
@@ -208,7 +261,7 @@ export class ReservationValidator {
 
       if (inputRange.startDate < inputRange.endDate) {
         validStart = true;
-      } 
+      }
 
       let tomorrow = new Date();
       tomorrow.setHours(0, 0, 0, 0);
@@ -218,19 +271,19 @@ export class ReservationValidator {
         validStartBeforeTomorrow = true;
       }
 
-      for(let i = 0; i < availabilityDates.length; i++) {
+      for (let i = 0; i < availabilityDates.length; i++) {
 
         let availableRangeCurrent = new DateRange(new Date(availabilityDates[i].startDate), new Date(availabilityDates[i].endDate), availabilityDates[i].price);
         availableRangeCurrent.SetTimeToZero();
 
         if (inputRange.IsBetween(availableRangeCurrent)) {
 
-          
-          validRange = true; 
+
+          validRange = true;
           break;
 
         }
-        else  {
+        else {
 
           if (i != availabilityDates.length - 1) {
 
@@ -238,7 +291,7 @@ export class ReservationValidator {
             availableRangePast.SetTimeToZero();
 
             for (let j = i + 1; j < availabilityDates.length; j++) {
-              
+
               let availableRangeNext = new DateRange(new Date(availabilityDates[j].startDate), new Date(availabilityDates[j].endDate), availabilityDates[j].price);
               availableRangeNext.SetTimeToZero();
 
@@ -265,7 +318,7 @@ export class ReservationValidator {
 
       }
 
-      type Ret = {[key: string] : boolean}
+      type Ret = { [key: string]: boolean }
       const returnObject: Ret = {}
       let hasErrors = false;
 
@@ -292,7 +345,7 @@ export class ReservationValidator {
         availabilityStart.classList.add('is-invalid');
         availabilityStart.classList.remove('is-valid');
       }
-      
+
       if (validRange) {
         availabilityEnd.classList.remove('is-invalid');
         availabilityEnd.classList.add('is-valid');
