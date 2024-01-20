@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AxiosService } from '../../axios.service';
 import { Accommodation, DateRange } from '../model/accommodation';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -14,7 +14,7 @@ import { AccommodationReview } from '../model/accommodationReview';
   templateUrl: './accommodation-detail.component.html',
   styleUrl: './accommodation-detail.component.css',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule,]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink]
 })
 export class AccommodationDetailComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
