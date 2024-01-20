@@ -1,12 +1,13 @@
 <div class="container py-5 px-1">
 
     <div class="row border-bottom">
-        <div class = "col-sm-7">
-            <img src="assets/images/apartment1.jpg" alt="apartment"  class="img-fluid shadow">
+        <div class="col-sm-7">
+            <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid shadow">
         </div>
-       
+
         <div class="col-sm-5 px-4 mt-3">
-            <h2 class = "text-center pb-5" [attr.id]="'accommodationModalLabel'+accommodation.id" >{{accommodation.name}}</h2>
+            <h2 class="text-center pb-5" [attr.id]="'accommodationModalLabel'+accommodation.id">{{accommodation.name}}
+            </h2>
 
             <p class="text-center">{{accommodation.description}}</p>
             <div class="row">
@@ -23,7 +24,8 @@
                 </div>
                 <div class="col-sm-6">
                     <p>Cancelation deadline:
-                        {{accommodation.reservationCancellationDeadline}}</p></div>
+                        {{accommodation.reservationCancellationDeadline}}</p>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-6">
@@ -35,63 +37,76 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-secondary px-4 btn-block" data-toggle="modal" data-target="#rateAccommodationModal ">Rate Accommodation</button>
+                    <button type="button" class="btn btn-secondary px-4 btn-block" data-toggle="modal"
+                        data-target="#rateAccommodationModal ">Rate Accommodation</button>
                 </div>
                 <div class="col-sm-6">
-                    <button type="button" class="btn btn-secondary px-4 btn-block" data-toggle="modal" data-target="#rateOwnerModal">Rate Owner</button>
+                    <button type="button" class="btn btn-secondary px-4 btn-block" data-toggle="modal"
+                        data-target="#rateOwnerModal">Rate Owner</button>
                 </div>
             </div>
         </div>
     </div>
-    
-    <div class="modal fade" id="rateAccommodationModal" tabindex="-1" role="dialog" aria-labelledby="rateAccommodationModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Comment accommodation"></textarea>
-                  </div>
-                  <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
-                  </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary">Confirm</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="modal fade" id="rateOwnerModal" tabindex="-1" role="dialog" aria-labelledby="rateOwnerModal" aria-hidden="true">
+    <div class="modal fade" id="rateAccommodationModal" tabindex="-1" role="dialog"
+        aria-labelledby="rateAccommodationModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                    <textarea class="form-control" id="ownerTextArea" rows="3" placeholder="Comment owner"></textarea>
-                  </div>
-                  <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
-                  </div>
-              </form>
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                                placeholder="Comment accommodation"></textarea>
+                        </div>
+                        <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input
+                                type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio"
+                                name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio"
+                                name="rating" value="1" id="1"><label for="1">☆</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Confirm</button>
+                </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-              <button type="button" class="btn btn-primary">Confirm</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
+
+    <div class="modal fade" id="rateOwnerModal" tabindex="-1" role="dialog" aria-labelledby="rateOwnerModal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <textarea class="form-control" id="ownerTextArea" rows="3"
+                                placeholder="Comment owner"></textarea>
+                        </div>
+                        <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input
+                                type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio"
+                                name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio"
+                                name="rating" value="1" id="1"><label for="1">☆</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row mt-5">
-        
+
         <div class="col-sm-7 p-3">
             <div class="row">
                 <div class="col-sm-6">
                     <p>Benefits: </p>
-                    <div class="list-group overflow-auto"
-                    style="max-height: 100px;">
+                    <div class="list-group overflow-auto" style="max-height: 100px;">
                         <ul *ngFor="let benefit of accommodation.benefits;">
                             <li>
                                 {{benefit}}
@@ -101,12 +116,12 @@
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <p>Start - End date: </p>
-                    <div class="list-group overflow-auto"
-                    style="max-height: 100px;">
+                    <p>Availability Start - End date: </p>
+                    <div class="list-group overflow-auto" style="max-height: 100px;">
                         <ul *ngFor="let date of accommodation.availabilityDates;">
-                            <li >
-                                {{ datePipe.transform(date.startDate, "yyyy-MM-dd") }} - {{ datePipe.transform(date.endDate, "yyyy-MM-dd") }} _______ {{date.price}} €
+                            <li>
+                                {{ datePipe.transform(date.startDate, "yyyy-MM-dd") }} - {{
+                                datePipe.transform(date.endDate, "yyyy-MM-dd") }} _______ {{date.price}} €
                             </li>
                         </ul>
 
@@ -115,38 +130,34 @@
             </div>
 
         </div>
-        
+
         <div class="col-sm-3 p-3">
             <p>Pricing: </p>
             <div class="col-sm-12 mx-4">
                 <div class="form-check">
-                    <input class="form-check-input" id="isPriceByGuest"
-                        type="radio" value="perGuest"
-                        [checked]="accommodation.isPriceByGuest"
-                        [attr.disabled]="true">
-                    <label class="form-check-label"
-                        for="isPriceByGuest">
+                    <input class="form-check-input" id="isPriceByGuest" type="radio" value="perGuest"
+                        [checked]="accommodation.isPriceByGuest" [attr.disabled]="true">
+                    <label class="form-check-label" for="isPriceByGuest">
                         Per guest
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" id="isPricePerDay"
-                        type="radio" value="perDay"
-                        [checked]="!accommodation.isPriceByGuest"
-                        [attr.disabled]="true">
+                    <input class="form-check-input" id="isPricePerDay" type="radio" value="perDay"
+                        [checked]="!accommodation.isPriceByGuest" [attr.disabled]="true">
                     <label class="form-check-label" for="isPricePerDay">
                         Per day
                     </label>
                 </div>
             </div>
         </div>
-      <div class="col-sm-2"> 
-        <div class="mt-3">
-            <button class="btn btn-secondary mt-5 w-100" type="button" data-toggle="collapse" data-target="#collapseExample">Make a reservation</button>
+        <div class="col-sm-2">
+            <div class="mt-3">
+                <button class="btn btn-secondary mt-5 w-100" type="button" data-toggle="collapse"
+                    data-target="#collapseExample">Make a reservation</button>
+            </div>
         </div>
-      </div>
-    
-   
+
+
     </div>
 
     <div class="collapse mt-5" id="collapseExample">
@@ -154,9 +165,9 @@
             <div class="row">
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="availabilityStart">Availability start</label>
-                        <input (change)="inputChanged()" type="date" class="form-control" name="availabilityStart" id="availabilityStart"
-                            formControlName="availabilityStart" required>
+                        <label for="availabilityStart">Start date:</label>
+                        <input (change)="inputChanged()" type="date" class="form-control" name="availabilityStart"
+                            id="availabilityStart" formControlName="availabilityStart" required>
                         <div class="invalid-feedback">This input is not valid!</div>
                         <div *ngIf="reservationForm.errors?.['notOverlapping']" class="custom-invalid-feedback">
                             Chosen date range is not available!
@@ -168,9 +179,9 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label for="availabilityEnd">Availability end</label>
-                        <input (change)="inputChanged()" type="date" class="form-control" name="availabilityEnd" id="availabilityEnd"
-                            formControlName="availabilityEnd" required>
+                        <label for="availabilityEnd">End date:</label>
+                        <input (change)="inputChanged()" type="date" class="form-control" name="availabilityEnd"
+                            id="availabilityEnd" formControlName="availabilityEnd" required>
                         <div class="invalid-feedback">This input is not valid!</div>
                         <div *ngIf="reservationForm.errors?.['notOverlapping']" class="custom-invalid-feedback">
                             Chosen date range is not available!
@@ -179,27 +190,28 @@
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <label for="guestNumber">Guests</label>
-                        <input (input)="inputChanged()" type="number" min="1" max="30" class="form-control" name="guestNumber" id="guestNumber" formControlName="guestNumber" required>
+                        <label for="guestNumber">Guests:</label>
+                        <input (input)="inputChanged()" type="number" min="1" max="30" class="form-control"
+                            name="guestNumber" id="guestNumber" formControlName="guestNumber" required>
                         <div class="invalid-feedback">This input is not valid!</div>
                     </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">
-                        <label>Price</label>
+                        <label>Price:</label>
                         <p class="mt-2">{{currentPrice}} €</p>
                     </div>
                 </div>
-                <div class="col-sm-2"> 
+                <div class="col-sm-2">
                     <div class="mt-3">
-                        <button class="btn btn-secondary mt-3 w-100" type="submit" >Confirm</button>
+                        <button class="btn btn-secondary mt-3 w-100" type="submit">Confirm</button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
-    
-    
-   
-    
+
+
+
+
 </div>

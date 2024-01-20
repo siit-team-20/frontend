@@ -11,6 +11,7 @@ import { ProfileViewComponent } from './profile/profile-view/profile-view.compon
 import { authGuard } from './auth/auth.guard';
 import { ProfileUpdateComponent } from './profile/profile-update/profile-update.component';
 import { AccommodationDetailComponent } from './accommodation/accommodation-detail/accommodation-detail.component';
+import { ReservationsComponent } from './reservation/reservations/reservations.component';
 
 const routes: Routes = [
   { component: AccommodationsComponent, path: "" },
@@ -22,7 +23,8 @@ const routes: Routes = [
   { component: RegistrationComponent, path: "auth/register" },
   { component: AccommodationDetailComponent, path: "accommodation/detail/:id" },
   { component: ProfileViewComponent, path: "profile", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard] },
-  { component: ProfileUpdateComponent, path: "profile/update/:email", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard] }
+  { component: ProfileUpdateComponent, path: "profile/update/:email", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard] },
+  { component: ReservationsComponent, path: "reservations", data: { role: [UserType.Guest, UserType.Owner] }, canActivate: [authGuard] }
 ];
 
 @NgModule({
