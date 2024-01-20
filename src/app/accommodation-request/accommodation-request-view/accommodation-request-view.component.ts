@@ -1,7 +1,10 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, inject } from '@angular/core';
 import { AccommodationRequest } from '../model/accommodation-request';
 import { Accommodation, DateRange } from '../../accommodation/model/accommodation';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+import { AxiosService } from '../../axios.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-accommodation-request-view',
@@ -16,4 +19,19 @@ export class AccommodationRequestViewComponent {
   @Output() approveCreateRequestEvent = new EventEmitter();
   @Output() approveUpdateRequestEvent = new EventEmitter();
   @Output() rejectUpdateRequestEvent = new EventEmitter();
+
+  route: ActivatedRoute = inject(ActivatedRoute);
+  accommodationId = -1;
+  reservationForm: FormGroup;
+
+
+  constructor(private axiosService: AxiosService, private router: Router, private formBuilder: FormBuilder, public datePipe: DatePipe){
+    this.accommodationId = Number(this.route.snapshot.params['id']);
+    this.reservationForm = this.formBuilder.group({
+
+      availabilityStart: [this.datePipe.transform(new Date(), "yyyy-MM-dd"), [Validators.required]],
+      availabilityEnd: [this.datePipe.transform(new Date(), "yyyy-MM-dd"), [Validators.required]]
+    });
+
+  }
 }
