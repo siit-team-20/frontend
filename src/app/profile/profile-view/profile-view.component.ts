@@ -15,9 +15,25 @@ import { User, UserType } from '../../auth/model/user';
 export class ProfileViewComponent {
 
   auth: AxiosService;
+  route: ActivatedRoute = inject(ActivatedRoute);
+  profileEmail = "";
+  user: User = new User("", "", "", "", "", "", UserType.Guest);
 
   constructor(private axiosService: AxiosService, private router: Router) {
     this.auth = axiosService;
+    this.profileEmail = this.route.snapshot.params["email"];
+  }
+
+  ngOnInit(): void {
+
+    this.axiosService.request(
+      "GET",
+      "/users/" + this.profileEmail,
+      {}
+    ).then(
+      response => {
+        this.user = response.data;
+      });
   }
 
   deleteUser() {

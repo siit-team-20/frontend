@@ -12,10 +12,10 @@
             <p class="text-center">{{accommodation.description}}</p>
             <div class="row">
                 <div class="col-sm-6">
-                    <p>Name : {{accommodation.name}}</p>
+                    <p>Name: {{accommodation.name}}</p>
                 </div>
                 <div class="col-sm-6">
-                    <p>Email : {{accommodation.ownerEmail}}</p>
+                    <span>Email: </span><span><a [routerLink]="['/profile/', accommodation.ownerEmail]">{{accommodation.ownerEmail}}</a></span>
                 </div>
             </div>
             <div class="row">

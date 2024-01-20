@@ -17,8 +17,8 @@
                 </li>
             </div>
             <div class="row">
-                <li *ngIf="auth.getRole() != null" class="nav-item">
-                    <a class="nav-link" [routerLink]="['profile']">{{auth.getEmail()}}</a>
+                <li *ngIf="auth.getRole() != null" class="nav-item active">
+                    <a class="nav-link" [routerLink]="['profile', auth.getEmail()]">{{auth.getEmail()}}</a>
                 </li>
                 <li *ngIf="auth.getRole() == null" class="nav-item">
                     <a class="nav-link" [routerLink]="['auth/login']">Log In</a>
