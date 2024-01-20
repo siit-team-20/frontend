@@ -7,35 +7,37 @@
         <div class="col-md-3">
             <input class="form-control" type="number" placeholder="Number of guests" [(ngModel)]="searchnumber">
         </div>
-    
+
         <div class="col-md-2">
-            
-             <input class="form-control datepicker" [(ngModel)]="searchstartdate"  type="date" id="startDate">
+
+            <input class="form-control datepicker" [(ngModel)]="searchstartdate" type="date" id="startDate">
         </div>
         <div class="col-md-2">
             <input class="form-control datepicker" [(ngModel)]="searchenddate" type="date" id="endDate">
         </div>
-        
+
     </div>
     <p>
-        <button  class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-          Filters
+        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample">
+            Filters
         </button>
-      </p>
-      <div class="collapse" id="collapseExample">
+    </p>
+    <div class="collapse" id="collapseExample">
         <div class="card card-body">
             <div class="row p-5">
                 <div class="col-md-4">
                     <h5 class="text-center">Benefits</h5>
-                    <select class="form-control" size="5" [(ngModel)]="searchbenefits" aria-label="size 3 select example" multiple>
+                    <select class="form-control" size="5" [(ngModel)]="searchbenefits"
+                        aria-label="size 3 select example" multiple>
                         <option selected value="">None</option>
                         <option value="TV">TV</option>
                         <option value="WI-FI">WI-FI</option>
                         <option value="PARKING">Parking</option>
                         <option value="BAZEN">Bazen</option>
-                      </select> 
+                    </select>
                 </div>
-                
+
                 <div class="col-md-4">
                     <h5 class="text-center">Price</h5>
                     <select class="form-control" size="5" [(ngModel)]="searchprice" aria-label="size 3 select example">
@@ -44,27 +46,28 @@
                         <option value="30-60">30 - 60 €</option>
                         <option value="60-90">60 - 90 €</option>
                         <option value="90-12000">90 € +</option>
-                      </select> 
+                    </select>
                 </div>
                 <div class="col-md-4">
                     <h5 class="text-center">Type</h5>
-                    <select class="form-control" size="5" aria-label="size 3 select example" [(ngModel)]="searchtype" >
+                    <select class="form-control" size="5" aria-label="size 3 select example" [(ngModel)]="searchtype">
                         <option selected value="">None </option>
                         <option value="Hotel">Hotel </option>
                         <option value="Apartment">Apartment</option>
                         <option value="Motel">Motel</option>
                         <option value="Studio">Studio</option>
-                      </select> 
+                    </select>
                 </div>
             </div>
         </div>
-      </div>
+    </div>
     <h1>Accommodations</h1>
 
     <div class="accommodations">
-        
-        
-        <app-accommodation-view *ngFor="let accommodation of accommodations | search: { location: searchtext, guests: searchnumber, price: searchprice, type: searchtype, benefits: searchbenefits, start: searchstartdate, end: searchenddate }"
+
+
+        <app-accommodation-view
+            *ngFor="let accommodation of accommodations | search: { location: searchtext, guests: searchnumber, price: searchprice, type: searchtype, benefits: searchbenefits, start: searchstartdate, end: searchenddate }"
             [accommodation]="accommodation"></app-accommodation-view>
 
     </div>

@@ -10,8 +10,10 @@
             <div class="row">
                 <app-admin-navbar *ngIf="auth.getRole() == 'Admin'"></app-admin-navbar>
                 <app-owner-navbar *ngIf="auth.getRole() == 'Owner'"></app-owner-navbar>
+                <app-guest-navbar *ngIf="auth.getRole() == 'Guest'"></app-guest-navbar>
                 <li class="nav-item active">
-                    <a class="nav-link" [routerLink]="['accommodation/accommodations']">{{auth.getRole() == 'Owner' ? 'My' : 'All'}} Accommodations</a>
+                    <a class="nav-link" [routerLink]="['accommodation/accommodations']">{{auth.getRole() == 'Owner' ?
+                        'My' : 'All'}} Accommodations</a>
                 </li>
             </div>
             <div class="row">
@@ -25,7 +27,7 @@
                     <a class="nav-link" [routerLink]="['auth/register']">Sign Up</a>
                 </li>
                 <li *ngIf="auth.getRole() != null" class="nav-item active">
-                    <a (click)="logOut()"  class="nav-link" [routerLink]="['auth/login']">Log Out</a>
+                    <a (click)="logOut()" class="nav-link" [routerLink]="['auth/login']">Log Out</a>
                 </li>
             </div>
         </ul>

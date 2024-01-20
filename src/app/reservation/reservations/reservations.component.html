@@ -1,1 +1,17 @@
-<p>reservations works!</p>
+<div class="main">
+
+    <div class="container">
+
+        <h1 class="text-center pt-5 pb-4">Reservations</h1>
+
+        <div class="requests">
+
+            <app-reservation-view *ngFor="let reservationWithAccommodation of reservationWithAccommodations"
+                [reservationWithAccommodation]="reservationWithAccommodation">
+            </app-reservation-view>
+
+        </div>
+
+    </div>
+
+</div>
