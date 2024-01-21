@@ -10,11 +10,24 @@
                     <p class="card-text py-3">{{accommodation.description}}</p>
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-3 p-3">
                                 {{accommodation.location}}
                             </div>
-                            <div class="col-md-6 d-flex justify-content-end">
-                                <button *ngIf="auth.getRole() == 'Owner'" [disabled]="!accommodation.isApproved" [routerLink]="['/accommodation/update', accommodation.id]" type="button" class="btn btn-primary mx-4">Update</button>
+                            <div class="col-md-4">
+                                <div class="align-items-center">
+                                    <fieldset class="form-group centered-div text-center" disabled="disabled" >
+                                        <div class="ratingReview" >
+                                            <input type="radio"  value="five" id="reviewFive" readonly><label>☆</label>
+                                            <input type="radio"  value="four" id="reviewFour" readonly><label>☆</label>
+                                            <input type="radio"  value="three" id="reviewThree" readonly><label>☆</label>
+                                            <input type="radio"  value="two" id="reviewTwo" readonly><label>☆</label>
+                                            <input type="radio"  value="one" id="reviewOne"  readonly><label>☆</label>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="col-md-5 text-right pt-2">
+                                <button *ngIf="auth.getRole() == 'Owner'" [disabled]="!accommodation.isApproved" [routerLink]="['/accommodation/update', accommodation.id]" type="button" class="btn btn-primary mr-3">Update</button>
                                 <button class="btn btn-primary" [routerLink]="['/accommodation/detail', accommodation.id]">More</button>
                             </div>
                         </div>
