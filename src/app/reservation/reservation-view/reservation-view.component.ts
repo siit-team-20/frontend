@@ -21,6 +21,8 @@ export class ReservationViewComponent {
   @Output() cancelReservationEvent = new EventEmitter();
 
   cancelledReservations = 0;
+  cancellationDeadline = new Date();
+  showCancelButton = true;
 
   constructor(private axiosService: AxiosService, public datePipe: DatePipe) {
     this.auth = axiosService;
@@ -28,6 +30,12 @@ export class ReservationViewComponent {
 
   ngOnInit(): void {
     let query = "?guestEmail=" + this.reservationWithAccommodation.guestEmail + "&status=Cancelled";
+
+    this.cancellationDeadline = new Date(this.reservationWithAccommodation.date);
+    this.cancellationDeadline.setDate(new Date(this.reservationWithAccommodation.date).getDate() - this.reservationWithAccommodation.accommodation.reservationCancellationDeadline);
+    
+    if (this.cancellationDeadline < new Date())
+      this.showCancelButton = false;
 
     this.axiosService.request(
       "GET",
