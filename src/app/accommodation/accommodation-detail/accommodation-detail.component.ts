@@ -26,9 +26,6 @@ export class AccommodationDetailComponent {
   ownerRating = "three";
   accommodationRating = "three";
   accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0, "");
-  auth: AxiosService;
-
-  //@Input() accommodationReview: AccommodationReview = new AccommodationReview(0, "", 0, "", "", false);
 
   accommodationReviews: AccommodationReview[] = [];
 
@@ -65,6 +62,18 @@ export class AccommodationDetailComponent {
       response => {
         this.accommodation = response.data;
         this.accommodation.availabilityDates = this.accommodation.availabilityDates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+        let query: string = "";
+        query = "?accommodationId=" + this.accommodation.id;
+        console.log(query)
+        this.axiosService.request(
+          "GET",
+          "/api/accommodations/reviews" + query,
+          {}
+        ).then(
+          response => {
+            this.accommodationReviews = response.data;
+            console.log(this.accommodationReviews);
+          });
         this.axiosService.request(
           "GET",
           "/api/accommodations/reservations?ownerEmail=" + this.accommodation.ownerEmail + "&status=Finished&guestEmail=" + this.axiosService.getEmail(),
@@ -82,19 +91,6 @@ export class AccommodationDetailComponent {
           response => {
             if (response.data.length > 0)
               this.canRateAccommodation = true;
-          });
-
-        let query: string = "";
-        query = "?accommodationId=" + this.accommodation.id;
-        console.log(query)
-        this.axiosService.request(
-          "GET",
-          "/api/accommodations/reviews" + query,
-          {}
-        ).then(
-          response => {
-            this.accommodationReviews = response.data;
-            console.log(this.accommodationReviews);
           });
       });
 
