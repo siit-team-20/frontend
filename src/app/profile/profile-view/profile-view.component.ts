@@ -24,6 +24,7 @@ export class ProfileViewComponent {
   averageRating = 0;
   user: User = new User("", "", "", "", "", "", UserType.Guest, false);
   public deleteInvalid = "";
+  canReport = false;
 
   ownerReviews: OwnerReview[] = [];
 
@@ -34,6 +35,8 @@ export class ProfileViewComponent {
 
   ngOnInit(): void {
 
+    
+
     this.axiosService.request(
       "GET",
       "/users/" + this.profileEmail,
@@ -41,6 +44,32 @@ export class ProfileViewComponent {
     ).then(
       response => {
         this.user = response.data;
+
+        if (this.auth.getRole() == 'Guest') {
+          this.axiosService.request(
+            "GET",
+            "/api/accommodations/reservations?guestEmail=" + this.auth.getEmail() + "&ownerEmail=" + this.user.email + "&status=Finished",
+            {}
+          ).then(
+            response => {
+              if (response.data.length != 0)
+                this.canReport = true;
+            }
+          );
+        }
+
+        if (this.auth.getRole() == 'Owner') {
+          this.axiosService.request(
+            "GET",
+            "/api/accommodations/reservations?ownerEmail=" + this.auth.getEmail() + "&guestEmail=" + this.user.email + "&status=Finished",
+            {}
+          ).then(
+            response => {
+              if (response.data.length != 0)
+                this.canReport = true;
+            }
+          );
+        }
 
         let query = "?ownerEmail=" + this.user.email + "&isReported=false";
         this.axiosService.request(

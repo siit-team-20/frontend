@@ -340,7 +340,7 @@ export class AccommodationDetailComponent {
     if (!(form.checkValidity() === false) && this.ownerReviewForm.errors == null) {
 
       const ownerReviewData = { ...this.ownerReviewForm.value };
-      const ownerReview = new OwnerReview(null, this.axiosService.getEmail(), this.accommodation.ownerEmail, ownerReviewData.ownerComment, ownerReviewData.ownerRating, false, new Date());
+      const ownerReview = new OwnerReview(null, this.axiosService.getEmail(), this.accommodation.ownerEmail, ownerReviewData.comment, ownerReviewData.ownerRating, false, new Date());
 
       this.axiosService.request(
         "POST",

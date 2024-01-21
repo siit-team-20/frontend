@@ -56,7 +56,7 @@
                                 <br>
                                 <label id="phone" type="text" name="phone">{{user.phone}}</label>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" *ngIf="user.type == 'Owner' && ownerReviews.length != 0">
                                 <label class="small mb-1" for="phone">Average rating</label>
                                 <br>
                                 <div class="row">
@@ -76,10 +76,8 @@
                             type="button">Update</button>
                         <button *ngIf="route.snapshot.params['email'] == auth.getEmail() && auth.getRole() != 'Admin'"
                             class="btn btn-danger ml-3" type="button" (click)="deleteUser()">Delete</button>
-                        <button *ngIf="auth.getRole() == 'Owner' && route.snapshot.params['email'] != auth.getEmail()"
-                            class="btn btn-danger ml-3 right" type="button" (click)="reportUser()">Report</button>
-                        <button *ngIf="auth.getRole() == 'Guest' && route.snapshot.params['email'] != auth.getEmail()"
-                            class="btn btn-danger ml-3 right" type="button" (click)="reportUser()">Report</button>
+                        <button *ngIf="(auth.getRole() == 'Owner' || auth.getRole() == 'Guest') && route.snapshot.params['email'] != auth.getEmail()"
+                            class="btn btn-danger ml-3 right" type="button" (click)="reportUser()" [disabled]="!canReport">Report</button>
                     </form>
                 </div>
             </div>
