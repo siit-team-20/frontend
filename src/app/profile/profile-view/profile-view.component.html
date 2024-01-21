@@ -66,7 +66,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <!-- Save changes button-->
@@ -75,6 +75,10 @@
                             type="button">Update</button>
                         <button *ngIf="route.snapshot.params['email'] == auth.getEmail() && auth.getRole() != 'Admin'"
                             class="btn btn-danger ml-3" type="button" (click)="deleteUser()">Delete</button>
+                        <button *ngIf="auth.getRole() != 'Owner'" class="btn btn-danger ml-3 right" type="button"
+                            (click)="reportUser()">Report</button>
+                        <button *ngIf="auth.getRole() != 'Guest'" class="btn btn-danger ml-3 right" type="button"
+                            (click)="reportUser()">Report</button>
                     </form>
                 </div>
             </div>
@@ -84,8 +88,8 @@
     <div class="mt-4" *ngIf="user.type == 'Owner' && ownerReviews.length != 0">
         <h2 class="my-4">Reviews</h2>
 
-        <app-owner-review-view *ngFor="let ownerReview of ownerReviews"
-            [ownerReview]="ownerReview" (reportReviewEvent)="reportReview($event)"
+        <app-owner-review-view *ngFor="let ownerReview of ownerReviews" [ownerReview]="ownerReview"
+            (reportReviewEvent)="reportReview($event)"
             (deleteReviewGuestEvent)="deleteReviewGuest($event)"></app-owner-review-view>
     </div>
 

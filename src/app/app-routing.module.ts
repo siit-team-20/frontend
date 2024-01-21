@@ -14,6 +14,7 @@ import { AccommodationDetailComponent } from './accommodation/accommodation-deta
 import { ReservationsComponent } from './reservation/reservations/reservations.component';
 import { OwnerReviewsComponent } from './review/owner-reviews/owner-reviews.component';
 import { AccommodationReviewsComponent } from './review/accommodation-reviews/accommodation-reviews.component';
+import { ReportsComponent } from './review/reports/reports.component';
 import { AccommodationFavouritesComponent } from './accommodation/accommodation-favourites/accommodation-favourites.component';
 
 const routes: Routes = [
@@ -30,6 +31,7 @@ const routes: Routes = [
   { component: ReservationsComponent, path: "reservations", data: { role: [UserType.Guest, UserType.Owner] }, canActivate: [authGuard] },
   { component: OwnerReviewsComponent, path: "ownerReviews", data: { role: [UserType.Admin] }, canActivate: [authGuard] },
   { component: AccommodationReviewsComponent, path: "accommodationReviews", data: { role: [UserType.Admin] }, canActivate: [authGuard] },
+  { component: ReportsComponent, path: "reports", data: { role: [UserType.Admin] }, canActivate: [authGuard] },
   {component: AccommodationFavouritesComponent, path:"accommodationFavorites", data: {role:[UserType.Guest], canActivate:[authGuard]}}
 ];
 
