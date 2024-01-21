@@ -6,11 +6,13 @@ import { AccommodationsComponent } from './accommodations/accommodations.compone
 import { AccommodationUpdateComponent } from './accommodation-update/accommodation-update.component';
 import { SearchPipe } from './search.pipe';
 import { AccommodationDetailComponent } from './accommodation-detail/accommodation-detail.component';
+import { AccommodationFavouritesComponent } from './accommodation-favourites/accommodation-favourites.component';
 
 
 
 @NgModule({
   declarations: [
+  
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,9 @@ import { AccommodationDetailComponent } from './accommodation-detail/accommodati
     AccommodationsComponent,
     AccommodationUpdateComponent,
     SearchPipe,
-    AccommodationDetailComponent
+    AccommodationDetailComponent,
+    AccommodationFavouritesComponent
+
   ],
   exports: [
     
