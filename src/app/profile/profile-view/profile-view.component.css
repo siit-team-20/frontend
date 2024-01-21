@@ -152,6 +152,14 @@ body {
     color: #FFD600;
     cursor: pointer
 }
+.ratingReviewSmall>label {
+    /* position: relative; */
+    /* width: 1em; */
+    font-size: 17px;
+    /* font-weight: 300; */
+    color: #FFD600;
+    /* cursor: pointer */
+}
 
 .rating>label::before {
     content: "\2605";

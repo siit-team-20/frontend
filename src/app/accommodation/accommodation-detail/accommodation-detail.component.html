@@ -36,6 +36,12 @@
                     Maximum guests : {{accommodation.maxGuests}}
                 </div>
             </div>
+                <div class="row justify-content-center">
+                    <div class="pt-3 px-3 h5">5/5</div>
+                    <div class="ratingReview py-1">
+                        <label>☆</label>
+                    </div>
+                </div>
             <div class="row">
                 <div class="col-sm-6">
                     <button *ngIf="axiosService.getRole() == 'Guest'" [disabled]="canRateAccommodation == false"
@@ -268,6 +274,7 @@
     <div class="mt-4">
         <h2 class="my-4">Reviews</h2>
         <app-accommodation-review-view *ngFor="let accommodationReview of accommodationReviews"
-            [accommodationReview]="accommodationReview"></app-accommodation-review-view>
+            [accommodationReview]="accommodationReview"
+            (deleteReviewGuestEvent)="deleteReviewGuest($event)"></app-accommodation-review-view>
     </div>
 </div>

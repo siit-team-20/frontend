@@ -94,19 +94,19 @@ export class ProfileViewComponent {
       "/api/ownerReviews/" + rew.id,
       {}
     ).then(
-    response => {
+      response => {
 
-      let query = "?ownerEmail=" + this.user.email + "&isReported=false";
-      
-      this.axiosService.request(
-        "GET",
-        "/api/ownerReviews" + query,
-        {}
-      ).then(
-        response => {
-          this.ownerReviews = response.data;
-        });
-    });
+        let query = "?ownerEmail=" + this.user.email + "&isReported=false";
+
+        this.axiosService.request(
+          "GET",
+          "/api/ownerReviews" + query,
+          {}
+        ).then(
+          response => {
+            this.ownerReviews = response.data;
+          });
+      });
   }
 
 }

@@ -17,6 +17,7 @@ export class AccommodationReviewViewComponent {
   @Input() accommodationReview: AccommodationReview = new AccommodationReview(0, "", 0, "", "", false);
   @Output() approveReviewEvent = new EventEmitter();
   @Output() deleteReviewEvent = new EventEmitter();
+  @Output() deleteReviewGuestEvent = new EventEmitter();
 
   constructor(private axiosService: AxiosService) {
     this.auth = axiosService;
