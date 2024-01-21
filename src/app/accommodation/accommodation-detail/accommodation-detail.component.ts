@@ -60,11 +60,12 @@ export class AccommodationDetailComponent {
       {}
     ).then(
       response => {
+
         this.accommodation = response.data;
         this.accommodation.availabilityDates = this.accommodation.availabilityDates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
         let query: string = "";
         query = "?accommodationId=" + this.accommodation.id;
-        console.log(query)
+
         this.axiosService.request(
           "GET",
           "/api/accommodations/reviews" + query,
@@ -72,8 +73,8 @@ export class AccommodationDetailComponent {
         ).then(
           response => {
             this.accommodationReviews = response.data;
-            console.log(this.accommodationReviews);
           });
+
         this.axiosService.request(
           "GET",
           "/api/accommodations/reservations?ownerEmail=" + this.accommodation.ownerEmail + "&status=Finished&guestEmail=" + this.axiosService.getEmail(),
@@ -83,15 +84,18 @@ export class AccommodationDetailComponent {
             if (response.data.length > 0)
               this.canRateOwner = true;
           });
+
         this.axiosService.request(
           "GET",
-          "/api/accommodations/reservations?status=Finished&days=7&guestEmail=" + this.axiosService.getEmail(),
+          "/api/accommodations/reservations?status=Finished&days=7&guestEmail=" + this.axiosService.getEmail() + "&accommodationId=" + this.accommodationId,
           {}
         ).then(
           response => {
             if (response.data.length > 0)
               this.canRateAccommodation = true;
+            //console.log(response.data);
           });
+
       });
 
 
