@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                             <div class="col-md-5 text-right pt-2">
-                                <button *ngIf="auth.getRole() == 'Owner'" [disabled]="!accommodation.isApproved" [routerLink]="['/accommodation/update', accommodation.id]" type="button" class="btn btn-primary mr-3">Update</button>
+                                <button *ngIf="accommodation.ownerEmail == auth.getEmail()" [disabled]="!accommodation.isApproved" [routerLink]="['/accommodation/update', accommodation.id]" type="button" class="btn btn-primary mr-3">Update</button>
                                 <button class="btn btn-primary" [routerLink]="['/accommodation/detail', accommodation.id]">More</button>
                             </div>
                         </div>
