@@ -58,7 +58,7 @@ export class RegistrationComponent {
       const registerData = { ...this.registerForm.value };
       let userTypeString: string = registerData.type as string;
       let userType: UserType = userTypeString as UserType;
-      const user = new User(registerData.email, registerData.password, registerData.name, registerData.surname, registerData.address, registerData.phone, userType);
+      const user = new User(registerData.email, registerData.password, registerData.name, registerData.surname, registerData.address, registerData.phone, userType, false);
 
       this.axiosService.request(
         "POST",

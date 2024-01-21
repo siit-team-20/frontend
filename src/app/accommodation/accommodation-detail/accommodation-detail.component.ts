@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AxiosService } from '../../axios.service';
 import { Accommodation, DateRange } from '../model/accommodation';
@@ -20,9 +20,11 @@ import { ReservationWithAccommodation } from '../../reservation/model/reservatio
   imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, AccommodationReviewViewComponent]
 })
 export class AccommodationDetailComponent {
+
   route: ActivatedRoute = inject(ActivatedRoute);
   accommodationId = -1;
   canRateOwner = false;
+  averageRating = 0;
   canRateAccommodation = false;
   currentPrice = 0;
   ownerRating = "three";
@@ -76,6 +78,25 @@ export class AccommodationDetailComponent {
         ).then(
           response => {
             this.accommodationReviews = response.data;
+            var sum = 0;
+            for (let i = 0; i < this.accommodationReviews.length; i++) {
+              if (this.accommodationReviews[i].rating == 'one') {
+                sum += 1;
+              }
+              else if (this.accommodationReviews[i].rating == 'two') {
+                sum += 2;
+              }
+              else if (this.accommodationReviews[i].rating == 'three') {
+                sum += 3;
+              }
+              else if (this.accommodationReviews[i].rating == 'four') {
+                sum += 4;
+              }
+              else {
+                sum += 5;
+              }
+              this.averageRating = sum / this.accommodationReviews.length;
+            }
           });
 
         query = "?accommodationId=" + this.accommodation.id + "&status=Approved";
@@ -110,8 +131,6 @@ export class AccommodationDetailComponent {
 
       });
 
-
-
   }
 
   inputChanged(): void {
@@ -136,7 +155,7 @@ export class AccommodationDetailComponent {
       }
 
       this.reservations.forEach(r => {
-        
+
         let rStartDate = new Date(r.date);
         let rEndDate = new Date(r.date);
         rEndDate.setDate(rEndDate.getDate() + r.days);
@@ -261,15 +280,25 @@ export class AccommodationDetailComponent {
 
   onSubmitAccommodationReview(): void {
 
+    console.log(new Date())
     var form = document.getElementsByName('accommodationReviewForm')[0] as HTMLFormElement;
+    var closeModal = document.getElementsByName('accommodationModalClose')[0] as HTMLFormElement;
+    var emptyInput = document.getElementsByName('accommodationComment')[0] as HTMLFormElement;
     if (!(form.checkValidity() === false) && this.accommodationReviewForm.errors == null) {
 
       const accommodationReviewData = { ...this.accommodationReviewForm.value };
-      const accommodationReview = new AccommodationReview(null, this.axiosService.getEmail(), this.accommodation.id!, accommodationReviewData.accommodationComment, accommodationReviewData.accommodationRating, false);
+      const accommodationReview = new AccommodationReview(null, this.axiosService.getEmail(), this.accommodation.id!, accommodationReviewData.accommodationComment, accommodationReviewData.accommodationRating, false, new Date());
+      console.log(accommodationReview)
+      console.log(new Date())
       this.axiosService.request(
         "POST",
         "/api/accommodations/reviews",
         accommodationReview
+      ).then(
+        response => {
+          emptyInput.textContent = "";
+          closeModal.click();
+        }
       )
 
     }
@@ -280,15 +309,22 @@ export class AccommodationDetailComponent {
   onSubmitOwnerReview(): void {
 
     var form = document.getElementsByName('ownerReviewForm')[0] as HTMLFormElement;
+    var closeModal = document.getElementsByName('ownerModalClose')[0] as HTMLFormElement;
+    var emptyInput = document.getElementsByName('ownerComment')[0] as HTMLFormElement;
     if (!(form.checkValidity() === false) && this.ownerReviewForm.errors == null) {
 
       const ownerReviewData = { ...this.ownerReviewForm.value };
-      const ownerReview = new OwnerReview(null, this.axiosService.getEmail(), this.accommodation.ownerEmail, ownerReviewData.ownerComment, ownerReviewData.ownerRating, false);
+      const ownerReview = new OwnerReview(null, this.axiosService.getEmail(), this.accommodation.ownerEmail, ownerReviewData.ownerComment, ownerReviewData.ownerRating, false, new Date());
 
       this.axiosService.request(
         "POST",
         "/api/ownerReviews",
         ownerReview
+      ).then(
+        response => {
+          emptyInput.textContent = "";
+          closeModal.click();
+        }
       )
 
     }
@@ -365,7 +401,7 @@ export class ReservationValidator {
       }
 
       reservations.forEach(r => {
-        
+
         let rStartDate = new Date(r.date);
         let rEndDate = new Date(r.date);
         rEndDate.setDate(rEndDate.getDate() + r.days);

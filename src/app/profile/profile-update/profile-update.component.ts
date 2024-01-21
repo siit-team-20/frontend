@@ -53,10 +53,10 @@ export class ProfileUpdateComponent implements OnInit {
       const submitData = { ...this.updateForm.value };
 
       let updatedUser: User;
-      if (this.isPasswordShown) 
-        updatedUser = new User(submitData.email, submitData.password, submitData.name, submitData.surname, submitData.address, submitData.phone, this.axiosService.getRole() as UserType);
+      if (this.isPasswordShown)
+        updatedUser = new User(submitData.email, submitData.password, submitData.name, submitData.surname, submitData.address, submitData.phone, this.axiosService.getRole() as UserType, this.axiosService.getUser()["isBlocked"]);
       else
-        updatedUser = new User(submitData.email, "", submitData.name, submitData.surname, submitData.address, submitData.phone, this.axiosService.getRole() as UserType);
+        updatedUser = new User(submitData.email, "", submitData.name, submitData.surname, submitData.address, submitData.phone, this.axiosService.getRole() as UserType, this.axiosService.getUser()["isBlocked"]);
 
       this.axiosService.request(
         "PUT",

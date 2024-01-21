@@ -6,6 +6,7 @@
                 <p>
                     {{ownerReview.comment}}
                 </p>
+                <p class="submitDate">From: {{ datePipe.transform(ownerReview.submitDate, "yyyy-MM-dd") }}</p>
             </div>
             <div class="col-sm-3 container d-flex justify-content-center align-items-center">
                 <fieldset class="form-group centered-div text-center" disabled="disabled">

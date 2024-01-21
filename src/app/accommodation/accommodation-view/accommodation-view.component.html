@@ -6,7 +6,9 @@
                     <h4 class="card-title">{{accommodation.name}}, {{accommodation.accommodationType}}</h4>
                 </div>
                 <div class="col-md-2 text-right">
-                    <button class="btn btn-danger mr-3 px-3">♥</button>
+                    <button *ngIf="auth.getRole() == 'Guest'"
+                        (click)="addToFavouritesEvent.emit({accommodation: accommodation})"
+                        class="btn btn-danger mr-3 px-3">♥</button>
                 </div>
             </div>
             <div class="row">
@@ -22,9 +24,9 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="align-items-center">
-                                    <div class="ratingReview" >
+                                    <div class="ratingReview">
                                         <div class="row">
-                                            <div class="pt-3 px-3">5/5</div>
+                                            <div class="pt-3 px-3">{{averageRating}}</div>
                                             <div class="ratingReview py-1">
                                                 <label>☆</label>
                                             </div>
@@ -42,8 +44,12 @@
                                 </div>
                             </div>
                             <div class="col-md-5 text-right pt-2">
-                                <button *ngIf="accommodation.ownerEmail == auth.getEmail()" [disabled]="!accommodation.isApproved" [routerLink]="['/accommodation/update', accommodation.id]" type="button" class="btn btn-primary mr-3">Update</button>
-                                <button class="btn btn-primary" [routerLink]="['/accommodation/detail', accommodation.id]">More</button>
+                                <button *ngIf="accommodation.ownerEmail == auth.getEmail()"
+                                    [disabled]="!accommodation.isApproved"
+                                    [routerLink]="['/accommodation/update', accommodation.id]" type="button"
+                                    class="btn btn-primary mr-3">Update</button>
+                                <button class="btn btn-primary"
+                                    [routerLink]="['/accommodation/detail', accommodation.id]">More</button>
                             </div>
                         </div>
                     </div>

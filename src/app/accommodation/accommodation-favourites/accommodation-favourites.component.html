@@ -1,14 +1,13 @@
 <div class="container py-5">
 
-   
+
     <h1>Favourite Accommodations</h1>
 
     <div class="accommodations mt-4">
 
 
-        <app-accommodation-view
-            *ngFor="let accommodation of accommodations"
-            [accommodation]="accommodation"></app-accommodation-view>
+        <app-accommodation-view *ngFor="let accommodation of favouriteAccommodations"
+            [accommodation]="accommodation.accommodation"></app-accommodation-view>
 
     </div>
 

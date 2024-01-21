@@ -6,6 +6,7 @@ export class OwnerReview {
     public comment: string;
     public rating: string;
     public isReported: boolean;
+    public submitDate: Date;
 
     constructor(
         id: number | null,
@@ -13,7 +14,8 @@ export class OwnerReview {
         ownerEmail: string,
         comment: string,
         rating: string,
-        isReported: boolean
+        isReported: boolean,
+        submitDate: Date
     ) {
         this.id = id;
         this.guestEmail = guestEmail;
@@ -21,6 +23,7 @@ export class OwnerReview {
         this.comment = comment;
         this.rating = rating;
         this.isReported = isReported;
+        this.submitDate = submitDate;
     }
 
 }

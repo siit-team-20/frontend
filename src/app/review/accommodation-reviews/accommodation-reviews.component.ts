@@ -37,7 +37,7 @@ export class AccommodationReviewsComponent {
 
   approveReview(review: any): void {
     let rew = review["review"];
-    let updatedReview = new AccommodationReview(rew.id, rew.guestEmail, rew.accommodationId, rew.comment, rew.rating, true);
+    let updatedReview = new AccommodationReview(rew.id, rew.guestEmail, rew.accommodationId, rew.comment, rew.rating, true, rew.submitDate);
     this.axiosService.request(
       "PUT",
       "/api/accommodations/reviews/" + updatedReview.id,

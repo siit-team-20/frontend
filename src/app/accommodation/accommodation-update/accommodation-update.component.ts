@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { Accommodation, AccommodationTypeMapping, AccommodationType, DateRange } from '../model/accommodation';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
-  import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
 import { AxiosService } from '../../axios.service';
 import { ReservationValidator } from '../accommodation-detail/accommodation-detail.component';
@@ -79,10 +79,10 @@ export class AccommodationUpdateComponent implements OnInit {
             this.updateForm.controls["maxGuests"].setValue(response.data.maxGuests);
             this.updateForm.controls["accommodationType"].setValue(response.data.accommodationType);
             this.updateForm.controls["benefits"].setValue(response.data.benefits.join(", "));
-    
-            
+
+
             let availabilityDates = (response.data.availabilityDates as Array<DateRange>).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-            
+
             const startDate = this.datePipe.transform(availabilityDates[0].startDate, "yyyy-MM-dd");
             const endDate = this.datePipe.transform(availabilityDates[0].endDate, "yyyy-MM-dd");
             this.updateForm.controls["availabilityStart"].setValue(startDate);
@@ -109,7 +109,7 @@ export class AccommodationUpdateComponent implements OnInit {
               }
 
             });
-    
+
             for (let i = 0; i < availabilityDates.length - 1; i++) {
               this.rangeIds.push(i + 1);
 
@@ -147,28 +147,28 @@ export class AccommodationUpdateComponent implements OnInit {
                 this.updateForm.controls["price" + (i + 1)].disable();
               }
             }
-    
+
             if (response.data.isPriceByGuest) {
               this.updateForm.controls["pricing"].setValue("perGuest");
             }
             else {
               this.updateForm.controls["pricing"].setValue("perDay");
             }
-    
+
             this.updateForm.controls["reservationCancellationDeadline"].setValue(response.data.reservationCancellationDeadline);
-    
+
             if (response.data.isAutomaticAcceptance) {
               this.updateForm.controls["acceptance"].setValue("automatic");
             }
             else {
               this.updateForm.controls["acceptance"].setValue("manual");
             }
-    
+
             this.oldAccommodation = response.data;
           });
       }
     );
-    
+
   }
 
   addNewDateRange() {
@@ -282,7 +282,7 @@ export class AccommodationValidator {
       if (minGuests > maxGuests || minGuests == null) {
         minGuestsInput.classList.add("is-invalid");
         minGuestsInput.classList.remove("is-valid");
-        return {minGuests: true};
+        return { minGuests: true };
       }
 
       minGuestsInput.classList.remove("is-invalid");
@@ -315,7 +315,7 @@ export class AccommodationValidator {
         indexes.push(rangeIds[i]);
       }
 
-      for(let i = 0; i < availabilityRanges.length; i++) {
+      for (let i = 0; i < availabilityRanges.length; i++) {
 
         if (availabilityRanges[i].startDate.getFullYear() == 1970 || availabilityRanges[i].endDate.getFullYear() == 1970 || String(availabilityRanges[i].startDate) == "Invalid Date" || String(availabilityRanges[i].endDate) == "Invalid Date")
           continue;
@@ -397,7 +397,7 @@ export class AccommodationValidator {
 
       }
 
-      type Ret = {[key: string] : boolean}
+      type Ret = { [key: string]: boolean }
       const returnObject: Ret = {}
       let hasErrors = false;
 

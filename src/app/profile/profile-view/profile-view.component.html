@@ -57,10 +57,10 @@
                                 <label id="phone" type="text" name="phone">{{user.phone}}</label>
                             </div>
                             <div class="col-md-6">
-                                <label class="small mb-1" for="phone">Rating</label>
+                                <label class="small mb-1" for="phone">Average rating</label>
                                 <br>
                                 <div class="row">
-                                    <div class="px-3 ">5/5</div>
+                                    <div class="px-3 ">{{averageRating}}</div>
                                     <div class="ratingReview ratingReviewSmall">
                                         <label>☆</label>
                                     </div>
@@ -75,10 +75,10 @@
                             type="button">Update</button>
                         <button *ngIf="route.snapshot.params['email'] == auth.getEmail() && auth.getRole() != 'Admin'"
                             class="btn btn-danger ml-3" type="button" (click)="deleteUser()">Delete</button>
-                        <button *ngIf="auth.getRole() != 'Owner'" class="btn btn-danger ml-3 right" type="button"
-                            (click)="reportUser()">Report</button>
-                        <button *ngIf="auth.getRole() != 'Guest'" class="btn btn-danger ml-3 right" type="button"
-                            (click)="reportUser()">Report</button>
+                        <button *ngIf="auth.getRole() == 'Owner' && route.snapshot.params['email'] != auth.getEmail()"
+                            class="btn btn-danger ml-3 right" type="button" (click)="reportUser()">Report</button>
+                        <button *ngIf="auth.getRole() == 'Guest' && route.snapshot.params['email'] != auth.getEmail()"
+                            class="btn btn-danger ml-3 right" type="button" (click)="reportUser()">Report</button>
                     </form>
                 </div>
             </div>
