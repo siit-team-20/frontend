@@ -6,6 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { User, UserType } from '../../auth/model/user';
 import { OwnerReview } from '../../accommodation/model/ownerReview';
 import { OwnerReviewViewComponent } from '../../review/owner-review-view/owner-review-view.component';
+import { Report } from '../../auth/model/report';
 
 @Component({
   selector: 'app-profile-view',
@@ -60,6 +61,17 @@ export class ProfileViewComponent {
         this.router.navigate(['/']);
         this.axiosService.setAuthToken(null);
       });
+  }
+
+  reportUser(): void {
+
+    const report = new Report(null, this.auth.getEmail(), this.profileEmail);
+
+    this.axiosService.request(
+      "POST",
+      "/api/reports",
+      report
+    )
   }
 
   // Owner reportuje Guesta

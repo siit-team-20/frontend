@@ -4,6 +4,8 @@ import { AccommodationReviewViewComponent } from './accommodation-review-view/ac
 import { AccommodationReviewsComponent } from './accommodation-reviews/accommodation-reviews.component';
 import { OwnerReviewViewComponent } from './owner-review-view/owner-review-view.component';
 import { OwnerReviewsComponent } from './owner-reviews/owner-reviews.component';
+import { ReportViewComponent } from './report-view/report-view.component';
+import { ReportsComponent } from './reports/reports.component';
 
 
 
@@ -15,7 +17,9 @@ import { OwnerReviewsComponent } from './owner-reviews/owner-reviews.component';
     AccommodationReviewViewComponent,
     AccommodationReviewsComponent,
     OwnerReviewViewComponent,
-    OwnerReviewsComponent
+    OwnerReviewsComponent,
+    ReportViewComponent,
+    ReportsComponent
   ]
 })
 export class ReviewModule { }

@@ -11,19 +11,26 @@
                     <p>{{reservationWithAccommodation.accommodation.description}}</p>
                     <div class="row">
                         <div class="col-sm-3 px-4">
-                            <span class="my-3">Guest: </span><span class="my-3"><a data-dismiss="modal" aria-label="Close" [routerLink]="['/profile/', reservationWithAccommodation.guestEmail]">{{reservationWithAccommodation.guestEmail}}</a></span>
+                            <span class="my-3">Guest: </span><span class="my-3"><a data-dismiss="modal"
+                                    aria-label="Close"
+                                    [routerLink]="['/profile/', reservationWithAccommodation.guestEmail]">{{reservationWithAccommodation.guestEmail}}</a></span>
                         </div>
-                        <div class="cols-sm-3 px-4">
+                        <div class="col-sm-3 px-4">
+                            <span class="my-3">Owner: </span><span class="my-3"><a data-dismiss="modal"
+                                    aria-label="Close"
+                                    [routerLink]="['/profile/', reservationWithAccommodation.accommodation.ownerEmail]">{{reservationWithAccommodation.accommodation.ownerEmail}}</a></span>
+                        </div>
+                        <div class="cols-sm-2 px-4">
                             <p>Start date: {{datePipe.transform(reservationWithAccommodation.date, "yyyy-MM-dd")}}</p>
                         </div>
-                        <div class="cols-sm-3 px-4">
-                            <p>Duration: {{reservationWithAccommodation.days}} days</p>
-                        </div>
-                        <div class="cols-sm-3 px-4">
+                        <div class="cols-sm-2 px-4">
                             <p>Price: {{reservationWithAccommodation.price}}</p>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mt-3">
+                        <div class="col-sm-3 px-4 py-1">
+                            <p>Duration: {{reservationWithAccommodation.days}} days</p>
+                        </div>
                         <div class="col-sm-3 px-4 py-1 ">
                             <p>Number of guests: {{reservationWithAccommodation.guestNumber}}</p>
                         </div>
@@ -31,9 +38,18 @@
                             <p>Status: {{reservationWithAccommodation.status}}</p>
                         </div>
                         <div class="col-sm-6 text-right">
-                            <button *ngIf="auth.getRole() == 'Guest' && reservationWithAccommodation.status == 'ReservationStatus.Waiting'" (click)="cancelReservationEvent.emit({reservation: reservationWithAccommodation})" class="btn btn-danger">Cancel reservation</button>
-                            <button *ngIf="auth.getRole() == 'Owner' && reservationWithAccommodation.status == 'ReservationStatus.Waiting'" (click)="acceptReservationEvent.emit({reservation: reservationWithAccommodation})" class="btn btn-success mx-3">Accept</button>
-                            <button *ngIf="auth.getRole() == 'Owner' && reservationWithAccommodation.status == 'ReservationStatus.Waiting'" (click)="declineReservationEvent.emit({reservation: reservationWithAccommodation})" class="btn btn-danger">Decline</button>
+                            <button
+                                *ngIf="auth.getRole() == 'Guest' && reservationWithAccommodation.status == 'ReservationStatus.Waiting'"
+                                (click)="cancelReservationEvent.emit({reservation: reservationWithAccommodation})"
+                                class="btn btn-danger">Cancel reservation</button>
+                            <button
+                                *ngIf="auth.getRole() == 'Owner' && reservationWithAccommodation.status == 'ReservationStatus.Waiting'"
+                                (click)="acceptReservationEvent.emit({reservation: reservationWithAccommodation})"
+                                class="btn btn-success mx-3">Accept</button>
+                            <button
+                                *ngIf="auth.getRole() == 'Owner' && reservationWithAccommodation.status == 'ReservationStatus.Waiting'"
+                                (click)="declineReservationEvent.emit({reservation: reservationWithAccommodation})"
+                                class="btn btn-danger">Decline</button>
                         </div>
                     </div>
                     <div class="row">
