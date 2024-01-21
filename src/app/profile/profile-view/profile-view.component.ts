@@ -7,6 +7,7 @@ import { User, UserType } from '../../auth/model/user';
 import { OwnerReview } from '../../accommodation/model/ownerReview';
 import { OwnerReviewViewComponent } from '../../review/owner-review-view/owner-review-view.component';
 import { Report } from '../../auth/model/report';
+import { ReservationWithAccommodation } from '../../reservation/model/reservationWithAccommodation';
 
 @Component({
   selector: 'app-profile-view',
@@ -21,6 +22,7 @@ export class ProfileViewComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   profileEmail = "";
   user: User = new User("", "", "", "", "", "", UserType.Guest);
+  public deleteInvalid = "";
 
   ownerReviews: OwnerReview[] = [];
 
@@ -52,15 +54,94 @@ export class ProfileViewComponent {
   }
 
   deleteUser() {
-    this.auth.request(
-      "DELETE",
-      "/account/" + this.auth.getEmail(),
-      {}
-    ).then(
-      response => {
-        this.router.navigate(['/']);
-        this.axiosService.setAuthToken(null);
-      });
+
+    let query = "";
+    if (this.auth.getRole() == 'Guest') {
+      query = "?guestEmail=" + this.auth.getEmail() + "&status=Approved";
+
+      this.auth.request(
+        "GET",
+        "/api/accommodations/reservations" + query,
+        {}
+      ).then(
+        response => {
+          if (response.data.length == 0) {
+            this.deleteInvalid = "";
+
+            query = "?guestEmail=" + this.auth.getEmail() + "&status=Waiting";
+
+            this.auth.request(
+              "DELETE",
+              "/api/accommodations/reservations" + query,
+              {}
+            ).then(
+              response => {
+                this.auth.request(
+                  "DELETE",
+                  "/account/" + this.auth.getEmail(),
+                  {}
+                ).then(
+                  response => {
+                    this.router.navigate(['/']);
+                    this.axiosService.setAuthToken(null);
+                  });
+              }
+            )
+          }
+          else {
+            this.deleteInvalid = "You cannot delete your account because you have approved reservations!"
+          }
+        }
+      )
+    }
+    else if (this.auth.getRole() == 'Owner') {
+      query = "?ownerEmail=" + this.auth.getEmail() + "&status=Approved";
+
+      this.auth.request(
+        "GET",
+        "/api/accommodations/reservations" + query,
+        {}
+      ).then(
+        response => {
+          if (response.data.length == 0) {
+            this.deleteInvalid = "";
+
+            query = "?ownerEmail=" + this.auth.getEmail() + "&status=Waiting";
+
+            this.auth.request(
+              "DELETE",
+              "/api/accommodations/reservations" + query,
+              {}
+            ).then(
+              response => {
+                this.auth.request(
+                  "DELETE",
+                  "/api/accommodations?ownerEmail=" + this.auth.getEmail(),
+                  {}
+                ).then(
+                  response => {
+                    this.auth.request(
+                      "DELETE",
+                      "/account/" + this.auth.getEmail(),
+                      {}
+                    ).then(
+                      response => {
+                        this.router.navigate(['/']);
+                        this.axiosService.setAuthToken(null);
+                      });
+                  }
+                )
+              }
+            )
+            
+          }
+          else {
+            this.deleteInvalid = "You cannot delete your account because you have approved reservations for your accommodations!"
+          }
+        }
+      )
+    }
+
   }
 
   reportUser(): void {

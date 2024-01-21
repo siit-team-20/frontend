@@ -70,6 +70,7 @@
                         </div>
 
                         <!-- Save changes button-->
+                        <p class="text-danger">{{deleteInvalid}}</p>
                         <button *ngIf="route.snapshot.params['email'] == auth.getEmail()"
                             [routerLink]="['/profile/update', auth.getEmail()]" class="btn btn-primary"
                             type="button">Update</button>
