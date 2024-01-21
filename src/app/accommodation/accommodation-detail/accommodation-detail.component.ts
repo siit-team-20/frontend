@@ -187,7 +187,7 @@ export class AccommodationDetailComponent {
 
       const accommodationReviewData = { ...this.accommodationReviewForm.value };
       const accommodationReview = new AccommodationReview(null, this.axiosService.getEmail(), this.accommodation.id!, accommodationReviewData.accommodationComment, accommodationReviewData.accommodationRating, false);
-      console.log(accommodationReview)
+
       this.axiosService.request(
         "POST",
         "/api/accommodations/reviews",
@@ -202,7 +202,6 @@ export class AccommodationDetailComponent {
   onSubmitOwnerReview(): void {
 
     var form = document.getElementsByName('ownerReviewForm')[0] as HTMLFormElement;
-    console.log(form)
     if (!(form.checkValidity() === false) && this.ownerReviewForm.errors == null) {
 
       const ownerReviewData = { ...this.ownerReviewForm.value };
