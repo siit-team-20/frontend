@@ -70,11 +70,12 @@
         </div>
     </div>
 
-    <div class="mt-4">
+    <div class="mt-4" *ngIf="user.type == 'Owner' && ownerReviews.length != 0">
         <h2 class="my-4">Reviews</h2>
 
         <app-owner-review-view *ngFor="let ownerReview of ownerReviews"
-            [ownerReview]="ownerReview"></app-owner-review-view>
+            [ownerReview]="ownerReview" (reportReviewEvent)="reportReview($event)"
+            (deleteReviewGuestEvent)="deleteReviewGuest($event)"></app-owner-review-view>
     </div>
 
 </div>

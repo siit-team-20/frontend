@@ -94,7 +94,6 @@ export class AccommodationDetailComponent {
           response => {
             if (response.data.length > 0)
               this.canRateAccommodation = true;
-            //console.log(response.data);
           });
 
       });

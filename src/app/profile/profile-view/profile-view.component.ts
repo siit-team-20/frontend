@@ -38,10 +38,7 @@ export class ProfileViewComponent {
       response => {
         this.user = response.data;
 
-        let query: string = "";
-        if (this.axiosService.getRole() == UserType.Owner)
-          query = "?ownerEmail=" + this.axiosService.getUser()["sub"];
-        console.log(query);
+        let query = "?ownerEmail=" + this.user.email + "&isReported=false";
         this.axiosService.request(
           "GET",
           "/api/ownerReviews" + query,
@@ -49,7 +46,6 @@ export class ProfileViewComponent {
         ).then(
           response => {
             this.ownerReviews = response.data;
-            console.log(this.ownerReviews)
           });
       });
   }
@@ -64,6 +60,53 @@ export class ProfileViewComponent {
         this.router.navigate(['/']);
         this.axiosService.setAuthToken(null);
       });
+  }
+
+  // Owner reportuje Guesta
+  reportReview(review: any): void {
+    let rew = review["review"];
+    let updatedReview = new OwnerReview(rew.id, rew.guestEmail, rew.ownerEmail, rew.comment, rew.rating, true);
+    this.axiosService.request(
+      "PUT",
+      "/api/ownerReviews/" + updatedReview.id,
+      updatedReview
+    ).then(
+      response => {
+
+        let query = "?ownerEmail=" + this.user.email + "&isReported=false";
+
+        this.axiosService.request(
+          "GET",
+          "/api/ownerReviews" + query,
+          {}
+        ).then(
+          response => {
+            this.ownerReviews = response.data;
+          });
+      });
+  }
+
+  // Guest brise svoj review
+  deleteReviewGuest(review: any): void {
+    let rew = review["review"];
+    this.axiosService.request(
+      "DELETE",
+      "/api/ownerReviews/" + rew.id,
+      {}
+    ).then(
+    response => {
+
+      let query = "?ownerEmail=" + this.user.email + "&isReported=false";
+      
+      this.axiosService.request(
+        "GET",
+        "/api/ownerReviews" + query,
+        {}
+      ).then(
+        response => {
+          this.ownerReviews = response.data;
+        });
+    });
   }
 
 }

@@ -4,8 +4,7 @@
 
     <div class="accommodations">
         <app-owner-review-view *ngFor="let ownerReview of ownerReviews" [ownerReview]="ownerReview"
-            (approveReviewEvent)="approveReview($event)" (deleteReviewEvent)="deleteReview($event)"
-            (deleteReviewGuestEvent)="deleteReviewGuest($event)" (reportReviewEvent)="reportReview($event)">
+            (approveReviewEvent)="approveReview($event)" (deleteReviewEvent)="deleteReview($event)">
         </app-owner-review-view>
     </div>
 

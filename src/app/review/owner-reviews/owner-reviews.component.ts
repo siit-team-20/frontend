@@ -22,7 +22,7 @@ export class OwnerReviewsComponent {
 
     let query: string = "";
     if (this.axiosService.getRole() == UserType.Admin)
-      query = "?onlyReported=true";
+      query = "?isReported=true";
 
     this.axiosService.request(
       "GET",
@@ -31,7 +31,6 @@ export class OwnerReviewsComponent {
     ).then(
       response => {
         this.ownerReviews = response.data;
-        console.log(this.ownerReviews)
       });
   }
 
@@ -47,7 +46,7 @@ export class OwnerReviewsComponent {
       response => {
         let query: string = "";
         if (this.axiosService.getRole() == UserType.Admin)
-          query = "?onlyReported=true";
+          query = "?isReported=true";
         this.axiosService.request(
           "GET",
           "/api/ownerReviews" + query,
@@ -70,54 +69,7 @@ export class OwnerReviewsComponent {
       response => {
         let query: string = "";
         if (this.axiosService.getRole() == UserType.Admin)
-          query = "?onlyReported=true";
-        this.axiosService.request(
-          "GET",
-          "/api/ownerReviews" + query,
-          {}
-        ).then(
-          response => {
-            this.ownerReviews = response.data;
-          });
-      });
-  }
-
-  // Owner reportuje Guesta
-  reportReview(review: any): void {
-    let rew = review["review"];
-    let updatedReview = new OwnerReview(rew.id, rew.guestEmail, rew.ownerEmail, rew.comment, rew.rating, true);
-    this.axiosService.request(
-      "PUT",
-      "/api/ownerReviews/" + updatedReview.id,
-      updatedReview
-    ).then(
-      response => {
-        let query: string = "";
-        if (this.axiosService.getRole() == UserType.Admin)
-          query = "?onlyReported=false";
-        this.axiosService.request(
-          "GET",
-          "/api/ownerReviews" + query,
-          {}
-        ).then(
-          response => {
-            this.ownerReviews = response.data;
-          });
-      });
-  }
-
-  // Guest brise svoj review
-  deleteReviewGuest(review: any): void {
-    let rew = review["review"];
-    this.axiosService.request(
-      "DELETE",
-      "/api/ownerReviews/" + rew.id,
-      {}
-    ).then(
-      response => {
-        let query: string = "";
-        if (this.axiosService.getRole() == UserType.Guest)
-          query = "?onlyReported=false";
+          query = "?isReported=true";
         this.axiosService.request(
           "GET",
           "/api/ownerReviews" + query,
