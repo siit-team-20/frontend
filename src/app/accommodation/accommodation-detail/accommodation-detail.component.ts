@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AxiosService } from '../../axios.service';
 import { Accommodation, DateRange } from '../model/accommodation';
@@ -7,6 +7,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, Reac
 import { Reservation, ReservationStatus } from '../../reservation/model/reservation';
 import { OwnerReview } from '../model/ownerReview';
 import { AccommodationReview } from '../model/accommodationReview';
+import { UserType } from '../../auth/model/user';
 
 
 @Component({
@@ -23,12 +24,18 @@ export class AccommodationDetailComponent {
   ownerRating = "three";
   accommodationRating = "three";
   accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0, "");
+  auth: AxiosService;
+
+  //@Input() accommodationReview: AccommodationReview = new AccommodationReview(0, "", 0, "", "", false);
+  
+  accommodationReviews: AccommodationReview[] = [];
 
   reservationForm: FormGroup;
   ownerReviewForm: FormGroup;
   accommodationReviewForm: FormGroup;
 
   constructor(private axiosService: AxiosService, private router: Router, private formBuilder: FormBuilder, public datePipe: DatePipe) {
+    this.auth = axiosService;
     this.accommodationId = Number(this.route.snapshot.params['id']);
     this.reservationForm = this.formBuilder.group({
       availabilityStart: [this.datePipe.transform(new Date(), "yyyy-MM-dd"), [Validators.required]],
@@ -57,7 +64,23 @@ export class AccommodationDetailComponent {
       response => {
         this.accommodation = response.data;
         this.accommodation.availabilityDates = this.accommodation.availabilityDates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+
+        let query: string = "";
+        query = "?accommodationId=" + this.accommodation.id;
+        console.log(query)
+        this.axiosService.request(
+          "GET",
+          "/api/accommodations/reviews" + query,
+          {}
+        ).then(
+          response => {
+            this.accommodationReviews = response.data;
+            console.log(this.accommodationReviews);
       });
+      });
+
+    
+
   }
 
   inputChanged(): void {

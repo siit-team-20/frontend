@@ -78,12 +78,28 @@ body {
     flex-direction: row-reverse;
     justify-content: center
 }
+.ratingReview {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center
+}
 
 .rating>input {
     display: none
 }
+.ratingReview>input {
+    display: none
+}
 
 .rating>label {
+    position: relative;
+    width: 1em;
+    font-size: 30px;
+    font-weight: 300;
+    color: #FFD600;
+    cursor: pointer
+}
+.ratingReview>label {
     position: relative;
     width: 1em;
     font-size: 30px;
@@ -97,6 +113,11 @@ body {
     position: absolute;
     opacity: 0
 }
+.ratingReview>label::before {
+    content: "\2605";
+    position: absolute;
+    opacity: 0
+}
 
 .rating>label:hover:before,
 .rating>label:hover~label:before {
@@ -104,6 +125,9 @@ body {
 }
 
 .rating>input:checked~label:before {
+    opacity: 1
+}
+.ratingReview>input:checked~label:before {
     opacity: 1
 }
 
@@ -132,6 +156,7 @@ body {
 
     color: #fff;
 }
+
 
 .invalid-feedback {
     color: #ff606e;

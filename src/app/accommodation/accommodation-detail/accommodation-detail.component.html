@@ -265,4 +265,46 @@
             </div>
         </form>
     </div>
+
+    <!-- reviews -->
+
+    <div class="mt-4">
+        <h2 class="my-4">Reviews</h2>
+        <div *ngFor="let review of accommodationReviews">
+            <div class="card shadow w-100 my-3">
+                <div class="card-body p-4">
+                    <h5>{{review.guestEmail}}</h5>
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <p>
+                              {{review.comment}}
+                            </p>
+                        </div>
+                        <div class="col-sm-3 container d-flex justify-content-center align-items-center">
+                            <fieldset class="form-group centered-div text-center" disabled="disabled" >
+                                <div class="ratingReview" >
+                                    <input type="radio"  value="five" id="reviewFive " [checked]="review.rating == 'five'" [attr.disabled]="true" readonly><label>☆</label>
+                                    <input type="radio"  value="four" id="reviewFour" [checked]="review.rating == 'four'" [attr.disabled]="true" readonly><label>☆</label>
+                                    <input type="radio"  value="three" id="reviewThree" [checked]="review.rating == 'three'" [attr.disabled]="true" readonly><label>☆</label>
+                                    <input type="radio"  value="two" id="reviewTwo" [checked]="review.rating == 'two'" [attr.disabled]="true" readonly><label>☆</label>
+                                    <input type="radio"  value="one" id="reviewOne" [checked]="review.rating == 'one'" [attr.disabled]="true"  readonly><label>☆</label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class=" row justify-content-end">
+                        <button class="btn btn-danger right mx-3">Delete</button>
+                        <button class="btn btn-danger right ">Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
 </div>
