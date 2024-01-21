@@ -5,7 +5,8 @@ import { CommonModule, DatePipe } from '@angular/common';
   import { ActivatedRoute, Router } from '@angular/router';
 import { AccommodationRequest } from '../../accommodation-request/model/accommodation-request';
 import { AxiosService } from '../../axios.service';
-import { range } from 'rxjs';
+import { ReservationValidator } from '../accommodation-detail/accommodation-detail.component';
+import { ReservationWithAccommodation } from '../../reservation/model/reservationWithAccommodation';
 
 @Component({
   selector: 'app-accommodation-update',
@@ -17,8 +18,10 @@ import { range } from 'rxjs';
 export class AccommodationUpdateComponent implements OnInit {
 
   public rangeIds: number[] = [];
+  public disabledIds: number[] = [];
   public accommodationTypeMapping = AccommodationTypeMapping;
   public accommodationTypes = Object.values(AccommodationType);
+  reservations: ReservationWithAccommodation[] = [];
   typeSelect = this.accommodationTypeMapping[this.accommodationTypes[0]];
   pricing = "perGuest";
   acceptance = "automatic"
@@ -57,58 +60,115 @@ export class AccommodationUpdateComponent implements OnInit {
 
     this.axiosService.request(
       "GET",
-      "/api/accommodations/" + this.accommodationId,
+      "/api/accommodations/reservations?accommodationId=" + this.accommodationId,
       {}
     ).then(
       response => {
-        this.updateForm.controls["ownerEmail"].setValue(response.data.ownerEmail);
-        this.updateForm.controls["name"].setValue(response.data.name);
-        this.updateForm.controls["location"].setValue(response.data.location);
-        this.updateForm.controls["description"].setValue(response.data.description);
-        this.updateForm.controls["minGuests"].setValue(response.data.minGuests);
-        this.updateForm.controls["maxGuests"].setValue(response.data.maxGuests);
-        this.updateForm.controls["accommodationType"].setValue(response.data.accommodationType);
-        this.updateForm.controls["benefits"].setValue(response.data.benefits.join(", "));
+        this.reservations = response.data;
+        this.axiosService.request(
+          "GET",
+          "/api/accommodations/" + this.accommodationId,
+          {}
+        ).then(
+          response => {
+            this.updateForm.controls["ownerEmail"].setValue(response.data.ownerEmail);
+            this.updateForm.controls["name"].setValue(response.data.name);
+            this.updateForm.controls["location"].setValue(response.data.location);
+            this.updateForm.controls["description"].setValue(response.data.description);
+            this.updateForm.controls["minGuests"].setValue(response.data.minGuests);
+            this.updateForm.controls["maxGuests"].setValue(response.data.maxGuests);
+            this.updateForm.controls["accommodationType"].setValue(response.data.accommodationType);
+            this.updateForm.controls["benefits"].setValue(response.data.benefits.join(", "));
+    
+            
+            let availabilityDates = (response.data.availabilityDates as Array<DateRange>).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+            
+            const startDate = this.datePipe.transform(availabilityDates[0].startDate, "yyyy-MM-dd");
+            const endDate = this.datePipe.transform(availabilityDates[0].endDate, "yyyy-MM-dd");
+            this.updateForm.controls["availabilityStart"].setValue(startDate);
+            this.updateForm.controls["availabilityEnd"].setValue(endDate);
+            this.updateForm.controls["price"].setValue(response.data.availabilityDates[0].price);
 
-        
-        let availabilityDates = (response.data.availabilityDates as Array<DateRange>).sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-        
-        const startDate = this.datePipe.transform(availabilityDates[0].startDate, "yyyy-MM-dd");
-        const endDate = this.datePipe.transform(availabilityDates[0].endDate, "yyyy-MM-dd");
-        this.updateForm.controls["availabilityStart"].setValue(startDate);
-        this.updateForm.controls["availabilityEnd"].setValue(endDate);
-        this.updateForm.controls["price"].setValue(response.data.availabilityDates[0].price);
+            let availabilityRangeStart = new Date(availabilityDates[0].startDate);
+            let availabilityRangeEnd = new Date(availabilityDates[0].endDate);
+            let availabilityDateRange = new DateRange(availabilityRangeStart, availabilityRangeEnd, 0);
 
-        for (let i = 0; i < availabilityDates.length - 1; i++) {
-          this.rangeIds.push(i + 1);
-          this.updateForm.addControl("availabilityStart" + (i + 1), new FormControl(null, [Validators.required]));
-          this.updateForm.addControl("availabilityEnd" + (i + 1), new FormControl(null, [Validators.required]));
-          this.updateForm.addControl("price" + (i + 1), new FormControl(null, [Validators.required]));
-          const startDate = this.datePipe.transform(availabilityDates[i + 1].startDate, "yyyy-MM-dd");
-          const endDate = this.datePipe.transform(availabilityDates[i + 1].endDate, "yyyy-MM-dd");
-          this.updateForm.controls["availabilityStart" + (i + 1)].setValue(startDate);
-          this.updateForm.controls["availabilityEnd" + (i + 1)].setValue(endDate);
-          this.updateForm.controls["price" + (i + 1)].setValue(response.data.availabilityDates[i + 1].price);
-        }
+            this.reservations.forEach(reservation => {
 
-        if (response.data.isPriceByGuest) {
-          this.updateForm.controls["pricing"].setValue("perGuest");
-        }
-        else {
-          this.updateForm.controls["pricing"].setValue("perDay");
-        }
+              let reservationStart = new Date(reservation.date);
+              let reservationEnd = new Date(reservation.date);
+              reservationEnd.setDate(reservationEnd.getDate() + reservation.days);
+              let reservationDateRange = new DateRange(reservationStart, reservationEnd, 0);
 
-        this.updateForm.controls["reservationCancellationDeadline"].setValue(response.data.reservationCancellationDeadline);
+              if (availabilityDateRange.IsOverlapping(reservationDateRange)) {
+                this.disabledIds.push(0);
+                this.updateForm.controls["availabilityStart"].disable();
+                this.updateForm.controls["availabilityEnd"].disable();
+                this.updateForm.controls["price"].disable();
+                return;
+              }
 
-        if (response.data.isAutomaticAcceptance) {
-          this.updateForm.controls["acceptance"].setValue("automatic");
-        }
-        else {
-          this.updateForm.controls["acceptance"].setValue("manual");
-        }
+            });
+    
+            for (let i = 0; i < availabilityDates.length - 1; i++) {
+              this.rangeIds.push(i + 1);
 
-        this.oldAccommodation = response.data;
-      });
+              let availabilityRangeStart = new Date(availabilityDates[i + 1].startDate);
+              let availabilityRangeEnd = new Date(availabilityDates[i + 1].endDate);
+              let availabilityDateRange = new DateRange(availabilityRangeStart, availabilityRangeEnd, 0);
+
+              this.reservations.forEach(reservation => {
+
+                let reservationStart = new Date(reservation.date);
+                let reservationEnd = new Date(reservation.date);
+                reservationEnd.setDate(reservationEnd.getDate() + reservation.days);
+                let reservationDateRange = new DateRange(reservationStart, reservationEnd, 0);
+
+                if (availabilityDateRange.IsOverlapping(reservationDateRange)) {
+                  this.disabledIds.push(i + 1);
+                  return;
+                }
+
+              });
+
+
+              this.updateForm.addControl("availabilityStart" + (i + 1), new FormControl(null, [Validators.required]));
+              this.updateForm.addControl("availabilityEnd" + (i + 1), new FormControl(null, [Validators.required]));
+              this.updateForm.addControl("price" + (i + 1), new FormControl(null, [Validators.required]));
+              const startDate = this.datePipe.transform(availabilityDates[i + 1].startDate, "yyyy-MM-dd");
+              const endDate = this.datePipe.transform(availabilityDates[i + 1].endDate, "yyyy-MM-dd");
+              this.updateForm.controls["availabilityStart" + (i + 1)].setValue(startDate);
+              this.updateForm.controls["availabilityEnd" + (i + 1)].setValue(endDate);
+              this.updateForm.controls["price" + (i + 1)].setValue(response.data.availabilityDates[i + 1].price);
+
+              if (this.disabledIds.indexOf(i + 1) > -1) {
+                this.updateForm.controls["availabilityStart" + (i + 1)].disable();
+                this.updateForm.controls["availabilityEnd" + (i + 1)].disable();
+                this.updateForm.controls["price" + (i + 1)].disable();
+              }
+            }
+    
+            if (response.data.isPriceByGuest) {
+              this.updateForm.controls["pricing"].setValue("perGuest");
+            }
+            else {
+              this.updateForm.controls["pricing"].setValue("perDay");
+            }
+    
+            this.updateForm.controls["reservationCancellationDeadline"].setValue(response.data.reservationCancellationDeadline);
+    
+            if (response.data.isAutomaticAcceptance) {
+              this.updateForm.controls["acceptance"].setValue("automatic");
+            }
+            else {
+              this.updateForm.controls["acceptance"].setValue("manual");
+            }
+    
+            this.oldAccommodation = response.data;
+          });
+      }
+    );
+    
   }
 
   addNewDateRange() {
@@ -138,7 +198,32 @@ export class AccommodationUpdateComponent implements OnInit {
 
     if (!(form.checkValidity() === false) && this.updateForm.errors == null) {
 
+      if (this.disabledIds.indexOf(0) > -1) {
+        this.updateForm.controls["availabilityStart"].enable();
+        this.updateForm.controls["availabilityEnd"].enable();
+        this.updateForm.controls["price"].enable();
+      }
+
+      this.disabledIds.forEach(i => {
+        this.updateForm.controls["availabilityStart" + (i)].enable();
+        this.updateForm.controls["availabilityEnd" + (i)].enable();
+        this.updateForm.controls["price" + (i)].enable();
+      });
+
       const submitData = { ...this.updateForm.value };
+
+      if (this.disabledIds.indexOf(0) > -1) {
+        this.updateForm.controls["availabilityStart"].disable();
+        this.updateForm.controls["availabilityEnd"].disable();
+        this.updateForm.controls["price"].disable();
+      }
+
+      this.disabledIds.forEach(i => {
+        this.updateForm.controls["availabilityStart" + (i)].disable();
+        this.updateForm.controls["availabilityEnd" + (i)].disable();
+        this.updateForm.controls["price" + (i)].disable();
+      });
+
       let availabilityRanges: DateRange[] = [];
       availabilityRanges.push(new DateRange(submitData.availabilityStart, submitData.availabilityEnd, submitData.price));
       this.rangeIds.forEach(rangeId => {
@@ -147,35 +232,36 @@ export class AccommodationUpdateComponent implements OnInit {
         const priceName = "price" + rangeId;
         availabilityRanges.push(new DateRange(submitData[startDateName], submitData[endDateName], submitData[priceName]));
       });
+
       const newAccommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, availabilityRanges, submitData.pricing!, submitData.reservationCancellationDeadline!, submitData.acceptance!);
       newAccommodation.isApproved = false;
 
-      this.axiosService.request(
-        "POST",
-        "/api/accommodations",
-        newAccommodation
-      ).then(
-        response => {
-          const accommodationRequest = new AccommodationRequest(null, this.oldAccommodation, response.data, "Updated");
-          this.axiosService.request(
-            "POST",
-            "/api/accommodations/requests",
-            accommodationRequest
-          );
-        }
-      )
+      // this.axiosService.request(
+      //   "POST",
+      //   "/api/accommodations",
+      //   newAccommodation
+      // ).then(
+      //   response => {
+      //     const accommodationRequest = new AccommodationRequest(null, this.oldAccommodation, response.data, "Updated");
+      //     this.axiosService.request(
+      //       "POST",
+      //       "/api/accommodations/requests",
+      //       accommodationRequest
+      //     );
+      //   }
+      // )
 
-      this.oldAccommodation.isApproved = false;
+      // this.oldAccommodation.isApproved = false;
 
-      this.axiosService.request(
-        "PUT",
-        "/api/accommodations/" + this.accommodationId,
-        this.oldAccommodation
-      ).then(
-        response => {
-          this.router.navigate(["/accommodation/accommodations"]);
-        }
-      );
+      // this.axiosService.request(
+      //   "PUT",
+      //   "/api/accommodations/" + this.accommodationId,
+      //   this.oldAccommodation
+      // ).then(
+      //   response => {
+      //     this.router.navigate(["/accommodation/accommodations"]);
+      //   }
+      // );
 
     }
     form.classList.add('was-validated');

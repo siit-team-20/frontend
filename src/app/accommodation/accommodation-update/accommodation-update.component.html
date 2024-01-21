@@ -100,7 +100,7 @@
                 <div class="invalid-feedback">This input is not valid!</div>
             </div>
             <div class="d-flex justify-content-end">
-                <button (click)="removeDateRange(rangeId)" class="btn btn-danger">Remove</button>
+                <button [disabled]="disabledIds.indexOf(rangeId) > -1" (click)="removeDateRange(rangeId)" class="btn btn-danger">Remove</button>
             </div>
             <hr class="my-4 bg-gray">
         </div>
