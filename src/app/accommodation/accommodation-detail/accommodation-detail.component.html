@@ -15,7 +15,8 @@
                     <p>Name: {{accommodation.name}}</p>
                 </div>
                 <div class="col-sm-6">
-                    <span>Email: </span><span><a [routerLink]="['/profile/', accommodation.ownerEmail]">{{accommodation.ownerEmail}}</a></span>
+                    <span>Email: </span><span><a
+                            [routerLink]="['/profile/', accommodation.ownerEmail]">{{accommodation.ownerEmail}}</a></span>
                 </div>
             </div>
             <div class="row">
@@ -37,12 +38,14 @@
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    <button *ngIf="axiosService.getRole() == 'Guest'" [disabled]="canRateAccommodation == false" type="button" class="btn btn-secondary px-4 btn-block" data-toggle="modal"
+                    <button *ngIf="axiosService.getRole() == 'Guest'" [disabled]="canRateAccommodation == false"
+                        type="button" class="btn btn-secondary px-4 btn-block" data-toggle="modal"
                         data-target="#rateAccommodationModal ">Rate Accommodation</button>
                 </div>
                 <div class="col-sm-6">
-                    <button *ngIf="axiosService.getRole() == 'Guest'" [disabled]="canRateOwner == false" type="button" class="btn btn-secondary px-4 btn-block" data-toggle="modal"
-                        data-target="#rateOwnerModal">Rate Owner</button>
+                    <button *ngIf="axiosService.getRole() == 'Guest'" [disabled]="canRateOwner == false" type="button"
+                        class="btn btn-secondary px-4 btn-block" data-toggle="modal" data-target="#rateOwnerModal">Rate
+                        Owner</button>
                 </div>
             </div>
         </div>
@@ -163,15 +166,15 @@
             <p>Pricing: </p>
             <div>
                 <div class="form-check">
-                    <input class="mr-2" id="isPriceByGuest" type="radio" value="perGuest" [checked]="accommodation.isPriceByGuest"
-                        [attr.disabled]="true">
+                    <input class="mr-2" id="isPriceByGuest" type="radio" value="perGuest"
+                        [checked]="accommodation.isPriceByGuest" [attr.disabled]="true">
                     <label for="isPriceByGuest">
                         Per guest
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="mr-2" id="isPricePerDay" type="radio" value="perDay" [checked]="!accommodation.isPriceByGuest"
-                        [attr.disabled]="true">
+                    <input class="mr-2" id="isPricePerDay" type="radio" value="perDay"
+                        [checked]="!accommodation.isPriceByGuest" [attr.disabled]="true">
                     <label for="isPricePerDay">
                         Per day
                     </label>
@@ -264,41 +267,7 @@
 
     <div class="mt-4">
         <h2 class="my-4">Reviews</h2>
-        <div *ngFor="let review of accommodationReviews">
-            <div class="card shadow w-100 my-3">
-                <div class="card-body p-4">
-                    <h5>{{review.guestEmail}}</h5>
-                    <div class="row">
-                        <div class="col-sm-9">
-                            <p>
-                              {{review.comment}}
-                            </p>
-                        </div>
-                        <div class="col-sm-3 container d-flex justify-content-center align-items-center">
-                            <fieldset class="form-group centered-div text-center" disabled="disabled" >
-                                <div class="ratingReview" >
-                                    <input type="radio"  value="five" id="reviewFive " [checked]="review.rating == 'five'" [attr.disabled]="true" readonly><label>☆</label>
-                                    <input type="radio"  value="four" id="reviewFour" [checked]="review.rating == 'four'" [attr.disabled]="true" readonly><label>☆</label>
-                                    <input type="radio"  value="three" id="reviewThree" [checked]="review.rating == 'three'" [attr.disabled]="true" readonly><label>☆</label>
-                                    <input type="radio"  value="two" id="reviewTwo" [checked]="review.rating == 'two'" [attr.disabled]="true" readonly><label>☆</label>
-                                    <input type="radio"  value="one" id="reviewOne" [checked]="review.rating == 'one'" [attr.disabled]="true"  readonly><label>☆</label>
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                    <div class=" row justify-content-end">
-                        <button class="btn btn-danger right mx-3">Delete</button>
-                        <button class="btn btn-danger right ">Report</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <app-accommodation-review-view *ngFor="let accommodationReview of accommodationReviews"
+            [accommodationReview]="accommodationReview"></app-accommodation-review-view>
     </div>
-
-
-
-
-
-
-
 </div>

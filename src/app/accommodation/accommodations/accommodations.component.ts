@@ -5,9 +5,9 @@ import { Accommodation } from '../model/accommodation';
 import { AccommodationViewComponent } from '../accommodation-view/accommodation-view.component';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../search.pipe';
-import { AxiosService } from '../../axios.service';
 import { UserType } from '../../auth/model/user';
 import { Router } from '@angular/router';
+import { AxiosService } from '../../axios.service';
 
 @Component({
   selector: 'app-accommodations',
@@ -28,25 +28,25 @@ export class AccommodationsComponent {
       query = "?ownerEmail=" + this.axiosService.getUser()["sub"];
     else if (this.axiosService.getRole() != UserType.Admin)
       query = "?onlyApproved=true";
-    
+
     this.axiosService.request(
       "GET",
-      "/api/accommodations"+query,
+      "/api/accommodations" + query,
       {}
-      ).then(
+    ).then(
       response => {
-          this.accommodations = response.data;
+        this.accommodations = response.data;
       });
   }
 
 
-  searchtext: string  = '';
+  searchtext: string = '';
   searchnumber: number = 0;
-  searchprice: string ='';
-  searchtype: string =''; 
+  searchprice: string = '';
+  searchtype: string = '';
   searchbenefits: any[] = [""];
-  searchstartdate: string='';
-  searchenddate: string='';
+  searchstartdate: string = '';
+  searchenddate: string = '';
 
 
 }

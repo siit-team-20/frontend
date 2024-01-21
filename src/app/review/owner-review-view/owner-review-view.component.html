@@ -1,0 +1,46 @@
+<div class="card shadow w-100 my-3">
+    <div class="card-body p-4">
+        <h5>{{ownerReview.guestEmail}}</h5>
+        <div class="row">
+            <div class="col-sm-9">
+                <p>
+                    {{ownerReview.comment}}
+                </p>
+            </div>
+            <div class="col-sm-3 container d-flex justify-content-center align-items-center">
+                <fieldset class="form-group centered-div text-center" disabled="disabled">
+                    <div class="ratingReview">
+                        <input type="radio" value="five" id="ownerReviewFive " [checked]="ownerReview.rating == 'five'"
+                            [attr.disabled]="true" readonly><label>☆</label>
+                        <input type="radio" value="four" id="ownerReviewFour" [checked]="ownerReview.rating == 'four'"
+                            [attr.disabled]="true" readonly><label>☆</label>
+                        <input type="radio" value="three" id="ownerReviewThree"
+                            [checked]="ownerReview.rating == 'three'" [attr.disabled]="true" readonly><label>☆</label>
+                        <input type="radio" value="two" id="ownerReviewTwo" [checked]="ownerReview.rating == 'two'"
+                            [attr.disabled]="true" readonly><label>☆</label>
+                        <input type="radio" value="one" id="ownerReviewOne" [checked]="ownerReview.rating == 'one'"
+                            [attr.disabled]="true" readonly><label>☆</label>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class=" row justify-content-end">
+
+            <button *ngIf="auth.getRole() == 'Admin' && ownerReview.isReported == true"
+                (click)="approveReviewEvent.emit({review: ownerReview})" class="btn btn-success right">Approve</button>
+
+            <button *ngIf="auth.getRole() == 'Admin' && ownerReview.isReported == true"
+                (click)="deleteReviewEvent.emit({review: ownerReview})"
+                class="btn btn-danger right mx-3">Delete</button>
+
+            <button *ngIf="auth.getRole() == 'Guest' && ownerReview.isReported == false"
+                (click)="deleteReviewGuestEvent.emit({review: ownerReview})"
+                class="btn btn-danger right mx-3">Delete</button>
+
+            <button *ngIf="auth.getRole() == 'Owner' && ownerReview.isReported == false"
+                (click)="reportReviewEvent.emit({review: ownerReview})"
+                class="btn btn-danger right mx-3">Report</button>
+
+        </div>
+    </div>
+</div>

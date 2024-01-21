@@ -8,6 +8,7 @@ import { Reservation, ReservationStatus } from '../../reservation/model/reservat
 import { OwnerReview } from '../model/ownerReview';
 import { AccommodationReview } from '../model/accommodationReview';
 import { UserType } from '../../auth/model/user';
+import { AccommodationReviewViewComponent } from '../../review/accommodation-review-view/accommodation-review-view.component';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { UserType } from '../../auth/model/user';
   templateUrl: './accommodation-detail.component.html',
   styleUrl: './accommodation-detail.component.css',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, AccommodationReviewViewComponent]
 })
 export class AccommodationDetailComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
@@ -64,7 +65,7 @@ export class AccommodationDetailComponent {
         this.accommodation = response.data;
         this.accommodation.availabilityDates = this.accommodation.availabilityDates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
         let query: string = "";
-        query = "?accommodationId=" + this.accommodation.id;
+        query = "?accommodationId=" + this.accommodation.id + "&onlyNotApproved=false";
 
         this.axiosService.request(
           "GET",
