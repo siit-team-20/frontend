@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AxiosService } from '../../axios.service';
@@ -15,13 +15,13 @@ export class OwnerReviewViewComponent {
 
   auth: AxiosService;
 
-  @Input() ownerReview: OwnerReview = new OwnerReview(0, "", "", "", "", false);
+  @Input() ownerReview: OwnerReview = new OwnerReview(0, "", "", "", "", false, new Date());
   @Output() approveReviewEvent = new EventEmitter();
   @Output() deleteReviewEvent = new EventEmitter();
   @Output() deleteReviewGuestEvent = new EventEmitter();
   @Output() reportReviewEvent = new EventEmitter();
 
-  constructor(private axiosService: AxiosService) {
+  constructor(private axiosService: AxiosService, public datePipe: DatePipe) {
     this.auth = axiosService;
   }
 

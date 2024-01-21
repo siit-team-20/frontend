@@ -36,12 +36,12 @@
                     Maximum guests : {{accommodation.maxGuests}}
                 </div>
             </div>
-                <div class="row justify-content-center">
-                    <div class="pt-3 px-3 h5">5/5</div>
-                    <div class="ratingReview py-1">
-                        <label>☆</label>
-                    </div>
+            <div class="row justify-content-center">
+                <div class="pt-3 px-3 h5">Average Rating: {{averageRating}}</div>
+                <div class="ratingReview py-1">
+                    <label class="star">☆</label>
                 </div>
+            </div>
             <div class="row">
                 <div class="col-sm-6">
                     <button *ngIf="axiosService.getRole() == 'Guest'" [disabled]="canRateAccommodation == false"
@@ -89,8 +89,9 @@
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Submit</button>
+                        <button type="button" class="btn btn-danger" name="accommodationModalClose"
+                            data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" aria-label="Close">Submit</button>
                     </div>
                 </form>
             </div>
@@ -129,8 +130,9 @@
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Submit</button>
+                        <button type="button" class="btn btn-danger" name="ownerModalClose"
+                            data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" aria-label="Close">Submit</button>
                     </div>
                 </form>
             </div>

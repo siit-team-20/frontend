@@ -6,6 +6,7 @@ import { UserType } from '../../auth/model/user';
 import { CommonModule } from '@angular/common';
 import { AccommodationViewComponent } from '../accommodation-view/accommodation-view.component';
 import { FormsModule } from '@angular/forms';
+import { FavouriteAccommodation } from '../model/favouriteAccommodation';
 
 @Component({
   selector: 'app-accommodation-favourites',
@@ -16,11 +17,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class AccommodationFavouritesComponent {
 
-  accommodations: Accommodation[] = [];
-  constructor(private axiosService: AxiosService, private router: Router){
+  favouriteAccommodations: FavouriteAccommodation[] = [];
+  constructor(private axiosService: AxiosService, private router: Router) {
 
-
-   
   }
 
   ngOnInit(): void {
@@ -35,8 +34,8 @@ export class AccommodationFavouritesComponent {
       {}
     ).then(
       response => {
-        this.accommodations = response.data;
-        console.log(this.accommodations)
+        this.favouriteAccommodations = response.data;
+        console.log(this.favouriteAccommodations)
       });
   }
 

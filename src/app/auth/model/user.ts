@@ -13,6 +13,7 @@ export class User {
     public address: string;
     public phone: string;
     public type: UserType;
+    public isBlocked: boolean
 
     constructor(
         email: string,
@@ -21,7 +22,8 @@ export class User {
         surname: string,
         address: string,
         phone: string,
-        type: UserType
+        type: UserType,
+        isBlocked: boolean
     ) {
         this.email = email;
         this.password = password;
@@ -30,6 +32,7 @@ export class User {
         this.address = address;
         this.phone = phone;
         this.type = type;
+        this.isBlocked = isBlocked;
     }
 
 }

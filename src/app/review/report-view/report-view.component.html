@@ -1,1 +1,22 @@
-<p>report-view works!</p>
+<div class="container py-2">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="row p-3">
+                <div class="col-md-8">
+                    <p>User <span><a
+                                [routerLink]="['/profile/', report.reporterEmail]">{{report.reporterEmail}}</a></span>
+                        has reported user <span><a
+                                [routerLink]="['/profile/', report.reportedEmail]">{{report.reportedEmail}}</a></span>
+                    </p>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button *ngIf="auth.getRole() == 'Admin'" (click)="blockUserEvent.emit({report: report})"
+                        class="btn btn-danger mx-4">Block</button>
+
+                    <button *ngIf="auth.getRole() == 'Admin'" (click)="dismissReportEvent.emit({report: report})"
+                        class="btn btn-secondary">Dismiss</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AccommodationReview } from '../../accommodation/model/accommodationReview';
 import { AxiosService } from '../../axios.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -14,12 +14,12 @@ import { RouterLink } from '@angular/router';
 export class AccommodationReviewViewComponent {
   auth: AxiosService;
 
-  @Input() accommodationReview: AccommodationReview = new AccommodationReview(0, "", 0, "", "", false);
+  @Input() accommodationReview: AccommodationReview = new AccommodationReview(0, "", 0, "", "", false, new Date());
   @Output() approveReviewEvent = new EventEmitter();
   @Output() deleteReviewEvent = new EventEmitter();
   @Output() deleteReviewGuestEvent = new EventEmitter();
 
-  constructor(private axiosService: AxiosService) {
+  constructor(private axiosService: AxiosService, public datePipe: DatePipe) {
     this.auth = axiosService;
   }
 

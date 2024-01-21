@@ -37,7 +37,7 @@ export class OwnerReviewsComponent {
   // Admin odobrava neki reportovani review
   approveReview(review: any): void {
     let rew = review["review"];
-    let updatedReview = new OwnerReview(rew.id, rew.guestEmail, rew.ownerEmail, rew.comment, rew.rating, false);
+    let updatedReview = new OwnerReview(rew.id, rew.guestEmail, rew.ownerEmail, rew.comment, rew.rating, false, rew.submitDate);
     this.axiosService.request(
       "PUT",
       "/api/ownerReviews/" + updatedReview.id,

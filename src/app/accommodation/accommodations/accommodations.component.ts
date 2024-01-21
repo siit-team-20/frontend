@@ -8,6 +8,7 @@ import { SearchPipe } from '../search.pipe';
 import { UserType } from '../../auth/model/user';
 import { Router } from '@angular/router';
 import { AxiosService } from '../../axios.service';
+import { FavouriteAccommodation } from '../model/favouriteAccommodation';
 import { Notification } from '../../navbar/model/notification';
 
 @Component({
@@ -39,6 +40,19 @@ export class AccommodationsComponent {
       response => {
         this.accommodations = response.data;
       });
+  }
+
+  addToFavourites(accommodation: any): void {
+    let acc = accommodation["accommodation"];
+
+    const newFavouriteAccommodation = new FavouriteAccommodation(null, this.axiosService.getEmail(), acc);
+    console.log(newFavouriteAccommodation)
+
+    this.axiosService.request(
+      "POST",
+      "/api/accommodations/favourites",
+      newFavouriteAccommodation
+    )
   }
 
 

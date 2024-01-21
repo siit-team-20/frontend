@@ -21,7 +21,8 @@ export class ProfileViewComponent {
   auth: AxiosService;
   route: ActivatedRoute = inject(ActivatedRoute);
   profileEmail = "";
-  user: User = new User("", "", "", "", "", "", UserType.Guest);
+  averageRating = 0;
+  user: User = new User("", "", "", "", "", "", UserType.Guest, false);
   public deleteInvalid = "";
 
   ownerReviews: OwnerReview[] = [];
@@ -49,6 +50,26 @@ export class ProfileViewComponent {
         ).then(
           response => {
             this.ownerReviews = response.data;
+            console.log(this.ownerReviews);
+            var sum = 0;
+            for (let i = 0; i < this.ownerReviews.length; i++) {
+              if (this.ownerReviews[i].rating == 'one') {
+                sum += 1;
+              }
+              else if (this.ownerReviews[i].rating == 'two') {
+                sum += 2;
+              }
+              else if (this.ownerReviews[i].rating == 'three') {
+                sum += 3;
+              }
+              else if (this.ownerReviews[i].rating == 'four') {
+                sum += 4;
+              }
+              else {
+                sum += 5;
+              }
+              this.averageRating = sum / this.ownerReviews.length;
+            }
           });
       });
   }
@@ -147,7 +168,7 @@ export class ProfileViewComponent {
   reportUser(): void {
 
     const report = new Report(null, this.auth.getEmail(), this.profileEmail);
-
+    console.log(report)
     this.axiosService.request(
       "POST",
       "/api/reports",
@@ -158,7 +179,7 @@ export class ProfileViewComponent {
   // Owner reportuje Guesta
   reportReview(review: any): void {
     let rew = review["review"];
-    let updatedReview = new OwnerReview(rew.id, rew.guestEmail, rew.ownerEmail, rew.comment, rew.rating, true);
+    let updatedReview = new OwnerReview(rew.id, rew.guestEmail, rew.ownerEmail, rew.comment, rew.rating, true, rew.submitDate);
     this.axiosService.request(
       "PUT",
       "/api/ownerReviews/" + updatedReview.id,

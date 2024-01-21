@@ -6,6 +6,7 @@ export class AccommodationReview {
     public comment: string;
     public rating: string;
     public isApproved: boolean;
+    public submitDate: Date;
 
     constructor(
         id: number | null,
@@ -13,7 +14,8 @@ export class AccommodationReview {
         accommodationId: number,
         comment: string,
         rating: string,
-        isApproved: boolean
+        isApproved: boolean,
+        submitDate: Date
     ) {
         this.id = id;
         this.guestEmail = guestEmail;
@@ -21,6 +23,7 @@ export class AccommodationReview {
         this.comment = comment;
         this.rating = rating;
         this.isApproved = isApproved;
+        this.submitDate = submitDate;
     }
 
 }
