@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, Validators, FormGroup, F
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { User, UserType } from '../../auth/model/user';
+import { OwnerReview } from '../../accommodation/model/ownerReview';
 
 @Component({
   selector: 'app-profile-view',
@@ -19,6 +20,8 @@ export class ProfileViewComponent {
   profileEmail = "";
   user: User = new User("", "", "", "", "", "", UserType.Guest);
 
+  ownerReviews: OwnerReview[] = [];
+
   constructor(private axiosService: AxiosService, private router: Router) {
     this.auth = axiosService;
     this.profileEmail = this.route.snapshot.params["email"];
@@ -33,6 +36,20 @@ export class ProfileViewComponent {
     ).then(
       response => {
         this.user = response.data;
+
+        let query: string = "";
+        if (this.axiosService.getRole() == UserType.Owner)
+          query = "?ownerEmail=" + this.axiosService.getUser()["sub"];
+        console.log(query);
+        this.axiosService.request(
+          "GET",
+          "/api/ownerReviews" + query,
+          {}
+        ).then(
+          response => {
+            this.ownerReviews = response.data;
+            console.log(this.ownerReviews)
+          });
       });
   }
 
@@ -43,8 +60,8 @@ export class ProfileViewComponent {
       {}
     ).then(
       response => {
-          this.router.navigate(['/']);
-          this.axiosService.setAuthToken(null);
+        this.router.navigate(['/']);
+        this.axiosService.setAuthToken(null);
       });
   }
 
