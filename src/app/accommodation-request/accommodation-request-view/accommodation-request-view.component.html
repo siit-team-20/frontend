@@ -32,7 +32,7 @@
       </div>
       <div class="col-lg-3 px-3">
         <h5>Owner email</h5>
-          <span>{{accommodationRequest.newAccommodation.ownerEmail}}</span>
+            <span><a [routerLink]="['/profile/', accommodationRequest.newAccommodation.ownerEmail]">{{accommodationRequest.newAccommodation.ownerEmail}}</a></span>
       </div>
 
       <div class="col-lg-3 px-0">
@@ -97,12 +97,10 @@
                         <div class="col-md-8 description">
 
                             <p>{{accommodationRequest.newAccommodation.description}}</p>
-                            
-                            <p class="my-3">Email: {{accommodationRequest.newAccommodation.ownerEmail}}</p>
 
+                            <span class="my-3">Owner email: </span><span class="my-3"><a data-dismiss="modal" aria-label="Close" [routerLink]="['/profile/', accommodationRequest.newAccommodation.ownerEmail]">{{accommodationRequest.newAccommodation.ownerEmail}}</a></span>
+                        
                             <div class="row border benefits">
-
-                                
 
                                 <div class="col-md-4">
 
@@ -296,7 +294,7 @@
           <div class="col-lg-2"></div>
           <div class="col-lg-6 px-0">
             <h5>Owner email</h5>
-              <span>{{accommodationRequest.oldAccommodation?.ownerEmail}}</span>
+                <span><a [routerLink]="['/profile/', accommodationRequest.oldAccommodation?.ownerEmail]">{{accommodationRequest.oldAccommodation?.ownerEmail}}</a></span>
           </div>
 
 
@@ -343,7 +341,7 @@
           <div class="col-lg-2"></div>
           <div class="col-lg-6 px-0">
             <h5>Owner email</h5>
-              <span>{{accommodationRequest.newAccommodation.ownerEmail}}</span>
+                <span><a [routerLink]="['/profile/', accommodationRequest.newAccommodation.ownerEmail]">{{accommodationRequest.newAccommodation.ownerEmail}}</a></span>
           </div>
 
         </div>
@@ -404,9 +402,9 @@
 
                             <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid shadow">
 
-                            <p class="py-4">{{accommodationRequest.oldAccommodation?.description}}</p>
-                            
-                            <p>Email: {{accommodationRequest.oldAccommodation?.ownerEmail}}</p>
+                            <p class="py-4">{{accommodationRequest.oldAccommodation?.description}}</p>   
+                                
+                            <span>Email: </span><span><a data-dismiss="modal" aria-label="Close" [routerLink]="['/profile/', accommodationRequest.oldAccommodation?.ownerEmail]">{{accommodationRequest.oldAccommodation?.ownerEmail}}</a></span>
 
                             <div class="row border benefits">
 
@@ -569,8 +567,8 @@
                             <img src="assets/images/apartment1.jpg" alt="apartment" class="img-fluid shadow">
 
                             <p class="py-4">{{accommodationRequest.newAccommodation.description}}</p>
-                            <p>Email: {{accommodationRequest.newAccommodation.ownerEmail}}</p>
-
+                            <span>Email: </span><span><a data-dismiss="modal" aria-label="Close" [routerLink]="['/profile/', accommodationRequest.newAccommodation.ownerEmail]">{{accommodationRequest.newAccommodation.ownerEmail}}</a></span>
+                        
                             <div class="row border benefits">
 
                                 <div class="col-md-4">
