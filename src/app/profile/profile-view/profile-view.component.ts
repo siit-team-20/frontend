@@ -5,13 +5,14 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { User, UserType } from '../../auth/model/user';
 import { OwnerReview } from '../../accommodation/model/ownerReview';
+import { OwnerReviewViewComponent } from '../../review/owner-review-view/owner-review-view.component';
 
 @Component({
   selector: 'app-profile-view',
   templateUrl: './profile-view.component.html',
   styleUrl: './profile-view.component.css',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterLink]
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, RouterLink, OwnerReviewViewComponent]
 })
 export class ProfileViewComponent {
 

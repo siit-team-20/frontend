@@ -11,6 +11,7 @@ import { AccommodationUpdateComponent } from './accommodation/accommodation-upda
 import { AccommodationModule } from './accommodation/accommodation.module';
 import { DatePipe } from '@angular/common';
 import { ReservationModule } from './reservation/reservation.module';
+import { ReviewModule } from './review/review.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ReservationModule } from './reservation/reservation.module';
     AccommodationRequestModule,
     AccommodationModule,
     AccommodationUpdateComponent,
-    ReservationModule
+    ReservationModule,
+    ReviewModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

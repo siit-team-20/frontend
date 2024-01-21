@@ -1,0 +1,12 @@
+<div class="container">
+
+    <h1>Accommodation Reviews</h1>
+
+    <div class="accommodations">
+        <app-accommodation-review-view *ngFor="let accommodationReview of accommodationReviews"
+            [accommodationReview]="accommodationReview" (approveReviewEvent)="approveReview($event)"
+            (deleteReviewEvent)="deleteReview($event)">
+        </app-accommodation-review-view>
+    </div>
+
+</div>

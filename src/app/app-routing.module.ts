@@ -12,6 +12,8 @@ import { authGuard, loggedInGuard } from './auth/auth.guard';
 import { ProfileUpdateComponent } from './profile/profile-update/profile-update.component';
 import { AccommodationDetailComponent } from './accommodation/accommodation-detail/accommodation-detail.component';
 import { ReservationsComponent } from './reservation/reservations/reservations.component';
+import { OwnerReviewsComponent } from './review/owner-reviews/owner-reviews.component';
+import { AccommodationReviewsComponent } from './review/accommodation-reviews/accommodation-reviews.component';
 
 const routes: Routes = [
   { component: AccommodationsComponent, path: "" },
@@ -24,7 +26,9 @@ const routes: Routes = [
   { component: AccommodationDetailComponent, path: "accommodation/detail/:id" },
   { component: ProfileViewComponent, path: "profile/:email", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard] },
   { component: ProfileUpdateComponent, path: "profile/update/:email", data: { role: [UserType.Admin, UserType.Guest, UserType.Owner] }, canActivate: [authGuard, loggedInGuard] },
-  { component: ReservationsComponent, path: "reservations", data: { role: [UserType.Guest, UserType.Owner] }, canActivate: [authGuard] }
+  { component: ReservationsComponent, path: "reservations", data: { role: [UserType.Guest, UserType.Owner] }, canActivate: [authGuard] },
+  { component: OwnerReviewsComponent, path: "ownerReviews", data: { role: [UserType.Admin] }, canActivate: [authGuard] },
+  { component: AccommodationReviewsComponent, path: "accommodationReviews", data: { role: [UserType.Admin] }, canActivate: [authGuard] }
 ];
 
 @NgModule({
