@@ -90,7 +90,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Submit</button>
                     </div>
                 </form>
             </div>
@@ -130,7 +130,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary" data-dismiss="modal" aria-label="Close">Submit</button>
                     </div>
                 </form>
             </div>
@@ -143,7 +143,7 @@
             <div class="row">
                 <div class="col-sm-4">
                     <p>Benefits: </p>
-                    <div class="list-group overflow-auto" style="max-height: 100px;">
+                    <div class="list-group overflow-auto">
                         <ul *ngFor="let benefit of accommodation.benefits;">
                             <li>
                                 {{benefit}}
@@ -154,7 +154,7 @@
                 </div>
                 <div class="col-sm-8">
                     <p>Availability Start - End date: </p>
-                    <div class="list-group overflow-auto" style="max-height: 100px;">
+                    <div class="list-group overflow-auto">
                         <ul *ngFor="let date of accommodation.availabilityDates;">
                             <li>
                                 {{ datePipe.transform(date.startDate, "yyyy-MM-dd") }} - {{
@@ -167,51 +167,58 @@
             </div>
 
         </div>
-
-        <div class="col-sm-2 p-3">
+        <div class="col-sm-4 p-3">
+            <p>Currently reserved for: </p>
+            <div class="list-group overflow-auto">
+                <ul *ngFor="let reservation of reservations;">
+                    <li>
+                        Start date: {{ datePipe.transform(reservation.date, "yyyy-MM-dd") }}
+                        for {{reservation.days}} days
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-6 px-5 row">
             <p>Pricing: </p>
-            <div>
-                <div class="form-check">
-                    <input class="mr-2" id="isPriceByGuest" type="radio" value="perGuest"
-                        [checked]="accommodation.isPriceByGuest" [attr.disabled]="true">
-                    <label for="isPriceByGuest">
-                        Per guest
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="mr-2" id="isPricePerDay" type="radio" value="perDay"
-                        [checked]="!accommodation.isPriceByGuest" [attr.disabled]="true">
-                    <label for="isPricePerDay">
-                        Per day
-                    </label>
-                </div>
+            <div class="form-check">
+                <input class="mr-2" id="isPriceByGuest" type="radio" value="perGuest"
+                    [checked]="accommodation.isPriceByGuest" [attr.disabled]="true">
+                <label for="isPriceByGuest">
+                    Per guest
+                </label>
             </div>
-
+            <div class="form-check">
+                <input class="mr-2" id="isPricePerDay" type="radio" value="perDay"
+                    [checked]="!accommodation.isPriceByGuest" [attr.disabled]="true">
+                <label for="isPricePerDay">
+                    Per day
+                </label>
+            </div>
         </div>
-        <div class="col-sm-2 p-3">
+
+        <div class="col-sm-6 px-5 row">
             <p>Acceptance: </p>
-            <div>
-                <div class="form-check">
-                    <input class="mr-2" id="isAutomaticAcceptance" type="radio" value="Automatic"
-                        [checked]="accommodation.isAutomaticAcceptance" [attr.disabled]="true">
-                    <label>
-                        Automatic
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="mr-2" id="isManualAcceptance" type="radio" value="Manual"
-                        [checked]="!accommodation.isAutomaticAcceptance" [attr.disabled]="true">
-                    <label>
-                        Manual
-                    </label>
-                </div>
+            <div class="form-check">
+                <input class="mr-2" id="isAutomaticAcceptance" type="radio" value="Automatic"
+                    [checked]="accommodation.isAutomaticAcceptance" [attr.disabled]="true">
+                <label>
+                    Automatic
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="mr-2" id="isManualAcceptance" type="radio" value="Manual"
+                    [checked]="!accommodation.isAutomaticAcceptance" [attr.disabled]="true">
+                <label>
+                    Manual
+                </label>
             </div>
         </div>
-
-
     </div>
 
     <div class="mt-5" *ngIf="axiosService.getRole() == 'Guest'">
+        <h3 class="mb-5">Make a reservation</h3>
         <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()" class="needs-validation w-100"
             name="reservationForm" novalidate>
             <div class="row">
@@ -229,6 +236,9 @@
                         </div>
                         <div *ngIf="reservationForm.errors?.['startAfterEnd']" class="custom-invalid-feedback">
                             Start date is after end date!
+                        </div>
+                        <div *ngIf="reservationForm.errors?.['invalidAvailable']" class="custom-invalid-feedback">
+                            Accommodation is not available at chosen time!
                         </div>
                     </div>
                 </div>
@@ -271,7 +281,7 @@
 
     <!-- reviews -->
 
-    <div class="mt-4">
+    <div class="mt-4" *ngIf="accommodationReviews.length != 0">
         <h2 class="my-4">Reviews</h2>
         <app-accommodation-review-view *ngFor="let accommodationReview of accommodationReviews"
             [accommodationReview]="accommodationReview"
