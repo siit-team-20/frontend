@@ -9,6 +9,7 @@ import { OwnerReview } from '../model/ownerReview';
 import { AccommodationReview } from '../model/accommodationReview';
 import { User, UserType } from '../../auth/model/user';
 import { AccommodationReviewViewComponent } from '../../review/accommodation-review-view/accommodation-review-view.component';
+import { ReservationWithAccommodation } from '../../reservation/model/reservationWithAccommodation';
 
 
 @Component({
@@ -29,6 +30,7 @@ export class AccommodationDetailComponent {
   accommodation: Accommodation = new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0, "");
 
   accommodationReviews: AccommodationReview[] = [];
+  reservations: ReservationWithAccommodation[] = [];
 
   reservationForm: FormGroup;
   ownerReviewForm: FormGroup;
@@ -76,6 +78,16 @@ export class AccommodationDetailComponent {
             this.accommodationReviews = response.data;
           });
 
+        query = "?accommodationId=" + this.accommodation.id + "&status=Approved";
+        this.axiosService.request(
+          "GET",
+          "/api/accommodations/reservations" + query,
+          {}
+        ).then(
+          response => {
+            this.reservations = response.data;
+          });
+
         this.axiosService.request(
           "GET",
           "/api/accommodations/reservations?ownerEmail=" + this.accommodation.ownerEmail + "&status=Finished&guestEmail=" + this.axiosService.getEmail(),
@@ -104,7 +116,7 @@ export class AccommodationDetailComponent {
 
   inputChanged(): void {
 
-    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    var form = document.getElementsByName('reservationForm')[0] as HTMLFormElement;
 
     this.currentPrice = 0;
 
@@ -116,10 +128,26 @@ export class AccommodationDetailComponent {
       let validRange = false;
       let validStart = false;
       let validStartBeforeTomorrow = false;
+      let validGuestNumber = false;
+      let validAvailable = true;
 
       if (inputRange.startDate < inputRange.endDate) {
         validStart = true;
       }
+
+      this.reservations.forEach(r => {
+        
+        let rStartDate = new Date(r.date);
+        let rEndDate = new Date(r.date);
+        rEndDate.setDate(rEndDate.getDate() + r.days);
+        let rDateRange = new DateRange(rStartDate, rEndDate, 0);
+
+        if (inputRange.IsOverlapping(rDateRange)) {
+          validAvailable = false;
+          return;
+        }
+
+      });
 
       let tomorrow = new Date();
       tomorrow.setHours(0, 0, 0, 0);
@@ -127,6 +155,11 @@ export class AccommodationDetailComponent {
 
       if (inputRange.startDate >= tomorrow) {
         validStartBeforeTomorrow = true;
+      }
+
+      let guestNumber = this.reservationForm.get("guestNumber")?.value;
+      if (guestNumber >= this.accommodation.minGuests && guestNumber <= this.accommodation.maxGuests && guestNumber != null) {
+        validGuestNumber = true;
       }
 
       for (let i = 0; i < this.accommodation.availabilityDates.length; i++) {
@@ -137,7 +170,7 @@ export class AccommodationDetailComponent {
         if (inputRange.IsBetween(availableRangeCurrent)) {
 
           let days = Math.floor((inputRange.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24);
-          if (validStart)
+          if (validStart && validGuestNumber && validStartBeforeTomorrow && validAvailable)
             this.currentPrice += days * availableRangeCurrent.price;
           validRange = true;
           break;
@@ -153,7 +186,7 @@ export class AccommodationDetailComponent {
             if (inputRange.startDate >= availableRangeCurrent.startDate && inputRange.startDate < availableRangeCurrent.endDate) {
 
               let days = Math.floor((availableRangeCurrent.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24);
-              if (validStart)
+              if (validStart && validGuestNumber && validStartBeforeTomorrow && validAvailable)
                 this.currentPrice += days * availableRangeCurrent.price;
 
               for (let j = i + 1; j < this.accommodation.availabilityDates.length; j++) {
@@ -165,14 +198,14 @@ export class AccommodationDetailComponent {
 
                   if (inputRange.endDate >= availableRangeNext.startDate && inputRange.endDate <= availableRangeNext.endDate) {
                     let days = Math.floor((inputRange.endDate.getTime() - availableRangeNext.startDate.getTime()) / 1000 / 60 / 60 / 24);
-                    if (validStart)
+                    if (validStart && validGuestNumber && validStartBeforeTomorrow && validAvailable)
                       this.currentPrice += days * availableRangeNext.price;
                     validRange = true;
                     break;
                   }
                   else {
                     let days = Math.floor((availableRangePast.endDate.getTime() - availableRangePast.startDate.getTime()) / 1000 / 60 / 60 / 24);
-                    if (validStart)
+                    if (validStart && validGuestNumber && validStartBeforeTomorrow && validAvailable)
                       this.currentPrice += days * availableRangeNext.price;
                   }
 
@@ -201,14 +234,18 @@ export class AccommodationDetailComponent {
   onSubmit(): void {
 
     var form = document.getElementsByName('reservationForm')[0] as HTMLFormElement;
-    this.reservationForm.addValidators(ReservationValidator.validateDates(this.accommodation.availabilityDates, this.reservationForm, this.accommodation));
+    this.reservationForm.addValidators(ReservationValidator.validateDates(this.accommodation.availabilityDates, this.reservations));
     this.reservationForm.addValidators(ReservationValidator.validateGuestNumber(this.accommodation.minGuests, this.accommodation.maxGuests));
     this.reservationForm.updateValueAndValidity();
 
     if (!(form.checkValidity() === false) && this.reservationForm.errors == null) {
 
       let inputRange = new DateRange(new Date(this.reservationForm.get("availabilityStart")?.value), new Date(this.reservationForm.get("availabilityEnd")?.value), 0);
-      const reservation = new Reservation(null, this.axiosService.getEmail(), this.accommodationId, inputRange.startDate, Math.floor((inputRange.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24), this.reservationForm.get("guestNumber")?.value, this.currentPrice, ReservationStatus.Waiting);
+      let status = ReservationStatus.Waiting;
+      if (this.accommodation.isAutomaticAcceptance) {
+        status = ReservationStatus.Approved;
+      }
+      const reservation = new Reservation(null, this.axiosService.getEmail(), this.accommodationId, inputRange.startDate, Math.floor((inputRange.endDate.getTime() - inputRange.startDate.getTime()) / 1000 / 60 / 60 / 24), this.reservationForm.get("guestNumber")?.value, this.currentPrice, status);
       this.axiosService.request(
         "POST",
         "/api/accommodations/reservations",
@@ -308,7 +345,7 @@ export class ReservationValidator {
 
   }
 
-  public static validateDates(availabilityDates: Array<DateRange>, reservationForm: FormGroup, accommodation: any) {
+  public static validateDates(availabilityDates: Array<DateRange>, reservations: Array<ReservationWithAccommodation>) {
 
     return (control: AbstractControl) => {
 
@@ -321,10 +358,25 @@ export class ReservationValidator {
       let validRange = false;
       let validStart = false;
       let validStartBeforeTomorrow = false;
+      let validAvailable = true;
 
       if (inputRange.startDate < inputRange.endDate) {
         validStart = true;
       }
+
+      reservations.forEach(r => {
+        
+        let rStartDate = new Date(r.date);
+        let rEndDate = new Date(r.date);
+        rEndDate.setDate(rEndDate.getDate() + r.days);
+        let rDateRange = new DateRange(rStartDate, rEndDate, 0);
+
+        if (inputRange.IsOverlapping(rDateRange)) {
+          validAvailable = false;
+          return;
+        }
+
+      });
 
       let tomorrow = new Date();
       tomorrow.setHours(0, 0, 0, 0);
@@ -340,7 +392,6 @@ export class ReservationValidator {
         availableRangeCurrent.SetTimeToZero();
 
         if (inputRange.IsBetween(availableRangeCurrent)) {
-
 
           validRange = true;
           break;
@@ -400,7 +451,12 @@ export class ReservationValidator {
         hasErrors = true;
       }
 
-      if (validRange && validStart && validStartBeforeTomorrow) {
+      if (!validAvailable) {
+        returnObject['invalidAvailable'] = true;
+        hasErrors = true;
+      }
+
+      if (validRange && validStart && validStartBeforeTomorrow && validAvailable) {
         availabilityStart.classList.remove('is-invalid');
         availabilityStart.classList.add('is-valid');
       }
