@@ -1,23 +1,41 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ReservationWithAccommodation } from '../model/reservationWithAccommodation';
 import { Accommodation, DateRange } from '../../accommodation/model/accommodation';
 import { AxiosService } from '../../axios.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-reservation-view',
   templateUrl: './reservation-view.component.html',
   styleUrl: './reservation-view.component.css',
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, RouterLink]
 })
 export class ReservationViewComponent {
   auth: AxiosService;
 
   @Input() reservationWithAccommodation: ReservationWithAccommodation = new ReservationWithAccommodation(0, "", new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0, ""), new Date(), 0, 0, 0, "Waiting");
+  @Output() acceptReservationEvent = new EventEmitter();
+  @Output() declineReservationEvent = new EventEmitter();
+  @Output() cancelReservationEvent = new EventEmitter();
+
+  cancelledReservations = 0;
 
   constructor(private axiosService: AxiosService, public datePipe: DatePipe) {
     this.auth = axiosService;
   }
 
+  ngOnInit(): void {
+    let query = "?guestEmail=" + this.reservationWithAccommodation.guestEmail + "&status=Cancelled";
+
+    this.axiosService.request(
+      "GET",
+      "/api/accommodations/reservations" + query,
+      {}
+    ).then(
+      response => {
+        this.cancelledReservations = response.data.length;
+      });
+  }
 }

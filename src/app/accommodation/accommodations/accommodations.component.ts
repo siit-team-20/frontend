@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../search.pipe';
 import { AxiosService } from '../../axios.service';
 import { UserType } from '../../auth/model/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accommodations',
@@ -18,12 +19,12 @@ import { UserType } from '../../auth/model/user';
 export class AccommodationsComponent {
 
   accommodations: Accommodation[] = [];
-  constructor(private axiosService: AxiosService) { }
+  constructor(private axiosService: AxiosService, private router: Router) { }
 
   ngOnInit(): void {
 
     let query: string = "";
-    if (this.axiosService.getRole() == UserType.Owner)
+    if (this.axiosService.getRole() == UserType.Owner && this.router.url != '/')
       query = "?ownerEmail=" + this.axiosService.getUser()["sub"];
     else if (this.axiosService.getRole() != UserType.Admin)
       query = "?onlyApproved=true";
