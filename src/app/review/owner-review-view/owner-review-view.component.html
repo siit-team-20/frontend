@@ -33,7 +33,7 @@
                 (click)="deleteReviewEvent.emit({review: ownerReview})"
                 class="btn btn-danger right mx-3">Delete</button>
 
-            <button *ngIf="auth.getRole() == 'Guest' && ownerReview.isReported == false"
+            <button *ngIf="auth.getEmail() == ownerReview.guestEmail && ownerReview.isReported == false"
                 (click)="deleteReviewGuestEvent.emit({review: ownerReview})"
                 class="btn btn-danger right mx-3">Delete</button>
 

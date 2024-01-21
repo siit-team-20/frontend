@@ -7,7 +7,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, Reac
 import { Reservation, ReservationStatus } from '../../reservation/model/reservation';
 import { OwnerReview } from '../model/ownerReview';
 import { AccommodationReview } from '../model/accommodationReview';
-import { UserType } from '../../auth/model/user';
+import { User, UserType } from '../../auth/model/user';
 import { AccommodationReviewViewComponent } from '../../review/accommodation-review-view/accommodation-review-view.component';
 
 
@@ -64,9 +64,9 @@ export class AccommodationDetailComponent {
 
         this.accommodation = response.data;
         this.accommodation.availabilityDates = this.accommodation.availabilityDates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+
         let query: string = "";
         query = "?accommodationId=" + this.accommodation.id + "&onlyNotApproved=false";
-
         this.axiosService.request(
           "GET",
           "/api/accommodations/reviews" + query,
@@ -256,6 +256,29 @@ export class AccommodationDetailComponent {
 
     }
     form.classList.add('was-validated');
+  }
+
+  deleteReviewGuest(review: any): void {
+    let rew = review["review"];
+    this.axiosService.request(
+      "DELETE",
+      "/api/accommodations/reviews/" + rew.id,
+      {}
+    ).then(
+      response => {
+
+        let query: string = "";
+        query = "?accommodationId=" + this.accommodation.id + "&onlyNotApproved=false";
+
+        this.axiosService.request(
+          "GET",
+          "/api/accommodations/reviews" + query,
+          {}
+        ).then(
+          response => {
+            this.accommodationReviews = response.data;
+          });
+      });
   }
 
 }

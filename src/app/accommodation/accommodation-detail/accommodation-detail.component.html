@@ -268,6 +268,7 @@
     <div class="mt-4">
         <h2 class="my-4">Reviews</h2>
         <app-accommodation-review-view *ngFor="let accommodationReview of accommodationReviews"
-            [accommodationReview]="accommodationReview"></app-accommodation-review-view>
+            [accommodationReview]="accommodationReview"
+            (deleteReviewGuestEvent)="deleteReviewGuest($event)"></app-accommodation-review-view>
     </div>
 </div>

@@ -35,9 +35,12 @@
                 (click)="approveReviewEvent.emit({review: accommodationReview})"
                 class="btn btn-success right">Approve</button>
 
-            <button
-                *ngIf="(auth.getRole() == 'Admin' || auth.getRole() == 'Guest') && accommodationReview.isApproved == false"
+            <button *ngIf="auth.getRole() == 'Admin' && accommodationReview.isApproved == false"
                 (click)="deleteReviewEvent.emit({review: accommodationReview})"
+                class="btn btn-danger right mx-3">Delete</button>
+
+            <button *ngIf="auth.getEmail() == accommodationReview.guestEmail && accommodationReview.isApproved == true"
+                (click)="deleteReviewGuestEvent.emit({review: accommodationReview})"
                 class="btn btn-danger right mx-3">Delete</button>
 
         </div>
