@@ -236,32 +236,32 @@ export class AccommodationUpdateComponent implements OnInit {
       const newAccommodation = new Accommodation(null, submitData.ownerEmail!, submitData.name!, submitData.description!, submitData.location!, submitData.minGuests!, submitData.maxGuests!, submitData.accommodationType!, submitData.benefits!, availabilityRanges, submitData.pricing!, submitData.reservationCancellationDeadline!, submitData.acceptance!);
       newAccommodation.isApproved = false;
 
-      // this.axiosService.request(
-      //   "POST",
-      //   "/api/accommodations",
-      //   newAccommodation
-      // ).then(
-      //   response => {
-      //     const accommodationRequest = new AccommodationRequest(null, this.oldAccommodation, response.data, "Updated");
-      //     this.axiosService.request(
-      //       "POST",
-      //       "/api/accommodations/requests",
-      //       accommodationRequest
-      //     );
-      //   }
-      // )
+      this.axiosService.request(
+        "POST",
+        "/api/accommodations",
+        newAccommodation
+      ).then(
+        response => {
+          const accommodationRequest = new AccommodationRequest(null, this.oldAccommodation, response.data, "Updated");
+          this.axiosService.request(
+            "POST",
+            "/api/accommodations/requests",
+            accommodationRequest
+          );
+        }
+      )
 
-      // this.oldAccommodation.isApproved = false;
+      this.oldAccommodation.isApproved = false;
 
-      // this.axiosService.request(
-      //   "PUT",
-      //   "/api/accommodations/" + this.accommodationId,
-      //   this.oldAccommodation
-      // ).then(
-      //   response => {
-      //     this.router.navigate(["/accommodation/accommodations"]);
-      //   }
-      // );
+      this.axiosService.request(
+        "PUT",
+        "/api/accommodations/" + this.accommodationId,
+        this.oldAccommodation
+      ).then(
+        response => {
+          this.router.navigate(["/accommodation/accommodations"]);
+        }
+      );
 
     }
     form.classList.add('was-validated');

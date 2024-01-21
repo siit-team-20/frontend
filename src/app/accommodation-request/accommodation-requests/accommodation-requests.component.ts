@@ -108,6 +108,12 @@ export class AccommodationRequestsComponent {
       });
 
     this.axiosService.request(
+      "PUT",
+      "/api/accommodations/reservations?oldAccommodationId="+ids.oldAccommodation.id + "&newAccommodationId="+ids.newAccommodation.id,
+      {}
+      );
+
+    this.axiosService.request(
       "DELETE",
       "/api/accommodations/"+ids.oldAccommodation.id,
       {}
@@ -120,6 +126,8 @@ export class AccommodationRequestsComponent {
       "/api/accommodations/"+ids.newAccommodation.id,
       ids.newAccommodation
       );
+
+    
   }
 
 }

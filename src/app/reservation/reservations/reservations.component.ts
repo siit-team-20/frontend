@@ -8,6 +8,7 @@ import { SearchPipe } from '../../accommodation/search.pipe';
 import { FormsModule } from '@angular/forms';
 import { SearchReservationPipe } from '../search-reservation.pipe';
 import { Reservation, ReservationStatus } from '../model/reservation';
+import { Notification, NotificationType } from '../../navbar/model/notification';
 
 @Component({
   selector: 'app-reservations',
@@ -104,6 +105,13 @@ export class ReservationsComponent {
           this.reservationWithAccommodations = response.data;
         });
     });
+
+    const notification = new Notification(null, res.accommodation.ownerEmail, this.axiosService.getEmail(), NotificationType.ReservationCancelled, new Date());
+      this.axiosService.request(
+        "POST",
+        "/api/notifications",
+        notification
+      );
   }
 
 }

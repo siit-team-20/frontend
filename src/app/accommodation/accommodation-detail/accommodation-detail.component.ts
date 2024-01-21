@@ -10,6 +10,7 @@ import { AccommodationReview } from '../model/accommodationReview';
 import { User, UserType } from '../../auth/model/user';
 import { AccommodationReviewViewComponent } from '../../review/accommodation-review-view/accommodation-review-view.component';
 import { ReservationWithAccommodation } from '../../reservation/model/reservationWithAccommodation';
+import { Notification, NotificationType } from '../../navbar/model/notification';
 
 
 @Component({
@@ -107,6 +108,16 @@ export class AccommodationDetailComponent {
         ).then(
           response => {
             this.reservations = response.data;
+            query = "?accommodationId=" + this.accommodation.id + "&status=Waiting";
+            this.axiosService.request(
+              "GET",
+              "/api/accommodations/reservations" + query,
+              {}
+            ).then(
+              response => {
+                if (response.data.length != 0)
+                  this.reservations.push(response.data);
+              });
           });
 
         this.axiosService.request(
@@ -269,7 +280,15 @@ export class AccommodationDetailComponent {
         "POST",
         "/api/accommodations/reservations",
         reservation
-      )
+      );
+
+      const notification = new Notification(null, this.accommodation.ownerEmail, this.axiosService.getEmail(), NotificationType.ReservationCreated, new Date());
+      this.axiosService.request(
+        "POST",
+        "/api/notifications",
+        notification
+      );
+
       this.router.navigate(["/"]);
 
     }
@@ -299,7 +318,14 @@ export class AccommodationDetailComponent {
           emptyInput.textContent = "";
           closeModal.click();
         }
-      )
+      );
+
+      const notification = new Notification(null, this.accommodation.ownerEmail, this.axiosService.getEmail(), NotificationType.AccommodationReviewAdded, new Date());
+      this.axiosService.request(
+        "POST",
+        "/api/notifications",
+        notification
+      );
 
     }
     form.classList.add('was-validated');
@@ -325,7 +351,14 @@ export class AccommodationDetailComponent {
           emptyInput.textContent = "";
           closeModal.click();
         }
-      )
+      );
+
+      const notification = new Notification(null, this.accommodation.ownerEmail, this.axiosService.getEmail(), NotificationType.OwnerReviewAdded, new Date());
+      this.axiosService.request(
+        "POST",
+        "/api/notifications",
+        notification
+      );
 
     }
     form.classList.add('was-validated');

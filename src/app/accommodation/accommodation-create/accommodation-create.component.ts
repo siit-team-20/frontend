@@ -96,9 +96,12 @@ export class AccommodationCreateComponent {
             "POST",
             "/api/accommodations/requests",
             accommodationRequest
+          ).then(
+            response => {
+              this.router.navigate(["/accommodation/accommodations"]);
+            }
           )
         });
-      this.router.navigate(["/accommodation/accommodations"]);
     }
     form.classList.add('was-validated');
 

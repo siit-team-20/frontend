@@ -9,6 +9,7 @@ import { UserType } from '../../auth/model/user';
 import { Router } from '@angular/router';
 import { AxiosService } from '../../axios.service';
 import { FavouriteAccommodation } from '../model/favouriteAccommodation';
+import { Notification } from '../../navbar/model/notification';
 
 @Component({
   selector: 'app-accommodations',
@@ -20,6 +21,7 @@ import { FavouriteAccommodation } from '../model/favouriteAccommodation';
 export class AccommodationsComponent {
 
   accommodations: Accommodation[] = [];
+  notifications: Notification[] = [];
   constructor(private axiosService: AxiosService, private router: Router) { }
 
   ngOnInit(): void {
