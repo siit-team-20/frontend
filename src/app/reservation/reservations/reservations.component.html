@@ -29,7 +29,10 @@
         <div class="requests">
 
             <app-reservation-view *ngFor="let reservationWithAccommodation of reservationWithAccommodations | searchReservation: { start: searchstartdate, end: searchenddate, status: searchstatus, name: searchtext}"
-                [reservationWithAccommodation]="reservationWithAccommodation">
+                [reservationWithAccommodation]="reservationWithAccommodation"
+                (declineReservationEvent)="declineReservation($event)"
+                (acceptReservationEvent)="acceptReservation($event)"
+                (cancelReservationEvent)="cancelReservation($event)">
             </app-reservation-view>
 
         </div>

@@ -7,6 +7,7 @@ import { UserType } from '../../auth/model/user';
 import { SearchPipe } from '../../accommodation/search.pipe';
 import { FormsModule } from '@angular/forms';
 import { SearchReservationPipe } from '../search-reservation.pipe';
+import { Reservation, ReservationStatus } from '../model/reservation';
 
 @Component({
   selector: 'app-reservations',
@@ -26,21 +27,18 @@ export class ReservationsComponent {
     let query: string = "";
     if (this.axiosService.getRole() == UserType.Guest)
       query = "?guestEmail=" + this.axiosService.getUser()["sub"];
+    
+    if (this.axiosService.getRole() == UserType.Owner)
+      query = "?ownerEmail=" + this.axiosService.getUser()["sub"];
 
     this.axiosService.request(
       "GET",
-      "/api/accommodations/reservations",
+      "/api/accommodations/reservations" + query,
       {}
     ).then(
       response => {
         this.reservationWithAccommodations = response.data;
-        // console.log(this.reservationWithAccommodations[0]);
       });
-
-
-      
-
-
   }
 
       searchtext: string  = '';
@@ -48,19 +46,64 @@ export class ReservationsComponent {
       searchstartdate: string='';
       searchenddate: string='';
 
-  acceptReservation(ids: any): void {
-
-
+  acceptReservation(reservation: any): void {
+    let res = reservation["reservation"];
+    let updatedReservation = new Reservation(res.id, res.guestEmail, res.accommodation.id, res.date, res.days, res.guestNumber, res.price, ReservationStatus.Approved);
+    this.axiosService.request(
+    "PUT",
+    "/api/accommodations/reservations/"+updatedReservation.id,
+    updatedReservation
+    ).then(
+    response => {
+      this.axiosService.request(
+        "GET",
+        "/api/accommodations/reservations",
+        {}
+      ).then(
+        response => {
+          this.reservationWithAccommodations = response.data;
+        });
+    });
   }
 
-  declineReservation(ids: any): void {
-
-
+  declineReservation(reservation: any): void {
+    let res = reservation["reservation"];
+    let updatedReservation = new Reservation(res.id, res.guestEmail, res.accommodation.id, res.date, res.days, res.guestNumber, res.price, ReservationStatus.Rejected);
+    this.axiosService.request(
+    "PUT",
+    "/api/accommodations/reservations/"+updatedReservation.id,
+    updatedReservation
+    ).then(
+    response => {
+      this.axiosService.request(
+        "GET",
+        "/api/accommodations/reservations",
+        {}
+      ).then(
+        response => {
+          this.reservationWithAccommodations = response.data;
+        });
+    });
   }
 
-  cancelReservation(ids: any): void {
-
-
+  cancelReservation(reservation: any): void {
+    let res = reservation["reservation"];
+    let updatedReservation = new Reservation(res.id, res.guestEmail, res.accommodation.id, res.date, res.days, res.guestNumber, res.price, ReservationStatus.Canceled);
+    this.axiosService.request(
+    "PUT",
+    "/api/accommodations/reservations/"+updatedReservation.id,
+    updatedReservation
+    ).then(
+    response => {
+      this.axiosService.request(
+        "GET",
+        "/api/accommodations/reservations",
+        {}
+      ).then(
+        response => {
+          this.reservationWithAccommodations = response.data;
+        });
+    });
   }
 
 }

@@ -19,6 +19,8 @@ import { AccommodationReview } from '../model/accommodationReview';
 export class AccommodationDetailComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
   accommodationId = -1;
+  canRateOwner = false;
+  canRateAccommodation = false;
   currentPrice = 0;
   ownerRating = "three";
   accommodationRating = "three";
@@ -28,7 +30,7 @@ export class AccommodationDetailComponent {
   ownerReviewForm: FormGroup;
   accommodationReviewForm: FormGroup;
 
-  constructor(private axiosService: AxiosService, private router: Router, private formBuilder: FormBuilder, public datePipe: DatePipe) {
+  constructor(public axiosService: AxiosService, private router: Router, private formBuilder: FormBuilder, public datePipe: DatePipe) {
     this.accommodationId = Number(this.route.snapshot.params['id']);
     this.reservationForm = this.formBuilder.group({
       availabilityStart: [this.datePipe.transform(new Date(), "yyyy-MM-dd"), [Validators.required]],
@@ -57,6 +59,24 @@ export class AccommodationDetailComponent {
       response => {
         this.accommodation = response.data;
         this.accommodation.availabilityDates = this.accommodation.availabilityDates.sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+        this.axiosService.request(
+          "GET",
+          "/api/accommodations/reservations?ownerEmail=" + this.accommodation.ownerEmail + "&status=Finished&guestEmail=" + this.axiosService.getEmail(),
+          {}
+        ).then(
+          response => {
+            if (response.data.length > 0)
+              this.canRateOwner = true;
+          });
+        this.axiosService.request(
+          "GET",
+          "/api/accommodations/reservations?status=Finished&days=7&guestEmail=" + this.axiosService.getEmail(),
+          {}
+        ).then(
+          response => {
+            if (response.data.length > 0)
+              this.canRateAccommodation = true;
+          });
       });
   }
 
@@ -187,7 +207,6 @@ export class AccommodationDetailComponent {
 
       const accommodationReviewData = { ...this.accommodationReviewForm.value };
       const accommodationReview = new AccommodationReview(null, this.axiosService.getEmail(), this.accommodation.id!, accommodationReviewData.accommodationComment, accommodationReviewData.accommodationRating, false);
-      console.log(accommodationReview)
       this.axiosService.request(
         "POST",
         "/api/accommodations/reviews",
@@ -202,7 +221,6 @@ export class AccommodationDetailComponent {
   onSubmitOwnerReview(): void {
 
     var form = document.getElementsByName('ownerReviewForm')[0] as HTMLFormElement;
-    console.log(form)
     if (!(form.checkValidity() === false) && this.ownerReviewForm.errors == null) {
 
       const ownerReviewData = { ...this.ownerReviewForm.value };

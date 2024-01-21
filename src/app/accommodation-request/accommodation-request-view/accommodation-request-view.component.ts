@@ -3,7 +3,7 @@ import { AccommodationRequest } from '../model/accommodation-request';
 import { Accommodation, DateRange } from '../../accommodation/model/accommodation';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AxiosService } from '../../axios.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './accommodation-request-view.component.html',
   styleUrl: './accommodation-request-view.component.css',
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, RouterLink]
 })
 export class AccommodationRequestViewComponent {
   @Input() accommodationRequest: AccommodationRequest = new AccommodationRequest(0, null, new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0, ""), "Created");
