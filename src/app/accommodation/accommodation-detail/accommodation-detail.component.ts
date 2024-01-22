@@ -115,8 +115,12 @@ export class AccommodationDetailComponent {
               {}
             ).then(
               response => {
-                if (response.data.length != 0)
-                  this.reservations.push(response.data);
+                if (response.data.length != 0) {
+                  let newReservations: ReservationWithAccommodation[] = response.data;
+                  newReservations.forEach(newRes => {
+                    this.reservations.push(newRes);
+                  });
+                }
               });
           });
 
