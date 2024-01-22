@@ -1,7 +1,7 @@
 import { Component, Input, Output } from '@angular/core';
 import { Accommodation, DateRange } from '../model/accommodation';
 import { EventEmitter } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AxiosService } from '../../axios.service';
@@ -25,7 +25,7 @@ export class AccommodationViewComponent {
   @Output() updateItemEvent = new EventEmitter();
   @Output() addToFavouritesEvent = new EventEmitter();
 
-  constructor(private axiosService: AxiosService) {
+  constructor(private axiosService: AxiosService, public router: Router) {
     this.auth = axiosService;
   }
 

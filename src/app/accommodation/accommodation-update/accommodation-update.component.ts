@@ -205,9 +205,11 @@ export class AccommodationUpdateComponent implements OnInit {
       }
 
       this.disabledIds.forEach(i => {
-        this.updateForm.controls["availabilityStart" + (i)].enable();
-        this.updateForm.controls["availabilityEnd" + (i)].enable();
-        this.updateForm.controls["price" + (i)].enable();
+        if (i != 0) {
+          this.updateForm.controls["availabilityStart" + (i)].enable();
+          this.updateForm.controls["availabilityEnd" + (i)].enable();
+          this.updateForm.controls["price" + (i)].enable();
+        }
       });
 
       const submitData = { ...this.updateForm.value };
@@ -219,9 +221,11 @@ export class AccommodationUpdateComponent implements OnInit {
       }
 
       this.disabledIds.forEach(i => {
-        this.updateForm.controls["availabilityStart" + (i)].disable();
-        this.updateForm.controls["availabilityEnd" + (i)].disable();
-        this.updateForm.controls["price" + (i)].disable();
+        if (i != 0) {
+          this.updateForm.controls["availabilityStart" + (i)].disable();
+          this.updateForm.controls["availabilityEnd" + (i)].disable();
+          this.updateForm.controls["price" + (i)].disable();
+        }
       });
 
       let availabilityRanges: DateRange[] = [];
