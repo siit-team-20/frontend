@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccommodationViewComponent } from './accommodation-view.component';
+import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
 
 describe('AccommodationViewComponent', () => {
   let component: AccommodationViewComponent;
@@ -8,7 +9,10 @@ describe('AccommodationViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AccommodationViewComponent]
+      declarations: [],
+      imports: [
+        RouterTestingModule
+      ]
     })
     .compileComponents();
     

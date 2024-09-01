@@ -46,8 +46,7 @@ export class AccommodationsComponent {
     let acc = accommodation["accommodation"];
 
     const newFavouriteAccommodation = new FavouriteAccommodation(null, this.axiosService.getEmail(), acc);
-    console.log(newFavouriteAccommodation)
-
+    
     this.axiosService.request(
       "POST",
       "/api/accommodations/favourites",

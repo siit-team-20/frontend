@@ -11,7 +11,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './accommodation-request-view.component.html',
   styleUrl: './accommodation-request-view.component.css',
   standalone: true,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink],
+  providers: [DatePipe]
 })
 export class AccommodationRequestViewComponent {
   @Input() accommodationRequest: AccommodationRequest = new AccommodationRequest(0, null, new Accommodation(0, "", "", "", "", 0, 0, "", "", new Array<DateRange>(), "", 0, ""), "Created");

@@ -5,6 +5,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 import { OwnerNavbarComponent } from './owner-navbar/owner-navbar.component';
 import { GuestNavbarComponent } from './guest-navbar/guest-navbar.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { GuestNavbarComponent } from './guest-navbar/guest-navbar.component';
   ],
   imports: [
     CommonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule
   ],
   exports: [
     NavbarComponent

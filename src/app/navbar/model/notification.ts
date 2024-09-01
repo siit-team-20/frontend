@@ -21,7 +21,6 @@ export class Notification {
         type: NotificationType,
         createdAt: Date
     ) {
-        console.log(createdAt)
         this.id = id;
         this.userEmail = userEmail;
         this.otherUserEmail = otherUserEmail;

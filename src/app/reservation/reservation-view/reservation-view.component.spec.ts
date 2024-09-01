@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReservationViewComponent } from './reservation-view.component';
+import { CommonModule } from '@angular/common';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ReservationViewComponent', () => {
   let component: ReservationViewComponent;
@@ -8,7 +10,11 @@ describe('ReservationViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReservationViewComponent]
+      declarations: [],
+      imports: [
+        CommonModule,
+        RouterTestingModule
+      ]
     })
     .compileComponents();
     

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReportViewComponent } from './report-view.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ReportViewComponent', () => {
   let component: ReportViewComponent;
@@ -8,7 +9,10 @@ describe('ReportViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReportViewComponent]
+      declarations: [],
+      imports: [
+        RouterTestingModule
+      ]
     })
     .compileComponents();
     

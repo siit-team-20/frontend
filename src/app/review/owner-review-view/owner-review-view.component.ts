@@ -9,7 +9,8 @@ import { OwnerReview } from '../../accommodation/model/ownerReview';
   templateUrl: './owner-review-view.component.html',
   styleUrl: './owner-review-view.component.css',
   standalone: true,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink],
+  providers: [DatePipe]
 })
 export class OwnerReviewViewComponent {
 

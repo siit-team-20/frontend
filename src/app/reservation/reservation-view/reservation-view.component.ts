@@ -10,7 +10,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './reservation-view.component.html',
   styleUrl: './reservation-view.component.css',
   standalone: true,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink],
+  providers: [DatePipe]
 })
 export class ReservationViewComponent {
   auth: AxiosService;

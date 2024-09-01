@@ -31,7 +31,6 @@ export class AccommodationReviewsComponent {
     ).then(
       response => {
         this.accommodationReviews = response.data;
-        console.log(this.accommodationReviews)
       });
   }
 

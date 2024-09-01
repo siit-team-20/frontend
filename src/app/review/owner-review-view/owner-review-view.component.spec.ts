@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OwnerReviewViewComponent } from './owner-review-view.component';
+import { DatePipe } from '@angular/common';
 
 describe('OwnerReviewViewComponent', () => {
   let component: OwnerReviewViewComponent;
@@ -8,7 +9,10 @@ describe('OwnerReviewViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OwnerReviewViewComponent]
+      declarations: [],
+      imports: [
+        DatePipe
+      ]
     })
     .compileComponents();
     

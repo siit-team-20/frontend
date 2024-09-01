@@ -35,7 +35,6 @@ export class AccommodationFavouritesComponent {
     ).then(
       response => {
         this.favouriteAccommodations = response.data;
-        console.log(this.favouriteAccommodations)
       });
   }
 
