@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AxiosService } from '../../axios.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Notification } from '../model/notification';
 import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrl: './navbar.component.css',
+  providers: [DatePipe, RouterModule]
 })
 export class NavbarComponent {
   auth: AxiosService;

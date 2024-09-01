@@ -13,7 +13,8 @@ import { ReservationWithAccommodation } from '../../reservation/model/reservatio
   templateUrl: './accommodation-update.component.html',
   styleUrl: './accommodation-update.component.css',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule]
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  providers: [DatePipe]
 })
 export class AccommodationUpdateComponent implements OnInit {
 

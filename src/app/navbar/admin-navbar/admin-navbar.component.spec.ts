@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminNavbarComponent } from './admin-navbar.component';
+import { CommonModule } from '@angular/common';
+import { RouterTestingHarness, RouterTestingModule } from '@angular/router/testing';
 
 describe('AdminNavbarComponent', () => {
   let component: AdminNavbarComponent;
@@ -8,7 +10,11 @@ describe('AdminNavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AdminNavbarComponent]
+      declarations: [],
+      imports: [
+        CommonModule,
+        RouterTestingModule
+      ]
     })
     .compileComponents();
     

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AccommodationCreateComponent } from './accommodation-create/accommodation-create.component';
 import { AccommodationViewComponent } from './accommodation-view/accommodation-view.component';
 import { AccommodationsComponent } from './accommodations/accommodations.component';
@@ -27,6 +27,9 @@ import { AccommodationFavouritesComponent } from './accommodation-favourites/acc
   ],
   exports: [
     
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class AccommodationModule { }

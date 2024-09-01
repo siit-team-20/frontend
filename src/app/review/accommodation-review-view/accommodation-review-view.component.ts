@@ -9,7 +9,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './accommodation-review-view.component.html',
   styleUrl: './accommodation-review-view.component.css',
   standalone: true,
-  imports: [CommonModule, RouterLink]
+  imports: [CommonModule, RouterLink],
+  providers: [DatePipe]
 })
 export class AccommodationReviewViewComponent {
   auth: AxiosService;

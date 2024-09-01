@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GuestNavbarComponent } from './guest-navbar.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('GuestNavbarComponent', () => {
   let component: GuestNavbarComponent;
@@ -8,7 +9,10 @@ describe('GuestNavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GuestNavbarComponent]
+      declarations: [],
+      imports: [
+        RouterTestingModule
+      ]
     })
     .compileComponents();
     

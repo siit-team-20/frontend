@@ -63,7 +63,7 @@ export class ReportsComponent {
     ).then(
       response => {
         this.user = response.data;
-        console.log(this.user)
+        
         let updatedUser = new User(this.user.email, "", this.user.name, this.user.surname, this.user.address, this.user.phone, this.user.type, true);
         this.axiosService.request(
           "PUT",

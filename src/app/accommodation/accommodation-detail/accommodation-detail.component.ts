@@ -18,7 +18,8 @@ import { Notification, NotificationType } from '../../navbar/model/notification'
   templateUrl: './accommodation-detail.component.html',
   styleUrl: './accommodation-detail.component.css',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, AccommodationReviewViewComponent]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink, AccommodationReviewViewComponent],
+  providers: [DatePipe]
 })
 export class AccommodationDetailComponent {
 
@@ -238,7 +239,7 @@ export class AccommodationDetailComponent {
                     break;
                   }
                   else {
-                    let days = Math.floor((availableRangePast.endDate.getTime() - availableRangePast.startDate.getTime()) / 1000 / 60 / 60 / 24);
+                    let days = Math.floor((availableRangeNext.endDate.getTime() - availableRangeNext.startDate.getTime()) / 1000 / 60 / 60 / 24);
                     if (validStart && validGuestNumber && validStartBeforeTomorrow && validAvailable)
                       this.currentPrice += days * availableRangeNext.price;
                   }
@@ -303,7 +304,6 @@ export class AccommodationDetailComponent {
 
   onSubmitAccommodationReview(): void {
 
-    console.log(new Date())
     var form = document.getElementsByName('accommodationReviewForm')[0] as HTMLFormElement;
     var closeModal = document.getElementsByName('accommodationModalClose')[0] as HTMLFormElement;
     var emptyInput = document.getElementsByName('accommodationComment')[0] as HTMLFormElement;
@@ -311,8 +311,7 @@ export class AccommodationDetailComponent {
 
       const accommodationReviewData = { ...this.accommodationReviewForm.value };
       const accommodationReview = new AccommodationReview(null, this.axiosService.getEmail(), this.accommodation.id!, accommodationReviewData.accommodationComment, accommodationReviewData.accommodationRating, false, new Date());
-      console.log(accommodationReview)
-      console.log(new Date())
+      
       this.axiosService.request(
         "POST",
         "/api/accommodations/reviews",
@@ -345,8 +344,7 @@ export class AccommodationDetailComponent {
 
       const ownerReviewData = { ...this.ownerReviewForm.value };
       const ownerReview = new OwnerReview(null, this.axiosService.getEmail(), this.accommodation.ownerEmail, ownerReviewData.ownerComment, ownerReviewData.ownerRating, false, new Date());
-      console.log(ownerReview);
-
+    
       this.axiosService.request(
         "POST",
         "/api/ownerReviews",

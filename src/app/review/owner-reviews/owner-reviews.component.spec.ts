@@ -8,7 +8,7 @@ describe('OwnerReviewsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OwnerReviewsComponent]
+      declarations: []
     })
     .compileComponents();
     

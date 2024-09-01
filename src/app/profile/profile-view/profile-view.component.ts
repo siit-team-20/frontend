@@ -79,7 +79,6 @@ export class ProfileViewComponent {
         ).then(
           response => {
             this.ownerReviews = response.data;
-            console.log(this.ownerReviews);
             var sum = 0;
             for (let i = 0; i < this.ownerReviews.length; i++) {
               if (this.ownerReviews[i].rating == 'one') {
@@ -197,7 +196,7 @@ export class ProfileViewComponent {
   reportUser(): void {
 
     const report = new Report(null, this.auth.getEmail(), this.profileEmail);
-    console.log(report)
+    
     this.axiosService.request(
       "POST",
       "/api/reports",

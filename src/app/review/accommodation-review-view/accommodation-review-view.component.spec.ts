@@ -8,7 +8,7 @@ describe('AccommodationReviewViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AccommodationReviewViewComponent]
+      declarations: []
     })
     .compileComponents();
     
