@@ -56,9 +56,15 @@ export class ReservationsComponent {
     updatedReservation
     ).then(
     response => {
+      let query: string = "";
+      if (this.axiosService.getRole() == UserType.Guest)
+        query = "?guestEmail=" + this.axiosService.getUser()["sub"];
+      
+      if (this.axiosService.getRole() == UserType.Owner)
+        query = "?ownerEmail=" + this.axiosService.getUser()["sub"];
       this.axiosService.request(
         "GET",
-        "/api/accommodations/reservations",
+        "/api/accommodations/reservations" + query,
         {}
       ).then(
         response => {
@@ -76,9 +82,15 @@ export class ReservationsComponent {
     updatedReservation
     ).then(
     response => {
+      let query: string = "";
+      if (this.axiosService.getRole() == UserType.Guest)
+        query = "?guestEmail=" + this.axiosService.getUser()["sub"];
+      
+      if (this.axiosService.getRole() == UserType.Owner)
+        query = "?ownerEmail=" + this.axiosService.getUser()["sub"];
       this.axiosService.request(
         "GET",
-        "/api/accommodations/reservations",
+        "/api/accommodations/reservations" + query,
         {}
       ).then(
         response => {
@@ -96,9 +108,15 @@ export class ReservationsComponent {
     updatedReservation
     ).then(
     response => {
+      let query: string = "";
+      if (this.axiosService.getRole() == UserType.Guest)
+        query = "?guestEmail=" + this.axiosService.getUser()["sub"];
+      
+      if (this.axiosService.getRole() == UserType.Owner)
+        query = "?ownerEmail=" + this.axiosService.getUser()["sub"];
       this.axiosService.request(
         "GET",
-        "/api/accommodations/reservations",
+        "/api/accommodations/reservations" + query,
         {}
       ).then(
         response => {
