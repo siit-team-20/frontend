@@ -16,27 +16,6 @@ describe('ProfileUpdateComponent', () => {
   let httpController: HttpTestingController;
   let service: UserService;
 
-  beforeEach((done) => {
-    const credentials = new Credentials("guest@gmail.com", "guest");
-
-    axiosService = new AxiosService();
-    axiosService.setAuthToken(null);
-    axiosService.request(
-      "POST",
-      "/login",
-      credentials
-      ).then(
-      response => {
-          axiosService.setAuthToken(response.data.token);
-          done();
-      }).catch(
-      error => {
-        done();
-      }
-    );
-
-  });
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [],

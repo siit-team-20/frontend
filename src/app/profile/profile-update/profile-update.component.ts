@@ -35,11 +35,13 @@ export class ProfileUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateForm.controls["name"].setValue(this.axiosService.getUser()["name"]);
-    this.updateForm.controls["surname"].setValue(this.axiosService.getUser()["surname"]);
-    this.updateForm.controls["address"].setValue(this.axiosService.getUser()["address"]);
-    this.updateForm.controls["email"].setValue(this.axiosService.getUser()["sub"]);
-    this.updateForm.controls["phone"].setValue(this.axiosService.getUser()["phone"]);
+    if (this.axiosService.getUser() != null) {
+      this.updateForm.controls["name"].setValue(this.axiosService.getUser()["name"]);
+      this.updateForm.controls["surname"].setValue(this.axiosService.getUser()["surname"]);
+      this.updateForm.controls["address"].setValue(this.axiosService.getUser()["address"]);
+      this.updateForm.controls["email"].setValue(this.axiosService.getUser()["sub"]);
+      this.updateForm.controls["phone"].setValue(this.axiosService.getUser()["phone"]);
+    }
   }
 
   onSubmit(): void {
